@@ -6,7 +6,7 @@
 /*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:38:54 by afaby             #+#    #+#             */
-/*   Updated: 2022/05/31 15:02:15 by afaby            ###   ########.fr       */
+/*   Updated: 2022/05/31 15:06:16 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "libft/libft.h"
+#include "libft.h"
 int	main(void)
 {
 	char	*res;
@@ -25,7 +25,7 @@ int	main(void)
 	{
 		ft_printf(">>> ");
 		usleep(1);
-		yo = get_next_line(0, 1);
+		yo = get_next_line(0);
 		if (strcmp(yo, "exit\n") == 0)
 		{
 			free(yo);

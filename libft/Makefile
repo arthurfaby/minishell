@@ -1,118 +1,138 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/04/10 19:07:12 by afaby             #+#    #+#              #
-#    Updated: 2022/04/29 17:31:31 by afaby            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME			= libft.a
 
-NAME = libft.a
+INCS			= \
+				includes/libft.h \
+				includes/libchar.h \
+				includes/liblst.h \
+				includes/libmem.h \
+				includes/libprint.h \
+				includes/libsstr.h \
+				includes/libstr.h \
+				includes/ft_gnl.h \
+				includes/ft_printf.h \
+				includes/liberr.h \
+				\
 
-CHAR  =		ft_isalpha.c \
-			ft_isdigit.c \
-			ft_isalnum.c \
-			ft_isascii.c \
-			ft_isprint.c \
-			ft_toupper.c \
-			ft_tolower.c
+SRCS			= \
+				ft_gnl/get_next_line.c \
+				ft_gnl/get_next_line_utils.c \
+				\
+				ft_printf/ft_printf.c \
+				\
+				libchar/ft_isalnum.c \
+				libchar/ft_isalpha.c \
+				libchar/ft_isascii.c \
+				libchar/ft_isdigit.c \
+				libchar/ft_isgraph.c \
+				libchar/ft_islower.c \
+				libchar/ft_isprint.c \
+				libchar/ft_ispunct.c \
+				libchar/ft_isspace.c \
+				libchar/ft_isupper.c \
+				libchar/ft_iswhitespace.c \
+				libchar/ft_tolower.c \
+				libchar/ft_toupper.c \
+				\
+				liberr/ft_exit_msg.c \
+				liberr/ft_usage_err.c \
+				\
+				liblst/ft_lstadd_back.c \
+				liblst/ft_lstadd_front.c \
+				liblst/ft_lstclear.c \
+				liblst/ft_lstdelone.c \
+				liblst/ft_lstiter.c \
+				liblst/ft_lstlast.c \
+				liblst/ft_lstmap.c \
+				liblst/ft_lstnew.c \
+				liblst/ft_lstsize.c \
+				\
+				libmem/ft_bzero.c \
+				libmem/ft_calloc.c \
+				libmem/ft_memalloc.c \
+				libmem/ft_memccpy.c \
+				libmem/ft_memchr.c \
+				libmem/ft_memcmp.c \
+				libmem/ft_memcpy.c \
+				libmem/ft_memdel.c \
+				libmem/ft_memmove.c \
+				libmem/ft_memndel.c \
+				libmem/ft_memset.c \
+				\
+				libprint/ft_putchar.c \
+				libprint/ft_putchar_fd.c \
+				libprint/ft_putendl.c \
+				libprint/ft_putendl_fd.c \
+				libprint/ft_puthex.c \
+				libprint/ft_putnbr.c \
+				libprint/ft_putnbr_fd.c \
+				libprint/ft_putnstr.c \
+				libprint/ft_putnstr_fd.c \
+				libprint/ft_putptr.c \
+				libprint/ft_putsstr.c \
+				libprint/ft_putsstr_fd.c \
+				libprint/ft_putstr.c \
+				libprint/ft_putstr_fd.c \
+				libprint/ft_putunbr.c \
+				\
+				libstr/ft_atoi_base.c \
+				libstr/ft_atoi.c \
+				libstr/ft_atol.c \
+				libstr/ft_itoa_base.c \
+				libstr/ft_itoa.c \
+				libstr/ft_strcat.c \
+				libstr/ft_strcdup.c \
+				libstr/ft_strchr.c \
+				libstr/ft_strclear.c \
+				libstr/ft_strcmp.c \
+				libstr/ft_strcnew.c \
+				libstr/ft_strcpy.c \
+				libstr/ft_strdup.c \
+				libstr/ft_strequ.c \
+				libstr/ft_striteri.c \
+				libstr/ft_strjoin.c \
+				libstr/ft_strlcat.c \
+				libstr/ft_strlcpy.c \
+				libstr/ft_strlen.c \
+				libstr/ft_strmapi.c \
+				libstr/ft_strncmp.c \
+				libstr/ft_strnew.c \
+				libstr/ft_strnstr.c \
+				libstr/ft_strrchr.c \
+				libstr/ft_strsplit.c \
+				libstr/ft_strsub.c \
+				libstr/ft_strtolower.c \
+				libstr/ft_strtoupper.c \
+				libstr/ft_strtrim.c \
+				libstr/ft_sstrdel.c \
+				\
 
-STR   =		ft_strlen.c \
-			ft_strlcat.c \
-			ft_strlcpy.c \
-			ft_strchr.c \
-			ft_strrchr.c \
-			ft_strncmp.c \
-			ft_strnstr.c \
-			ft_strjoin.c \
-			ft_substr.c \
-			ft_strmapi.c \
-			ft_strtrim.c \
-			ft_striteri.c \
-			ft_split.c \
-			ft_strdup.c
+INCSDIR			= includes/
+SRCSDIR			= srcs/
+OBJDIR			= objs/
+OBJPATH			= $(addprefix $(OBJDIR), $(SRCS:.c=.o))
 
-MEMORY =	ft_memset.c \
-			ft_bzero.c \
-			ft_memcpy.c \
-			ft_memmove.c \
-			ft_calloc.c \
-			ft_memchr.c \
-			ft_memcmp.c \
-			ft_free_double_pointer.c
+CC				= gcc
+CFLAGS			= -Wall -Werror -Wextra -g
+RM				= rm -rf
 
-OUTPUT =	ft_putchar.c \
-			ft_putchar_fd.c \
-			ft_putstr_fd.c \
-			ft_putstr.c \
-			ft_putendl_fd.c \
-			ft_putnbr_fd.c \
-			ft_putnbr.c \
-			ft_putnbr_base.c \
-			ft_putnbr_base_u.c \
-			ft_putnbr_base_ull.c \
-			ft_putptr.c
+all:			$(NAME)
 
-OTHER  =	ft_itoa.c \
-			ft_atoi.c \
-			ft_atoi_base.c
+$(NAME):		$(OBJDIR) $(OBJPATH)
+				ar rcs $(NAME) $(OBJPATH)
 
-LL     =	ft_lstnew.c \
-			ft_lstadd_front.c \
-			ft_lstadd_back.c \
-			ft_lstsize.c \
-			ft_lstlast.c \
-			ft_lstiter.c \
-			ft_lstdelone.c \
-			ft_lstclear.c \
-			ft_lstmap.c
+$(OBJDIR)%.o:	$(SRCSDIR)%.c $(INCS)
+				$(CC) -c $< -o $@ $(CFLAGS) -I $(INCSDIR)
 
-GNL    =	get_next_line.c
-
-FT_PTF =	ft_printf.c \
-			ft_process.c
-
-SRCS   =	$(addprefix char/, $(CHAR)) \
-			$(addprefix str/, $(STR)) \
-			$(addprefix memory/, $(MEMORY)) \
-			$(addprefix output/, $(OUTPUT)) \
-			$(addprefix other/, $(OTHER)) \
-			$(addprefix ll/, $(LL)) \
-			$(addprefix gnl/, $(GNL)) \
-			$(addprefix ft_printf/, $(FT_PTF))
-	
-
-FLAGS =	-Wall -Wextra -Werror
-
-OBJS =	$(SRCS:.c=.o)
-
-CC =	gcc
-
-all: $(NAME)
-	@echo "\n\033[0;32m"
-	@echo "----------------------------"
-	@echo "| Compilation terminated ! |"
-	@echo "----------------------------"
-	@echo "\033[0m"
+$(OBJDIR):
+				mkdir -p $(OBJDIR)
+				mkdir -p $(dir $(OBJPATH))
 
 clean:
-	@rm -f $(OBJS)
+				$(RM) $(OBJDIR)
 
-fclean: clean
-	@rm -f $(NAME)
+fclean:			clean
+				$(RM) $(NAME)
 
-re: fclean all
+re:				fclean all
 
-.c.o:
-	@echo "\033[0;35m"
-	@echo -n "Compiling $<..."
-	@$(CC) $(FLAGS) -I. -c $< -o $@ 
- 
-$(NAME): $(OBJS)
-	@ar rc $(NAME) $(OBJS)
-	@ranlib $(NAME)
-
-.PHONY: all clean fclean re bonus
+.PHONY:			all clean fclean re
