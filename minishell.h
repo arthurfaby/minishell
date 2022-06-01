@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 18:10:15 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 11:13:46 by afaby            ###   ########.fr       */
+/*   Updated: 2022/06/01 11:16:48 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ enum e_types {
 	REDIRECTION,
 	METACHAR,
 	VALUE
-}
+};
 
-typedef struct	s_elem
+typedef struct s_elem
 {
 	int				type;
 	int				id;
@@ -35,13 +35,13 @@ typedef struct	s_elem
 	struct s_elem	*next;
 }					t_elem;
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
 	int		size;
 	t_elem	*head;
 }			t_cmd;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	char	**path;
 	t_cmd	*cmd;
