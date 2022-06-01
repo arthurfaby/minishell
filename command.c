@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 08:39:54 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 09:57:53 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/01 11:52:56 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ t_elem	*new_elem(char *elem)
 	t_elem	*new;
 
 	new = malloc(sizeof(t_elem));
-	new->id = 0;
-	new->cmd = cmd;
+	new->index = 0;
+	new->type = 0;
+	new->value = elem;
 	new->prev = NULL;
 	new->next = NULL;
 	return (new);
@@ -41,7 +42,7 @@ void	add_elem_cmd(t_data *data, char *elem)
 			it = it->next;
 		it->next = new;
 		new->prev = it;
-		new->id = it->id + 1;
+		new->index = it->index + 1;
 	}
 	data->cmd->size++;
 }
