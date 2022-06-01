@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 18:10:15 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 09:57:17 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/01 11:13:46 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,17 @@
 # include <readline/history.h>
 # include "libft.h"
 
+enum e_types {
+	COMMAND,
+	/* SEPARATOR, */
+	REDIRECTION,
+	METACHAR,
+	VALUE
+}
+
 typedef struct	s_elem
 {
+	int				type;
 	int				id;
 	char			*value;
 	struct s_elem	*prev;
