@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 18:10:15 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 15:11:07 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/01 20:54:42 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "libft.h"
 
 # define COMMANDS "echo cd pwd export unset env exit"
-# define REDIRECTONS "< > << >> |"
+# define REDIRECTIONS "< > << >> |"
 # define METACHARS "$ ? \' \""
 
 enum e_commands {
@@ -89,5 +89,11 @@ void	display_prompt(t_data *data);
 t_elem	*new_elem(char *elem, int type);
 void	add_elem_cmd(t_data *data, t_elem *new);
 void	free_cmd(t_data *data);
+
+// parser.c
+int		skip_whitespace(char *cmd, int index_start);
+int		isinsstr(char **sstr, char *word);
+char	*get_str(char **sstr, char *word);
+int		parser(t_data *data, char *cmd);
 
 #endif
