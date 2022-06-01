@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 18:10:15 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 11:16:48 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/01 11:33:53 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,31 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+
+enum e_commands {
+	ECHO = "echo",
+	CD = "cd",
+	PWD = "pwd",
+	EXPORT = "export",
+	UNSET = "unset",
+	ENV = "env",
+	EXIT = "exit"
+};
+
+enum e_redirections {
+	I_REDIR = "<",
+	O_REDIR = ">",
+	O_REDIR_APPEND = ">>",
+	I_DELIM = "<<",
+	PIPE = "|"
+};
+
+enum e_metachar {
+	DOLLAR = "$",
+	QUEST_MARK = "?",
+	QUOTE = "\'",
+	D_QUOTE = "\""
+}
 
 enum e_types {
 	COMMAND,
