@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 08:39:54 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 09:25:00 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/01 09:57:53 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd	*new_cmd(char *cmd)
+t_elem	*new_elem(char *elem)
 {
-	t_cmd	*new;
+	t_elem	*new;
 
-	new = malloc(sizeof(t_cmd));
+	new = malloc(sizeof(t_elem));
 	new->id = 0;
 	new->cmd = cmd;
 	new->prev = NULL;
@@ -24,56 +24,34 @@ t_cmd	*new_cmd(char *cmd)
 	return (new);
 }
 
-void	add_cmd_history(t_data *data, char *cmd)
+void	add_elem_cmd(t_data *data, char *elem)
 {
-	t_cmd	*new;
-	t_cmd	*it;
+	t_elem	*new;
+	t_elem	*it;
 
-	if (!data->history->head)
+	if (!data->cmd->head)
 	{
-		data->history->head = new_cmd(cmd);
-		data->history->size++;
+		data->cmd->head = new_elem(elem);
 	}
 	else
 	{
-		it = data->history->head;
-		new = new_cmd(cmd);
-		new->next = it;
-		it->prev = new;
-		while (it->next)
-		{
-			it->id = it->id + 1;
-			it = it->next;
-		}
-		it->id = it->id + 1;
-		if (it->id >= data->history->max)
-			del_last_history(data);
-		else
-			data->history->size++;
-	}
-}
-
-void	del_last_history(t_data *data)
-{
-	t_cmd	*it;
-
-	it = data->history->head;
-	if (it)
-	{
+		it = data->elem->head;
+		new = new_elem(elem);
 		while (it->next)
 			it = it->next;
-		it->prev->next = NULL;
-		free(it);
-		it = NULL;
+		it->next = new;
+		new->prev = it;
+		new->id = it->id + 1;
 	}
+	data->cmd->size++;
 }
 
-void	free_history(t_data *data)
+void	free_cmd(t_data *data)
 {
-	t_cmd	*it;
-	t_cmd	*tmp;
+	t_elem	*it;
+	t_elem	*tmp;
 
-	it = data->history->head;
+	it = data->cmd->head;
 	while (it)
 	{
 		tmp = it;
@@ -81,5 +59,5 @@ void	free_history(t_data *data)
 		free(tmp);
 		tmp = NULL;
 	}
-	data->history->size = 0;
+	data->cmd->size = 0;
 }

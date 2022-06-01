@@ -6,7 +6,7 @@
 #    By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 11:58:53 by vnaud             #+#    #+#              #
-#    Updated: 2022/06/01 09:23:01 by vnaud            ###   ########.fr        #
+#    Updated: 2022/06/01 09:46:49 by vnaud            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ INCS			= \
 SRCS			= \
 				minishell.c \
 				prompt.c \
-				history.c \
 				\
 
 OBJS			= $(SRCS:.c=.o)

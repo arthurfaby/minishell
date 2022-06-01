@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 18:10:15 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 09:25:22 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/01 09:57:17 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,24 @@
 # include <readline/history.h>
 # include "libft.h"
 
+typedef struct	s_elem
+{
+	int				id;
+	char			*value;
+	struct s_elem	*prev;
+	struct s_elem	*next;
+}					t_elem;
+
 typedef struct	s_cmd
 {
-	int	id;
-	char			*cmd;
-	struct s_cmd	*prev;
-	struct s_cmd	*next;
-}					t_cmd;
-
-typedef struct	s_history
-{
 	int		size;
-	t_cmd	*head;
-	int		max;
-}			t_history;
+	t_elem	*head;
+}			t_cmd;
 
 typedef struct	s_data
 {
-	char		**path;
-	t_history	*history;
+	char	**path;
+	t_cmd	*cmd;
 }				t_data;
 
 // minishell.c
@@ -46,9 +45,8 @@ char	*path_finder(char **envp);
 void	display_prompt(t_data *data);
 
 // history.c
-t_cmd	*new_cmd(char *cmd);
-void	add_cmd_history(t_data *data, char *cmd);
-void	del_last_history(t_data *data);
-void	free_history(t_data *data);
+t_elem	*new_elem(char *elem);
+void	add_elem_cmd(t_data *data, char *elem);
+void	free_cmd(t_data *data);
 
 #endif
