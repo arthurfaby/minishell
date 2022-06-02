@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 18:10:15 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/02 09:12:44 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/02 10:08:20 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include <signal.h>
 
 # define COMMANDS "echo cd pwd export unset env exit"
 # define REDIRECTIONS "< > << >> |"
@@ -104,5 +105,8 @@ int		parser(t_data *data, char *cmd);
 // exec.c
 char	*get_cmd(t_data *data);
 void	exec_cmd(t_data *data);
+
+// signal.c
+int		init_sig(void);
 
 #endif

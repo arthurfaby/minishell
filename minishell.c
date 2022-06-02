@@ -6,7 +6,7 @@
 /*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:38:54 by afaby             #+#    #+#             */
-/*   Updated: 2022/06/02 08:32:06 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/02 10:10:56 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv, char **envp)
 	data.cmd->head = NULL;
 	data.cmd->size = 0;
 	data.envp = envp;
+	init_sig();
 	display_prompt(&data);
 	free(data.cmd);
 	ft_sstrdel(data.commands);

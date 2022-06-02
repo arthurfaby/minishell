@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 18:09:16 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/02 09:43:20 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/02 10:13:53 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	print_cmd_stack(t_data *data)
 	it = data->cmd->head;
 	while (it)
 	{
-		ft_printf("type = %d, id = %d, value = %s\n", it->type, it->id, it->value);
+		ft_printf("type = %d, id = %d, value = %s\n",
+			it->type, it->id, it->value);
 		it = it->next;
 	}
 }
@@ -47,9 +48,8 @@ void	display_prompt(t_data *data)
 {
 	char	*line;
 
-	ft_printf("mshell>> ");
-	line = get_next_line(0);
-	while (line)
+	line = readline("mshell >> ");
+	while (1)
 	{
 		if (*line != '\n')
 		{
@@ -65,7 +65,6 @@ void	display_prompt(t_data *data)
 		free(line);
 		line = NULL;
 		free_cmd_stack(data);
-		ft_printf("mshell>> ");
-		line = get_next_line(0);
+		line = readline("mshell >> ");
 	}
 }

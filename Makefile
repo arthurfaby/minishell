@@ -6,7 +6,7 @@
 #    By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 11:58:53 by vnaud             #+#    #+#              #
-#    Updated: 2022/06/02 08:25:19 by vnaud            ###   ########.fr        #
+#    Updated: 2022/06/02 10:09:37 by vnaud            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS			= \
 				command.c \
 				parser.c \
 				exec.c \
+				signal.c \
 				\
 
 OBJS			= $(SRCS:.c=.o)
@@ -30,7 +31,7 @@ INCSDIR			= ./
 SRCSDIR			= ./
 
 CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra -g -Llibft -lft -Ilibft/includes -I.
+CFLAGS			= -Wall -Werror -Wextra -g -Llibft -lft -Ilibft/includes -I. -L/usr/local/lib -I/usr/local/include -lreadline
 RM				= rm -rf
 
 .c.o:

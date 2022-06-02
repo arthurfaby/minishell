@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:20:19 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 21:31:52 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/02 10:11:59 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	isinsstr(char **sstr, char *word)
 	return (0);
 }
 
-char *get_str(char **sstr, char *word)
+char	*get_str(char **sstr, char *word)
 {
 	while (*sstr)
 	{
@@ -62,7 +62,8 @@ int	parser(t_data *data, char *cmd)
 		}
 		else if (isinsstr(data->redirections, tmp))
 		{
-			new = new_elem(ft_strdup(get_str(data->redirections, tmp)), REDIRECTION);
+			new = new_elem(ft_strdup(get_str(data->redirections, tmp)),
+					REDIRECTION);
 			add_elem_cmd(data, new);
 		}
 		else if (isinsstr(data->metachars, tmp))
