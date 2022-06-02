@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 21:37:43 by vnaud             #+#    #+#             */
-/*   Updated: 2022/05/13 07:33:43 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/02 08:28:19 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void		ft_striteri(char *s, void (*f)(unsigned int, char *));
 char		*ft_strcat(char *dest, const char *src);
 char		*ft_strcnew(size_t size, char c);
 char		*ft_strnew(size_t size);
+char		*ft_strcpy(char *dst, const char *src);
 char		*ft_strncpy(char *dst, const char *src, size_t len);
 void		ft_sstrdel(char **array);
 
