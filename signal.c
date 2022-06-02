@@ -6,13 +6,13 @@
 /*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:33:24 by afaby             #+#    #+#             */
-/*   Updated: 2022/06/01 15:03:07 by afaby            ###   ########.fr       */
+/*   Updated: 2022/06/02 10:11:52 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sig_handler(int	sigcode)
+void	sig_handler(int sigcode)
 {
 	if (sigcode == SIGINT)
 	{
@@ -35,4 +35,3 @@ int	init_sig(void)
 		return (-1);
 	return (0);
 }
-
