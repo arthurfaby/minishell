@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 18:09:16 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/02 10:30:02 by vnaud            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	print_cmd_stack(t_data *data)
@@ -49,15 +37,14 @@ void	display_prompt(t_data *data)
 	char	*line;
 
 	line = readline("mshell >> ");
-	while (1)
+	while (line)
 	{
-		if (line && *line)
+		if (*line)
 		{
 			if (ft_strcmp(line, "exit") == 0)
 				break ;
 			if (!parser(data, line))
 				exec_cmd(data);
-			//	print_cmd_stack(data);
 		}
 		free(line);
 		line = NULL;
