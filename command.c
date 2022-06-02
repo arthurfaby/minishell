@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 08:39:54 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 20:57:00 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/02 08:35:42 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,5 @@ void	free_cmd(t_data *data)
 		tmp = NULL;
 	}
 	data->cmd->size = 0;
+	data->cmd->head = NULL;
 }

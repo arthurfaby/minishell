@@ -6,7 +6,7 @@
 #    By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 11:58:53 by vnaud             #+#    #+#              #
-#    Updated: 2022/06/01 20:55:35 by vnaud            ###   ########.fr        #
+#    Updated: 2022/06/02 08:25:19 by vnaud            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS			= \
 				prompt.c \
 				command.c \
 				parser.c \
+				exec.c \
 				\
 
 OBJS			= $(SRCS:.c=.o)

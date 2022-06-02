@@ -6,7 +6,7 @@
 /*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:38:54 by afaby             #+#    #+#             */
-/*   Updated: 2022/06/01 21:08:14 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/02 08:32:06 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,16 @@ int	main(int argc, char **argv, char **envp)
 	data.metachars = ft_split(METACHARS, ' ');
 	data.path = ft_split(path_finder(envp), ':');
 	data.cmd = malloc(sizeof(t_elem));
+	if (!data.cmd)
+		return (1);
 	data.cmd->head = NULL;
+	data.cmd->size = 0;
+	data.envp = envp;
 	display_prompt(&data);
 	free(data.cmd);
 	ft_sstrdel(data.commands);
 	ft_sstrdel(data.redirections);
 	ft_sstrdel(data.metachars);
 	ft_sstrdel(data.path);
+	return (0);
 }

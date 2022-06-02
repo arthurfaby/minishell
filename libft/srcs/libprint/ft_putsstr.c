@@ -6,7 +6,7 @@
 /*   By: vnaud <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 13:43:56 by vnaud             #+#    #+#             */
-/*   Updated: 2022/04/26 22:49:52 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/02 09:17:28 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_putsstr(char **str)
 	int	index_c;
 
 	index_l = 0;
+	if (!str)
+		return ;
 	while (str[index_l])
 	{
 		index_c = 0;
