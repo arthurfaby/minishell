@@ -10,6 +10,8 @@
 # include <readline/history.h>
 # include "libft.h"
 
+# define PROMPT "\e[48;5;25m\e[38;5;226m minishell ➔ \e[0m "
+
 # define COMMANDS "echo cd pwd export unset env exit"
 # define REDIRECTIONS "< > << >> |"
 # define METACHARS "$ ? \' \""

@@ -36,11 +36,12 @@ void	display_prompt(t_data *data)
 {
 	char	*line;
 
-	line = readline("mshell >> ");
+	line = readline(PROMPT);
 	while (line)
 	{
 		if (*line)
 		{
+			add_history(line);
 			if (ft_strcmp(line, "exit") == 0)
 				break ;
 			if (!parser(data, line))
@@ -49,8 +50,9 @@ void	display_prompt(t_data *data)
 		free(line);
 		line = NULL;
 		free_cmd_stack(data);
-		line = readline("mshell >> ");
+		line = readline(PROMPT);
 	}
+	rl_clear_history();
 	free(line);
 	line = NULL;
 }
