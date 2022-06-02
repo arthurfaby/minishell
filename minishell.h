@@ -4,10 +4,11 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
-# include <signal.h>
 
 # define COMMANDS "echo cd pwd export unset env exit"
 # define REDIRECTIONS "< > << >> |"
