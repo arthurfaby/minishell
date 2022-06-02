@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 11:20:19 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 15:16:42 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/02 10:11:59 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ int	isinsstr(char **sstr, char *word)
 	return (0);
 }
 
-int	get_str(char **sstr, char *word)
+char	*get_str(char **sstr, char *word)
 {
 	while (*sstr)
 	{
 		if (!ft_strcmp(*sstr, word))
-			return (1);
+			return (*sstr);
 		sstr++;
 	}
-	return (0);
+	return (NULL);
 }
 
 int	parser(t_data *data, char *cmd)
@@ -46,7 +46,7 @@ int	parser(t_data *data, char *cmd)
 	int		index_start;
 	int		index_end;
 	char	*tmp;
-	t_new	*new;
+	t_elem	*new;
 
 	index_start = skip_whitespace(cmd, 0);
 	index_end = index_start;
@@ -54,25 +54,31 @@ int	parser(t_data *data, char *cmd)
 	{
 		while (cmd[index_end] && !ft_iswhitespace(cmd[index_end]))
 			index_end++;
-		tmp = ft_substr(cmd, index_start, (index_end - index_start + 1));
+		tmp = ft_substr(cmd, index_start, (index_end - index_start));
 		if (isinsstr(data->commands, tmp))
 		{
-			new = new_elem(find(data->commands, tmp), COMMAND);
+			new = new_elem(ft_strdup(get_str(data->commands, tmp)), COMMAND);
 			add_elem_cmd(data, new);
 		}
 		else if (isinsstr(data->redirections, tmp))
 		{
-			add_elem_cmd(data, tmp);
+			new = new_elem(ft_strdup(get_str(data->redirections, tmp)),
+					REDIRECTION);
+			add_elem_cmd(data, new);
 		}
 		else if (isinsstr(data->metachars, tmp))
 		{
-			add_elem_cmd(data, tmp);
+			new = new_elem(ft_strdup(get_str(data->metachars, tmp)), METACHAR);
+			add_elem_cmd(data, new);
 		}
 		else
 		{
-			add_elem_cmd(data, tmp);
+			new = new_elem(ft_strdup(tmp), VALUE);
+			add_elem_cmd(data, new);
 		}
 		free(tmp);
+		index_start = skip_whitespace(cmd, index_end);
+		index_end = index_start;
 	}
 	return (0);
 }

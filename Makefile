@@ -6,7 +6,7 @@
 #    By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 11:58:53 by vnaud             #+#    #+#              #
-#    Updated: 2022/06/01 13:45:59 by afaby            ###   ########.fr        #
+#    Updated: 2022/06/02 10:09:37 by vnaud            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,9 @@ INCS			= \
 SRCS			= \
 				minishell.c \
 				prompt.c \
+				command.c \
+				parser.c \
+				exec.c \
 				signal.c \
 				\
 
