@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 14:38:54 by afaby             #+#    #+#             */
-/*   Updated: 2022/06/01 13:47:43 by afaby            ###   ########.fr       */
+/*   Created: 2022/06/01 13:33:24 by afaby             #+#    #+#             */
+/*   Updated: 2022/06/01 15:03:07 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*path_finder(char **envp)
+void	sig_handler(int	sigcode)
 {
-	while (ft_strncmp("PATH", *envp, 4))
-		envp++;
-	return (*envp + 5);
+	if (sigcode == SIGINT)
+	{
+		ft_printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else if (sigcode == 4)
+		ft_printf("youpi");
 }
 
-int	main(int argc, char **argv, char **envp)
+int	init_sig(void)
 {
-	t_data	data;
-
-	if (argc != 1)
-		ft_usage_err(argv[0], "");
-	data.path = ft_split(path_finder(envp), ':');
-	init_sig();
-	display_prompt(&data);
-	ft_sstrdel(data.path);
+	if (signal(SIGINT, sig_handler) == SIG_ERR)
+		return (-1);
+	if (signal(SIGQUIT, sig_handler) == SIG_ERR)
+		return (-1);
+	if (signal(4, sig_handler) == SIG_ERR)
+		return (-1);
+	return (0);
 }
+

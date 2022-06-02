@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 18:10:15 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 11:49:34 by afaby            ###   ########.fr       */
+/*   Updated: 2022/06/01 13:48:10 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include <signal.h>
 
 # define COMMANDS "echo cd pwd export unset env exit"
 # define REDIRECTONS "< > << >> |"
-# define METACHAR "$ ? \' \""
+# define METACHARS "$ ? \' \""
 
 enum e_commands {
 	ECHO,
@@ -45,7 +46,7 @@ enum e_metachar {
 	QUEST_MARK,
 	QUOTE,
 	D_QUOTE
-}
+};
 
 enum e_types {
 	COMMAND,
@@ -89,5 +90,8 @@ void	display_prompt(t_data *data);
 t_elem	*new_elem(char *elem);
 void	add_elem_cmd(t_data *data, char *elem);
 void	free_cmd(t_data *data);
+
+// signal.c
+int		init_sig(void);
 
 #endif
