@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 18:10:15 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/01 13:48:10 by afaby            ###   ########.fr       */
+/*   Updated: 2022/06/02 09:57:28 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ enum e_metachar {
 
 enum e_types {
 	COMMAND,
-	/* SEPARATOR, */
 	REDIRECTION,
 	METACHAR,
 	VALUE
+	/* SEPARATOR, */
 };
 
 typedef struct s_elem
@@ -87,8 +87,8 @@ char	*path_finder(char **envp);
 void	display_prompt(t_data *data);
 
 // history.c
-t_elem	*new_elem(char *elem);
-void	add_elem_cmd(t_data *data, char *elem);
+t_elem	*new_elem(char *elem, int type);
+void	add_elem_cmd(t_data *data, t_elem *new);
 void	free_cmd(t_data *data);
 
 // signal.c
