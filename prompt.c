@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 18:09:16 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/02 10:13:53 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/02 10:30:02 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,10 @@ void	display_prompt(t_data *data)
 	line = readline("mshell >> ");
 	while (1)
 	{
-		if (*line != '\n')
+		if (line && *line)
 		{
-			if (ft_strcmp(line, "exit\n") == 0)
-			{
-				free(line);
+			if (ft_strcmp(line, "exit") == 0)
 				break ;
-			}
 			if (!parser(data, line))
 				exec_cmd(data);
 			//	print_cmd_stack(data);
@@ -67,4 +64,6 @@ void	display_prompt(t_data *data)
 		free_cmd_stack(data);
 		line = readline("mshell >> ");
 	}
+	free(line);
+	line = NULL;
 }
