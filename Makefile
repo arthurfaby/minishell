@@ -11,6 +11,12 @@ SRCS			= \
 				parser.c \
 				exec.c \
 				signal.c \
+				ft_echo.c \
+				ft_cd.c \
+				ft_pwd.c \
+				ft_env.c \
+				ft_export.c \
+				ft_unset.c \
 				\
 
 OBJS			= $(SRCS:.c=.o)
