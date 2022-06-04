@@ -16,38 +16,33 @@
 # define REDIRECTIONS "< > << >> |"
 # define METACHARS "$ ? \' \""
 
-enum e_commands {
-	ECHO,
-	CD,
-	PWD,
-	EXPORT,
-	UNSET,
-	ENV,
-	EXIT
-};
-
-enum e_redirections {
-	I_REDIR,
-	O_REDIR,
-	O_REDIR_APPEND,
-	I_DELIM,
-	PIPE
-};
-
-enum e_metachar {
-	DOLLAR,
-	QUEST_MARK,
-	QUOTE,
-	D_QUOTE
-};
-
 enum e_types {
 	COMMAND,
 	REDIRECTION,
 	METACHAR,
 	VALUE
 	/* SEPARATOR, */
+	/*
+	PIPE
+	COMMAND
+	ARGS
+	REDIRECTION
+	*/
 };
+
+typedef struct s_node
+{
+	int				type;
+	char			**value;
+	struct s_node	*parent;
+	struct s_node	*left;
+	struct s_node	*right;
+}					t_node;
+
+typedef struct s_ast
+{
+	t_node	*root;
+}			t_ast;
 
 typedef struct s_elem
 {
