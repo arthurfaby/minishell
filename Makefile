@@ -5,6 +5,7 @@ INCS			= \
 				\
 
 SRCS			= \
+				init.c \
 				minishell.c \
 				prompt.c \
 				command.c \

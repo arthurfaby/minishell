@@ -10,11 +10,12 @@
 # include <readline/history.h>
 # include "libft.h"
 
+# define CMD_NOT_FOUND "minishell: command not found\n"
 # define PROMPT "\e[48;5;25m\e[38;5;226m minishell ➔ \e[0m "
 
 # define COMMANDS "echo cd pwd export unset env exit"
 # define REDIRECTIONS "< > << >> |"
-# define METACHARS "$ ? \' \""
+# define METACHARS "$ ? \' \" ="
 
 enum e_commands {
 	ECHO,
@@ -49,6 +50,17 @@ enum e_types {
 	/* SEPARATOR, */
 };
 
+typedef struct s_var
+{
+	char	*name;
+	char	*value;
+}			t_var;
+
+typedef struct s_env
+{
+	t_var	*vars;
+}			t_env;
+
 typedef struct s_elem
 {
 	int				type;
@@ -71,6 +83,7 @@ typedef struct s_data
 	char	**commands;
 	char	**redirections;
 	char	**metachars;
+	t_env	*env;
 	t_cmd	*cmd;
 }				t_data;
 
@@ -99,5 +112,8 @@ void	exec_cmd(t_data *data);
 
 // signal.c
 int		init_sig(void);
+
+// init.c
+int		init_data(t_data *data, char **envp);
 
 #endif
