@@ -15,7 +15,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_usage_err(argv[0], "");
 	init_data(&data, envp);
 	init_sig();
-	//ft_env(&data); // TEMPORARY
 	display_prompt(&data);
 	free_data(&data);
 	return (0);

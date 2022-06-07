@@ -12,6 +12,7 @@ int	init_data(t_data *data, char **envp)
 	data->cmd->head = NULL;
 	data->cmd->size = 0;
 	data->envp = envp;
+	data->env = NULL;
 	parse_env(data, envp);
 	return (1);
 }

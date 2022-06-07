@@ -54,6 +54,13 @@ void	display_prompt(t_data *data)
 					i++;
 				add_env(line + i + 1, data);
 			}
+			else if (ft_strnstr(line, "unset", 5))
+			{
+				i = 0;
+				while (line[i] && line[i] != ' ')
+					i++;
+				remove_env(line + i + 1, data);
+			}
 			else if (!parser(data, line))
 				exec_cmd(data);
 		}

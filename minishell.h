@@ -52,8 +52,9 @@ enum e_types {
 
 typedef struct s_var
 {
-	char	*name;
-	char	*value;
+	char			*name;
+	char			*value;
+	struct s_var	*next;
 }			t_var;
 
 typedef struct s_elem
@@ -78,7 +79,7 @@ typedef struct s_data
 	char	**commands;
 	char	**redirections;
 	char	**metachars;
-	t_var	**env;
+	t_var	*env;
 	t_cmd	*cmd;
 }				t_data;
 
@@ -111,14 +112,16 @@ int		init_sig(void);
 // init.c
 int		init_data(t_data *data, char **envp);
 
-// ft_env.c
-t_var	*new_var(char *str);
-int		count_var(char **envp);
+// env.c
 int		parse_env(t_data *data, char **envp);
 int		ft_env(t_data *data);
 
-// modif_env.c
+// env_utils.c
+t_var	*new_var(char *str);
+void	var_add_last(t_var **lst, t_var *new);
+int		check_dup(t_var **lst, t_var *new);
 int		add_env(char *str, t_data *data);
+void	remove_env(char *name, t_data *data);
 
 // free_data.c
 void	free_env(t_data *data);
