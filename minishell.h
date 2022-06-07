@@ -56,11 +56,6 @@ typedef struct s_var
 	char	*value;
 }			t_var;
 
-typedef struct s_env
-{
-	t_var	*vars;
-}			t_env;
-
 typedef struct s_elem
 {
 	int				type;
@@ -83,7 +78,7 @@ typedef struct s_data
 	char	**commands;
 	char	**redirections;
 	char	**metachars;
-	t_env	*env;
+	t_var	**env;
 	t_cmd	*cmd;
 }				t_data;
 
@@ -115,5 +110,18 @@ int		init_sig(void);
 
 // init.c
 int		init_data(t_data *data, char **envp);
+
+// ft_env.c
+t_var	*new_var(char *str);
+int		count_var(char **envp);
+int		parse_env(t_data *data, char **envp);
+int		ft_env(t_data *data);
+
+// modif_env.c
+int		add_env(char *str, t_data *data);
+
+// free_data.c
+void	free_env(t_data *data);
+void	free_data(t_data *data);
 
 #endif

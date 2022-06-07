@@ -14,22 +14,9 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		ft_usage_err(argv[0], "");
 	init_data(&data, envp);
-	/*data.commands = ft_split(COMMANDS, ' ');
-	data.redirections = ft_split(REDIRECTIONS, ' ');
-	data.metachars = ft_split(METACHARS, ' ');
-	data.path = ft_split(path_finder(envp), ':');
-	data.cmd = malloc(sizeof(t_elem));
-	if (!data.cmd)
-		return (1);
-	data.cmd->head = NULL;
-	data.cmd->size = 0;
-	data.envp = envp;*/
 	init_sig();
+	//ft_env(&data); // TEMPORARY
 	display_prompt(&data);
-	free(data.cmd);
-	ft_sstrdel(data.commands);
-	ft_sstrdel(data.redirections);
-	ft_sstrdel(data.metachars);
-	ft_sstrdel(data.path);
+	free_data(&data);
 	return (0);
 }

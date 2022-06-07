@@ -16,8 +16,10 @@ SRCS			= \
 				ft_cd.c \
 				ft_pwd.c \
 				ft_env.c \
+				modif_env.c \
 				ft_export.c \
 				ft_unset.c \
+				free_data.c \
 				\
 
 OBJS			= $(SRCS:.c=.o)
