@@ -17,6 +17,7 @@ SRCS			= \
 				ft_env.c \
 				ft_export.c \
 				ft_unset.c \
+				parser_utils.c \
 				\
 
 OBJS			= $(SRCS:.c=.o)

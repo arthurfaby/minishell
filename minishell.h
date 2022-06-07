@@ -83,10 +83,12 @@ void	add_elem_cmd(t_data *data, t_elem *new);
 void	free_cmd(t_data *data);
 
 // parser.c
+char	*parser(t_data *data, char *line);
+
+// parser_utils.c
 int		skip_whitespace(char *cmd, int index_start);
 int		isinsstr(char **sstr, char *word);
 char	*get_str(char **sstr, char *word);
-int		parser(t_data *data, char *cmd);
 
 // exec.c
 char	*get_cmd(t_data *data);
@@ -94,5 +96,8 @@ void	exec_cmd(t_data *data);
 
 // signal.c
 int		init_sig(void);
+
+// tokenizer.c
+int	tokenizer(char *cmd);
 
 #endif

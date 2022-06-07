@@ -1,72 +1,143 @@
 #include "minishell.h"
 
-int	skip_whitespace(char *cmd, int index_start)
+int	get_size_cmd(char *line)
 {
-	while (cmd[index_start] && ft_iswhitespace(cmd[index_start]))
-		index_start++;
-	return (index_start);
-}
-
-int	isinsstr(char **sstr, char *word)
-{
-	while (*sstr)
-	{
-		if (!ft_strcmp(*sstr, word))
-			return (1);
-		sstr++;
-	}
-	return (0);
-}
-
-char	*get_str(char **sstr, char *word)
-{
-	while (*sstr)
-	{
-		if (!ft_strcmp(*sstr, word))
-			return (*sstr);
-		sstr++;
-	}
-	return (NULL);
-}
-
-int	parser(t_data *data, char *cmd)
-{
-	int		index_start;
-	int		index_end;
+	int		index;
+	int		size;
 	char	*tmp;
-	t_elem	*new;
+	int		index_tmp;
+	char	*env_value;
 
-	index_start = skip_whitespace(cmd, 0);
-	index_end = index_start;
-	while (cmd[index_end] && cmd[index_start])
+	size = 0;
+	index = skip_whitespaces(line, 0);
+	while (line[index])
 	{
-		while (cmd[index_end] && !ft_iswhitespace(cmd[index_end]))
-			index_end++;
-		tmp = ft_substr(cmd, index_start, (index_end - index_start));
-		if (isinsstr(data->commands, tmp))
+		if (line[index] == '"')
 		{
-			new = new_elem(ft_strdup(get_str(data->commands, tmp)), COMMAND);
-			add_elem_cmd(data, new);
+			index++;
+			while (line[index] && line[index] != '"')
+			{
+				if (line[index] == '$')
+				{
+					index++;
+					if (line[index] == '?')
+					{
+						size++;
+						index++;
+					}
+					else
+					{
+						index_tmp = index;
+						while (line[index_tmp] && ft_isalnum(line[index_tmp]))
+							index_tmp++;
+						tmp = ft_substr(line, index, (index_tmp - index + 1));
+						env_value = getenv_value(tmp);
+						free(tmp);
+						tmp = NULL;
+						size += ft_strlen(env_value);
+					}
+				}
+			}
 		}
-		else if (isinsstr(data->redirections, tmp))
+		else if (line[index] == ''')
 		{
-			new = new_elem(ft_strdup(get_str(data->redirections, tmp)),
-					REDIRECTION);
-			add_elem_cmd(data, new);
+			index++;
+			while (line[index] && line[index] != ''')
+			{
+				size++;
+				index++;
+			}
 		}
-		else if (isinsstr(data->metachars, tmp))
+		else if (ft_iswhitespaces(line[index]))
 		{
-			new = new_elem(ft_strdup(get_str(data->metachars, tmp)), METACHAR);
-			add_elem_cmd(data, new);
+			index = skip_whitespaces(line, index);
+			size++;
 		}
 		else
 		{
-			new = new_elem(ft_strdup(tmp), VALUE);
-			add_elem_cmd(data, new);
+			index++;
+			while (line[index] && line[index] != '"' && line[index] != '''
+					&& !ft_iswhitespaces(line[index]))
+			{
+				size++;
+				index++;
+			}
 		}
-		free(tmp);
-		index_start = skip_whitespace(cmd, index_end);
-		index_end = index_start;
 	}
-	return (0);
+	return (size);
+}
+
+char	*parser(t_data *data, char *line)
+{
+	char	*res;
+	int		index;
+	int		size;
+	int		index_res;
+	char	*tmp;
+	int		index_tmp;
+	char	*env_value;
+
+	index_res = 0;
+	size = get_size_cmd(line);
+	res = malloc(sizeof(char) * (size + 1));
+	res[size] = '\0';
+	index = skip_whitespaces(line, 0);
+	while (line[index])
+	{
+		if (line[index] == '"')
+		{
+			index++;
+			while (line[index] && line[index] != '"')
+			{
+				if (line[index] == '$')
+				{
+					index++;
+					if (line[index] == '?')
+					{
+						size++;
+						index++;
+					}
+					else
+					{
+						index_tmp = index;
+						while (line[index_tmp] && ft_isalnum(line[index_tmp]))
+							index_tmp++;
+						tmp = ft_substr(line, index, (index_tmp - index + 1));
+						env_value = getenv_value(tmp);
+						free(tmp);
+						tmp = NULL;
+					}
+				while (*env_value)
+					res[index_res] = env_value;
+				}
+				else
+				{
+					res[index_res] = line[index];
+					index++;
+				}
+			}
+		}
+		else if (line[index] == ''')
+		{
+			index++;
+			while (line[index] && line[index] != ''')
+			{
+				res[index_res] = line[index];
+				index++;
+			}
+		}
+		else if (ft_iswhitespaces(line[index]))
+			index = skip_whitespaces(line, index);
+		else
+		{
+			index++;
+			while (line[index] && line[index] != '"' && line[index] != '''
+					&& !ft_iswhitespaces(line[index]))
+			{
+				res[index_res] = line[index];
+				index++;
+			}
+		}
+	}
+	return (res);
 }
