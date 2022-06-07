@@ -63,7 +63,7 @@ void	exec_cmd(t_data *data)
 
 	if (data->cmd->head->type != 0)
 	{
-		ft_printf("First param is not a command please be gentle :D!\n");
+		ft_printf(CMD_NOT_FOUND);
 		return ;
 	}
 	cmd = get_cmd(data);

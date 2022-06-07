@@ -13,7 +13,8 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1)
 		ft_usage_err(argv[0], "");
-	data.commands = ft_split(COMMANDS, ' ');
+	init_data(&data, envp);
+	/*data.commands = ft_split(COMMANDS, ' ');
 	data.redirections = ft_split(REDIRECTIONS, ' ');
 	data.metachars = ft_split(METACHARS, ' ');
 	data.path = ft_split(path_finder(envp), ':');
@@ -22,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	data.cmd->head = NULL;
 	data.cmd->size = 0;
-	data.envp = envp;
+	data.envp = envp;*/
 	init_sig();
 	display_prompt(&data);
 	free(data.cmd);
