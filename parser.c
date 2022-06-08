@@ -1,72 +1,5 @@
 #include "minishell.h"
 
-int	get_size_cmd(char *line)
-{
-	int		index;
-	int		size;
-	char	*tmp;
-	int		index_tmp;
-	char	*env_value;
-
-	size = 0;
-	index = skip_whitespaces(line, 0);
-	while (line[index])
-	{
-		if (line[index] == '"')
-		{
-			index++;
-			while (line[index] && line[index] != '"')
-			{
-				if (line[index] == '$')
-				{
-					index++;
-					if (line[index] == '?')
-					{
-						size++;
-						index++;
-					}
-					else
-					{
-						index_tmp = index;
-						while (line[index_tmp] && ft_isalnum(line[index_tmp]))
-							index_tmp++;
-						tmp = ft_substr(line, index, (index_tmp - index + 1));
-						env_value = getenv_value(tmp);
-						free(tmp);
-						tmp = NULL;
-						size += ft_strlen(env_value);
-					}
-				}
-			}
-		}
-		else if (line[index] == ''')
-		{
-			index++;
-			while (line[index] && line[index] != ''')
-			{
-				size++;
-				index++;
-			}
-		}
-		else if (ft_iswhitespaces(line[index]))
-		{
-			index = skip_whitespaces(line, index);
-			size++;
-		}
-		else
-		{
-			index++;
-			while (line[index] && line[index] != '"' && line[index] != '''
-					&& !ft_iswhitespaces(line[index]))
-			{
-				size++;
-				index++;
-			}
-		}
-	}
-	return (size);
-}
-
 char	*parser(t_data *data, char *line)
 {
 	char	*res;
@@ -108,12 +41,11 @@ char	*parser(t_data *data, char *line)
 						tmp = NULL;
 					}
 				while (*env_value)
-					res[index_res] = env_value;
+					res[index_res++] = *env_value++;
 				}
 				else
 				{
-					res[index_res] = line[index];
-					index++;
+					res[index_res++] = line[index++];
 				}
 			}
 		}
@@ -121,23 +53,21 @@ char	*parser(t_data *data, char *line)
 		{
 			index++;
 			while (line[index] && line[index] != ''')
-			{
-				res[index_res] = line[index];
-				index++;
-			}
+				res[index_res++] = line[index++];
 		}
 		else if (ft_iswhitespaces(line[index]))
+		{
+			res[index_res++] = ' ';
 			index = skip_whitespaces(line, index);
+		}
 		else
 		{
 			index++;
 			while (line[index] && line[index] != '"' && line[index] != '''
 					&& !ft_iswhitespaces(line[index]))
-			{
-				res[index_res] = line[index];
-				index++;
-			}
+				res[index_res++] = line[index++];
 		}
 	}
+	res = spaces_redirections(res);
 	return (res);
 }
