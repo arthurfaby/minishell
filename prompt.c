@@ -57,6 +57,7 @@ void	free_cmd_stack(t_data *data)
 void	display_prompt(t_data *data)
 {
 	char	*line;
+	int		i;
 	char	*cmd;
 	t_ast	*ast;
 
@@ -72,6 +73,24 @@ void	display_prompt(t_data *data)
 			add_history(line);
 			if (ft_strcmp(line, "exit") == 0)
 				break ;
+			else if (ft_strcmp(line, "env") == 0)
+				ft_env(data);
+			else if (ft_strnstr(line, "export", 6))
+			{
+				i = 0;
+				while (line[i] && line[i] != ' ')
+					i++;
+				add_env(line + i + 1, data);
+			}
+			else if (ft_strnstr(line, "unset", 5))
+			{
+				i = 0;
+				while (line[i] && line[i] != ' ')
+					i++;
+				remove_env(line + i + 1, data);
+			}
+			else if (!parser(data, line))
+				exec_cmd(data);
 			cmd = parser(line);
 			ast = tokenizer(cmd, ast);
 			print_ast(ast);

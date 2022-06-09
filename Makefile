@@ -15,9 +15,11 @@ SRCS			= \
 				ft_echo.c \
 				ft_cd.c \
 				ft_pwd.c \
-				ft_env.c \
+				env.c \
+				env_utils.c \
 				ft_export.c \
 				ft_unset.c \
+				free_data.c \
 				parser_utils.c \
 				tokenizer.c \
 				tokenizer_utils.c \

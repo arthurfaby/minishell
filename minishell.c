@@ -16,10 +16,6 @@ int	main(int argc, char **argv, char **envp)
 	init_data(&data, envp);
 	init_sig();
 	display_prompt(&data);
-	free(data.cmd);
-	ft_sstrdel(data.commands);
-	ft_sstrdel(data.redirections);
-	ft_sstrdel(data.metachars);
-	ft_sstrdel(data.path);
+	free_data(&data);
 	return (0);
 }
