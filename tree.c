@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
 t_node	*new_node(int type)
 {
 	t_node	*new;
