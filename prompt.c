@@ -89,8 +89,6 @@ void	display_prompt(t_data *data)
 					i++;
 				remove_env(line + i + 1, data);
 			}
-			else if (!parser(data, line))
-				exec_cmd(data);
 			cmd = parser(line);
 			ast = tokenizer(cmd, ast);
 			print_ast(ast);
