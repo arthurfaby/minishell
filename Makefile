@@ -20,6 +20,10 @@ SRCS			= \
 				ft_export.c \
 				ft_unset.c \
 				free_data.c \
+				parser_utils.c \
+				tokenizer.c \
+				tokenizer_utils.c \
+				tree.c \
 				\
 
 OBJS			= $(SRCS:.c=.o)

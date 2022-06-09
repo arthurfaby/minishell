@@ -1,16 +1,38 @@
 #include "minishell.h"
 
-void	print_cmd_stack(t_data *data)
+void	print_ast(t_ast *ast)
 {
-	t_elem	*it;
+	t_node	*it;
 
-	it = data->cmd->head;
+	it = ast->root;
 	while (it)
 	{
-		ft_printf("type = %d, id = %d, value = %s\n",
-			it->type, it->id, it->value);
-		it = it->next;
+		ft_printf("type parent = %d\n", it->type);
+		if (it->left)
+			ft_printf("type left = %d\n", it->left->type);
+		it = it->right;
 	}
+}
+
+void	free_ast(t_ast *ast)
+{
+	t_node	*it;
+	t_node	*tmp;
+
+	it = ast->root;
+	while (it)
+	{
+		tmp = it;
+		if (it->left)
+		{
+			free(it->left);
+			it->left = NULL;
+		}
+		it = it->right;
+		free(tmp);
+		tmp = NULL;
+	}
+	ast->root = NULL;
 }
 
 void	free_cmd_stack(t_data *data)
@@ -36,7 +58,13 @@ void	display_prompt(t_data *data)
 {
 	char	*line;
 	int		i;
+	char	*cmd;
+	t_ast	*ast;
 
+	ast = malloc(sizeof(t_ast));
+	if (!ast)
+		return ;
+	ast->root = NULL;
 	line = readline(PROMPT);
 	while (line)
 	{
@@ -63,13 +91,23 @@ void	display_prompt(t_data *data)
 			}
 			else if (!parser(data, line))
 				exec_cmd(data);
+			cmd = parser(line);
+			ast = tokenizer(cmd, ast);
+			print_ast(ast);
+			free(cmd);
+			cmd = NULL;
+			//exec_cmd(data);
 		}
 		free(line);
 		line = NULL;
 		free_cmd_stack(data);
+		free_ast(ast);
 		line = readline(PROMPT);
 	}
 	rl_clear_history();
 	free(line);
 	line = NULL;
+	free_ast(ast);
+	free(ast);
+	ast = NULL;
 }
