@@ -7,11 +7,38 @@ void	print_ast(t_ast *ast)
 	it = ast->root;
 	while (it)
 	{
-		ft_printf("type parent = %d\n", it->type);
-		if (it->left)
-			ft_printf("type left = %d\n", it->left->type);
+		if (it->type == 0)
+		{
+			ft_printf("type parent = %d\n", it->type);
+			if (it->left)
+			{
+				ft_printf("type left = %d\n", it->left->type);
+				ft_printf("content left = %s\n", it->left->value[0]);
+			if (it->left->left)
+				ft_printf("content redirect = %s\n", it->left->left->value[0]);
+			if (it->left->right)
+				ft_printf("content args = %s\n", it->left->right->value[0]);
+			}
+		}
+		else
+		{
+			ft_printf("type elem = %d\n", it->type);
+			ft_printf("content elem = %s\n", it->value[0]);
+			if (it->left)
+				ft_printf("content redirect = %s\n", it->left->value[0]);
+			if (it->right)
+				ft_printf("content args = %s\n", it->right->value[0]);
+		}
 		it = it->right;
 	}
+}
+
+void	free_node(t_node *node)
+{
+	if (node->left)
+	if (node->right)
+	if (node->value)
+	free(node);
 }
 
 void	free_ast(t_ast *ast)

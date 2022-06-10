@@ -20,8 +20,5 @@ void	free_data(t_data *data)
 {
 	free_env(data);
 	free(data->cmd);
-	ft_sstrdel(data->commands);
-	ft_sstrdel(data->redirections);
-	ft_sstrdel(data->metachars);
 	ft_sstrdel(data->path);
 }

@@ -13,10 +13,6 @@
 # define CMD_NOT_FOUND "minishell: command not found\n"
 # define PROMPT "\e[48;5;25m\e[38;5;226m minishell ➔ \e[0m "
 
-# define COMMANDS "echo cd pwd export unset env exit"
-# define REDIRECTIONS "< > << >> |"
-# define METACHARS "$ ? \' \" ="
-
 enum e_types {
 	PIPE,
 	COMMAND,
@@ -64,9 +60,6 @@ typedef struct s_data
 {
 	char	**path;
 	char	**envp;
-	char	**commands;
-	char	**redirections;
-	char	**metachars;
 	t_var	*env;
 	t_cmd	*cmd;
 }				t_data;
@@ -121,7 +114,7 @@ void	free_env(t_data *data);
 void	free_data(t_data *data);
 
 // tree.c
-t_node	*new_node(int type);
+t_node	*new_node(int type, char **content);
 void	add_left(t_node *node, t_node *new);
 void	add_right(t_node *node, t_node *new);
 
