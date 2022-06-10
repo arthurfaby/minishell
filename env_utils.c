@@ -1,42 +1,57 @@
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: new_var
+* ------------------------- 
+*
+*	parse the input line of the user into a new struct (t_var)
+*
+* Params:
+*	char *str 	: input line of the user
+*
+* Returns:
+*	NULL 		: malloc error
+*	t_var *new	: struct parse
+*
+* -------------------------
+*/
 t_var	*new_var(char *str)
 {
 	t_var	*new;
-	char	*name;
-	char	*value;
-	int		i;
-	int		j;
 
-	i = 0;
 	new = malloc(sizeof(t_var));
 	if (!new)
 		return (NULL);
-	while (str[i] != '=')
-		i++;
-	name = malloc(sizeof(char) * (i + 1));
-	if (!name)
-		return (free(new), NULL);
-	i = -1;
-	while (str[++i] != '=')
-		name[i] = str[i];
-	name[i] = '\0';
-	j = i + 1;
-	while (str[j])
-		j++;
-	value = malloc(sizeof(char) * (j - i));
-	if (!value)
-		return (free(new), free(name), NULL);
-	j = i;
-	while (str[++j])
-		value[j - i - 1] = str[j];
-	str[j] = '\0';
-	new->name = name;
-	new->value = value;
+	new->name = create_name(str);
+	new->value = create_value(str);
+	if (!new->name || !new->value)
+	{
+		free(new);
+		free(new->name);
+		free(new->value);
+		return (NULL);
+	}
 	new->next = NULL;
 	return (new);
 }
 
+/*
+* -------------------------
+* Function: var_add_last 
+* ------------------------- 
+*
+*	add a new variable at the end of the linked list
+*
+* Params:
+*	t_var	**lst	: address of the first variable
+*	t_var 	*new	: new variable to add
+*
+* Returns:
+*	void
+*
+* -------------------------
+*/
 void	var_add_last(t_var **lst, t_var *new)
 {
 	t_var	*tmp;
@@ -54,6 +69,26 @@ void	var_add_last(t_var **lst, t_var *new)
 	}
 }
 
+/*
+* -------------------------
+* Function: check_dup
+* ------------------------- 
+*
+*	check if the variable to add is already in the linked list
+*
+*	if the variable is already in the linked list, it will replace
+*	the value
+*
+* Params:
+*	t_var	**lst	: address of the first variable
+*	t_var	*new	: new variable to check
+*
+* Returns:
+*	int (0)			: variable not found
+*	int (1)			: variable found
+*
+* -------------------------
+*/
 int	check_dup(t_var **lst, t_var *new)
 {
 	t_var	*tmp;
@@ -81,18 +116,52 @@ int	check_dup(t_var **lst, t_var *new)
 	return (0);
 }
 
-int	add_env(char *str, t_data *data)
+/*
+* -------------------------
+* Function: add_env
+* ------------------------- 
+*
+*	parse and add a variable to the linked list
+*
+*	if the variable is already in the linked list]
+*	the function do nothing
+*
+* Params:
+*	char	*str	: input line of the user
+*	t_data	*data	: datas of minishell
+*
+* Returns:
+*	void
+*
+* -------------------------
+*/
+void	add_env(char *str, t_data *data)
 {
 	if (!check_dup(&data->env, new_var(str)))
 		var_add_last(&data->env, new_var(str));
-	return (1);
 }
 
+/*
+* -------------------------
+* Function: remove_env 
+* ------------------------- 
+*
+*	remove a variable from env based on the name
+*
+* Params:
+*	char	*name	: name of variable to remove
+*	t_data	*data	: datas of minishell
+*
+* Returns:
+*	void
+*
+* -------------------------
+*/
 void	remove_env(char *name, t_data *data)
 {
 	t_var	*tmp;
 	t_var	*old;	
-	
+
 	if (!data->env)
 		return ;
 	tmp = data->env;
@@ -114,6 +183,5 @@ void	remove_env(char *name, t_data *data)
 		free(tmp->name);
 		free(tmp->value);
 		free(tmp);
-		tmp = NULL;
 	}
 }

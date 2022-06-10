@@ -17,6 +17,7 @@ SRCS			= \
 				ft_pwd.c \
 				env.c \
 				env_utils.c \
+				env_utils2.c \
 				ft_export.c \
 				ft_unset.c \
 				free_data.c \

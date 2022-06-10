@@ -91,7 +91,7 @@ void	display_prompt(t_data *data)
 			}
 			cmd = parser(line);
 			ast = tokenizer(cmd, ast);
-			print_ast(ast);
+			// print_ast(ast);
 			free(cmd);
 			cmd = NULL;
 			//exec_cmd(data);

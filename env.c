@@ -20,7 +20,7 @@ int	ft_env(t_data *data)
 {
 	t_var	*tmp;
 
-	tmp = data->env;	
+	tmp = data->env;
 	while (tmp)
 	{
 		printf("%s=%s\n", tmp->name, tmp->value);

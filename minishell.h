@@ -113,8 +113,12 @@ int		ft_env(t_data *data);
 t_var	*new_var(char *str);
 void	var_add_last(t_var **lst, t_var *new);
 int		check_dup(t_var **lst, t_var *new);
-int		add_env(char *str, t_data *data);
+void	add_env(char *str, t_data *data);
 void	remove_env(char *name, t_data *data);
+
+// env_utils2.c
+char	*create_name(char *str);
+char	*create_value(char *str);
 
 // free_data.c
 void	free_env(t_data *data);
