@@ -19,6 +19,5 @@ void	free_env(t_data *data)
 void	free_data(t_data *data)
 {
 	free_env(data);
-	free(data->cmd);
 	ft_sstrdel(data->path);
 }

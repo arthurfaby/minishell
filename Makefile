@@ -8,9 +8,7 @@ SRCS			= \
 				init.c \
 				minishell.c \
 				prompt.c \
-				command.c \
 				parser.c \
-				exec.c \
 				signal.c \
 				ft_echo.c \
 				ft_cd.c \

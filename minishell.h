@@ -41,7 +41,7 @@ typedef struct s_var
 	struct s_var	*next;
 }			t_var;
 
-typedef struct s_elem
+/*typedef struct s_elem
 {
 	int				type;
 	int				id;
@@ -54,14 +54,14 @@ typedef struct s_cmd
 {
 	int		size;
 	t_elem	*head;
-}			t_cmd;
+}			t_cmd;*/
 
 typedef struct s_data
 {
 	char	**path;
 	char	**envp;
 	t_var	*env;
-	t_cmd	*cmd;
+	//t_cmd	*cmd;
 }				t_data;
 
 // minishell.c
@@ -71,11 +71,6 @@ char	*path_finder(char **envp);
 void	print_ast(t_ast *ast);
 void	free_cmd_stack(t_data *data);
 void	display_prompt(t_data *data);
-
-// history.c
-t_elem	*new_elem(char *elem, int type);
-void	add_elem_cmd(t_data *data, t_elem *new);
-void	free_cmd(t_data *data);
 
 // parser.c
 char	*parser(char *line);

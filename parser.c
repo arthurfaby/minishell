@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: parser
+* ------------------------- 
+*
+*	parse user input line
+*
+* Params:
+*	char *line	: user input line
+*
+* Returns:
+*	char *cmd	: parsed command
+*
+* -------------------------
+*/
 char	*parser(char *line)
 {
 	char	*res;

@@ -1,5 +1,17 @@
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: print_ast
+* ------------------------- 
+*
+*	print elem in the abstract syntax tree
+*
+* Params:
+*	t_ast *ast	: ast from user command line
+*
+* -------------------------
+*/
 void	print_ast(t_ast *ast)
 {
 	t_node	*it;
@@ -33,14 +45,53 @@ void	print_ast(t_ast *ast)
 	}
 }
 
+/*
+* -------------------------
+* Function: free_node
+* ------------------------- 
+*
+*	free t_node element
+*
+* Params:
+*	t_node *node	: node to free
+*
+* -------------------------
+*/
 void	free_node(t_node *node)
 {
+	if (!node)
+		return ;
 	if (node->left)
+	{
+		free(node->left);
+		node->left = NULL;
+	}
 	if (node->right)
+	{
+		free(node->right);
+		node->right = NULL;
+	}
 	if (node->value)
+	{
+		ft_sstrdel(node->value);
+		node->value = NULL;
+	}
 	free(node);
+	node = NULL;
 }
 
+/*
+* -------------------------
+* Function: free_ast
+* ------------------------- 
+*
+*	free t_ast element
+*
+* Params:
+*	t_ast *ast	: ast to free
+*
+* -------------------------
+*/
 void	free_ast(t_ast *ast)
 {
 	t_node	*it;
@@ -49,38 +100,35 @@ void	free_ast(t_ast *ast)
 	it = ast->root;
 	while (it)
 	{
-		tmp = it;
-		if (it->left)
+		if (it->type == 1)
 		{
-			free(it->left);
-			it->left = NULL;
+			free_node(it);
+			it = NULL;
 		}
-		it = it->right;
-		free(tmp);
-		tmp = NULL;
+		else
+		{
+			tmp = it;
+			free_node(tmp->left);
+			it = it->right;
+			free(tmp);
+			tmp = NULL;
+		}
 	}
 	ast->root = NULL;
 }
 
-void	free_cmd_stack(t_data *data)
-{
-	t_elem	*it;
-	t_elem	*tmp;
-
-	it = data->cmd->head;
-	while (it)
-	{
-		free(it->value);
-		it->value = NULL;
-		tmp = it;
-		it = it->next;
-		free(tmp);
-		tmp = NULL;
-	}
-	data->cmd->head = NULL;
-	data->cmd->size = 0;
-}
-
+/*
+* -------------------------
+* Function: display_prompt
+* ------------------------- 
+*
+*	display minishell prompt
+*
+* Params:
+*	t_data *data	: data from the minishell
+*
+* -------------------------
+*/
 void	display_prompt(t_data *data)
 {
 	char	*line;
@@ -118,14 +166,12 @@ void	display_prompt(t_data *data)
 			}
 			cmd = parser(line);
 			ast = tokenizer(cmd, ast);
-			print_ast(ast);
+			//print_ast(ast);
 			free(cmd);
 			cmd = NULL;
-			//exec_cmd(data);
 		}
 		free(line);
 		line = NULL;
-		free_cmd_stack(data);
 		free_ast(ast);
 		line = readline(PROMPT);
 	}

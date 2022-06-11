@@ -118,6 +118,9 @@ void	split_args_redirect(t_ast *ast)
 			redirect = get_split_redirect(split, redirect);
 			it->left = new_node(REDIRECTION, redirect);
 			it->right = new_node(ARGS, args);
+			ft_sstrdel(split);
+			ft_sstrdel(args);
+			ft_sstrdel(redirect);
 			break ;
 		}
 		split = ft_split(it->left->value[0], ' ');
@@ -126,6 +129,9 @@ void	split_args_redirect(t_ast *ast)
 		it->left->left = new_node(REDIRECTION, redirect);
 		it->left->right = new_node(ARGS, args);
 		it = it->right;
+		ft_sstrdel(split);
+		ft_sstrdel(args);
+		ft_sstrdel(redirect);
 	}
 }
 
