@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: new_var
+* ------------------------- 
+*
+*	Create a new env value
+*
+* Params:
+*	char *str	: env variable name and value
+*
+* Returns:
+*	t_var *new	: new variable to add
+*
+* -------------------------
+*/
 t_var	*new_var(char *str)
 {
 	t_var	*new;
@@ -37,6 +52,19 @@ t_var	*new_var(char *str)
 	return (new);
 }
 
+/*
+* -------------------------
+* Function: var_add_last
+* ------------------------- 
+*
+*	Add new variable at the end of envp
+*
+* Params:
+*	t_var **lst	: envp variable list
+*	t_var *new	: new element to add
+*
+* -------------------------
+*/
 void	var_add_last(t_var **lst, t_var *new)
 {
 	t_var	*tmp;
@@ -54,6 +82,23 @@ void	var_add_last(t_var **lst, t_var *new)
 	}
 }
 
+/*
+* -------------------------
+* Function: check_dup
+* ------------------------- 
+*
+*	Check if the new env is already in envp
+*
+* Params:
+*	t_var **lst	: envp variable list
+* 	t_var *new	: new element to add
+*
+* Returns:
+*	int (0)		: No issues
+*	int (1)		: Issues
+*
+* -------------------------
+*/
 int	check_dup(t_var **lst, t_var *new)
 {
 	t_var	*tmp;
@@ -81,6 +126,22 @@ int	check_dup(t_var **lst, t_var *new)
 	return (0);
 }
 
+/*
+* -------------------------
+* Function: add_env
+* ------------------------- 
+*
+*	Add new element to envp list
+*
+* Params:
+*	char *str		: user input line
+* 	t_data *data	: data struct
+*
+* Returns:
+*	int (1)			: No issues
+*
+* -------------------------
+*/
 int	add_env(char *str, t_data *data)
 {
 	if (!check_dup(&data->env, new_var(str)))
@@ -88,6 +149,19 @@ int	add_env(char *str, t_data *data)
 	return (1);
 }
 
+/*
+* -------------------------
+* Function: remove_env
+* ------------------------- 
+*
+*	Remove the name envp variable from list
+*
+* Params:
+*	char *name		: envp name to remove
+*	t_data *data	: data struct
+*
+* -------------------------
+*/
 void	remove_env(char *name, t_data *data)
 {
 	t_var	*tmp;

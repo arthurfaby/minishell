@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: path_finder
+* ------------------------- 
+*
+*	Get the PATH value in env variable
+*
+* Params:
+*	char **envp			: env variable from start
+*
+* Returns:
+*	char *(*envp + 5)	: PATH value
+*
+* -------------------------
+*/
 char	*path_finder(char **envp)
 {
 	while (ft_strncmp("PATH", *envp, 4))

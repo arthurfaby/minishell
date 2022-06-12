@@ -1,5 +1,17 @@
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: free_env
+* ------------------------- 
+*
+*	free env value in data struct
+*
+* Params:
+*	t_data *data	: data struct
+*
+* -------------------------
+*/
 void	free_env(t_data *data)
 {
 	t_var	*tmp;
@@ -16,6 +28,18 @@ void	free_env(t_data *data)
 	}
 }
 
+/*
+* -------------------------
+* Function: free_data
+* ------------------------- 
+*
+*	free data struct
+*
+* Params:
+*	t_data *data	: data struct
+*
+* -------------------------
+*/
 void	free_data(t_data *data)
 {
 	free_env(data);

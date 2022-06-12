@@ -41,35 +41,19 @@ typedef struct s_var
 	struct s_var	*next;
 }			t_var;
 
-/*typedef struct s_elem
-{
-	int				type;
-	int				id;
-	char			*value;
-	struct s_elem	*prev;
-	struct s_elem	*next;
-}					t_elem;
-
-typedef struct s_cmd
-{
-	int		size;
-	t_elem	*head;
-}			t_cmd;*/
-
 typedef struct s_data
 {
 	char	**path;
 	char	**envp;
 	t_var	*env;
-	//t_cmd	*cmd;
 }				t_data;
 
 // minishell.c
 char	*path_finder(char **envp);
 
 // prompt.c
-void	print_ast(t_ast *ast);
-void	free_cmd_stack(t_data *data);
+void	free_node(t_node *node);
+void	free_ast(t_ast *ast);
 void	display_prompt(t_data *data);
 
 // parser.c
@@ -80,11 +64,8 @@ int		skip_whitespace(char *cmd, int index_start);
 char	*spaces_redirections(char *cmd);
 int		get_size_cmd(char *line);
 
-// exec.c
-char	*get_cmd(t_data *data);
-void	exec_cmd(t_data *data);
-
 // signal.c
+void	sig_handler(int sigcode);
 int		init_sig(void);
 
 // tokenizer.c
@@ -112,5 +93,29 @@ void	free_data(t_data *data);
 t_node	*new_node(int type, char **content);
 void	add_left(t_node *node, t_node *new);
 void	add_right(t_node *node, t_node *new);
+
+// tokenizer.c
+t_ast	*tokenizer(char *cmd, t_ast *ast);
+
+// tokenizer_utils.c
+char	**get_split_args(char **split, char **args);
+char	**get_split_redirect(char **split, char **redirect);
+void	split_args_redirect(t_ast *ast);
+char	**get_content(char *str);
+
+// ft_unset.c
+void	ft_unset(t_data *data, char *line);
+
+// ft_pwd.c
+void	ft_pwd(void);
+
+// ft_export.c
+void	ft_export(t_data *data, char *line);
+
+// ft_echo.c
+void	ft_echo(char *option, char **args);
+
+// ft_cd.c
+void	ft_cd(char *path);
 
 #endif

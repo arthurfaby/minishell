@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: parse_env
+* ------------------------- 
+*
+*	Parse env variables
+*
+* Params:
+*	t_data *data	: data struct
+*	char **envp		: env variables
+*
+* Returns:
+*	int	(1)	: No issues
+*
+* -------------------------
+*/
 int	parse_env(t_data *data, char **envp)
 {
 	int	i;
@@ -16,6 +32,21 @@ int	parse_env(t_data *data, char **envp)
 	return (1);
 }
 
+/*
+* -------------------------
+* Function: ft_env
+* ------------------------- 
+*
+*	Print env variables
+*
+* Params:
+*	t_data *data	: data struct
+*
+* Returns:
+*	int (1)			: No issues
+*
+* -------------------------
+*/
 int	ft_env(t_data *data)
 {
 	t_var	*tmp;

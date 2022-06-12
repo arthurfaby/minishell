@@ -1,6 +1,24 @@
 #include "minishell.h"
 
-void	ft_unset(void)
+/*
+* -------------------------
+* Function: ft_unset
+* ------------------------- 
+*
+*	unset env variable
+*
+* Params:
+*	t_data *data	: data struct
+* 	char *line		: user input line
+*
+* -------------------------
+*/
+void	ft_unset(t_data *data, char *line)
 {
-	return ;
+	int	i;
+
+	i = 0;
+	while (line[i] && line[i] != ' ')
+		i++;
+	remove_env(line + i + 1, data);
 }
