@@ -30,6 +30,12 @@ void	display_prompt(t_data *data)
 			add_history(line);
 			if (ft_strcmp(line, "exit") == 0)
 				break ;
+			else if (ft_strnstr(line, "echo", 4) == 0)
+				ft_echo(NULL, NULL);
+			else if (ft_strnstr(line, "cd", 2))
+				ft_cd(line);
+			else if (ft_strnstr(line, "pwd", 3))
+				ft_pwd();
 			else if (ft_strcmp(line, "env") == 0)
 				ft_env(data);
 			else if (ft_strnstr(line, "export", 6))
@@ -38,6 +44,7 @@ void	display_prompt(t_data *data)
 				ft_unset(data, line);
 			cmd = parser(line);
 			ast = tokenizer(cmd, ast);
+			ft_exec(ast);
 			free(cmd);
 			cmd = NULL;
 		}

@@ -48,6 +48,16 @@ typedef struct s_data
 	t_var	*env;
 }				t_data;
 
+typedef struct s_cmd
+{
+	int		file;
+	int		*pipe[2];
+	pid_t	*pids;
+	int		id;
+	t_data	*data;
+	t_node	*node;
+}	t_cmd
+
 // minishell.c
 char	*path_finder(char **envp);
 
@@ -117,5 +127,8 @@ void	ft_echo(char *option, char **args);
 
 // ft_cd.c
 void	ft_cd(char *path);
+
+// ft_exec.c
+void	ft_exec(t_ast *ast);
 
 #endif
