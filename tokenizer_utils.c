@@ -37,7 +37,7 @@ char	**get_split_args(char **split, char **args)
 	{
 		if (split[index][0] != '<' && split[index][0] != '>')
 		{
-			args[size] =  ft_strdup(split[index]);
+			args[size] = ft_strdup(split[index]);
 			if (!args[size])
 				return (NULL); // free all previous args
 			size++;
@@ -83,7 +83,7 @@ char	**get_split_redirect(char **split, char **redirect)
 	{
 		if (split[index][0] == '<' || split[index][0] == '>')
 		{
-			redirect[size] =  ft_strdup(split[index]);
+			redirect[size] = ft_strdup(split[index]);
 			if (!redirect[size])
 				return (NULL); // free all previous and redirect
 			size++;

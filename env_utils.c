@@ -166,7 +166,7 @@ void	remove_env(char *name, t_data *data)
 {
 	t_var	*tmp;
 	t_var	*old;	
-	
+
 	if (!data->env)
 		return ;
 	tmp = data->env;

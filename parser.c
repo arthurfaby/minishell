@@ -55,8 +55,8 @@ char	*parser(char *line)
 						free(tmp);
 						tmp = NULL;
 					}
-				while (*env_value)
-					res[index_res++] = *env_value++;
+					while (*env_value)
+						res[index_res++] = *env_value++;
 				}
 				else
 				{
@@ -78,7 +78,7 @@ char	*parser(char *line)
 		else
 		{
 			while (line[index] && line[index] != '"' && line[index] != '\''
-					&& !ft_iswhitespace(line[index]))
+				&& !ft_iswhitespace(line[index]))
 				res[index_res++] = line[index++];
 		}
 	}

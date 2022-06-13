@@ -19,6 +19,6 @@ void	ft_echo(char *option, char **args)
 		while (*args)
 			ft_putstr(*args++);
 	else
-		while(*args)
+		while (*args)
 			ft_putendl(*args++);
 }

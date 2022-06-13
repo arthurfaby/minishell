@@ -2,6 +2,78 @@
 
 /*
 * -------------------------
+* Function: free_node
+* ------------------------- 
+*
+*	free t_node element
+*
+* Params:
+*	t_node *node	: node to free
+*
+* -------------------------
+*/
+void	free_node(t_node *node)
+{
+	if (!node)
+		return ;
+	if (node->left)
+	{
+		free(node->left);
+		node->left = NULL;
+	}
+	if (node->right)
+	{
+		free(node->right);
+		node->right = NULL;
+	}
+	if (node->value)
+	{
+		ft_sstrdel(node->value);
+		node->value = NULL;
+	}
+	free(node);
+	node = NULL;
+}
+
+/*
+* -------------------------
+* Function: free_ast
+* ------------------------- 
+*
+*	free t_ast element
+*
+* Params:
+*	t_ast *ast	: ast to free
+*
+* -------------------------
+*/
+void	free_ast(t_ast *ast)
+{
+	t_node	*it;
+	t_node	*tmp;
+
+	it = ast->root;
+	while (it)
+	{
+		if (it->type == 1)
+		{
+			free_node(it);
+			it = NULL;
+		}
+		else
+		{
+			tmp = it;
+			free_node(tmp->left);
+			it = it->right;
+			free(tmp);
+			tmp = NULL;
+		}
+	}
+	ast->root = NULL;
+}
+
+/*
+* -------------------------
 * Function: free_env
 * ------------------------- 
 *
@@ -18,7 +90,7 @@ void	free_env(t_data *data)
 	t_var	*old;
 
 	tmp = data->env;
-	while (tmp)	
+	while (tmp)
 	{
 		old = tmp;
 		tmp = tmp->next;

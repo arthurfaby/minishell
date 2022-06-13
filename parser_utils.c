@@ -55,7 +55,8 @@ char	*spaces_redirections(char *cmd)
 			if (cmd[index + 1] == ' ')
 				size--;
 		}
-		else if ((cmd[index] == '<' && cmd[index + 1] == '<') || (cmd[index] == '>' && cmd[index + 1] == '>'))
+		else if ((cmd[index] == '<' && cmd[index + 1] == '<')
+			|| (cmd[index] == '>' && cmd[index + 1] == '>'))
 		{
 			if (cmd[index + 2] == ' ')
 				size--;
@@ -67,11 +68,15 @@ char	*spaces_redirections(char *cmd)
 	while (cmd[++index])
 	{
 		if (cmd[index] == '<' || cmd[index] == '>')
+		{
 			if (cmd[index + 1] == ' ')
 				res[index_res++] = cmd[index++];
 			else
 				res[index_res++] = cmd[index];
-		else if ((cmd[index] == '<' && cmd[index + 1] == '<') || (cmd[index] == '>' && cmd[index + 1] == '>'))
+		}
+		else if ((cmd[index] == '<' && cmd[index + 1] == '<')
+			|| (cmd[index] == '>' && cmd[index + 1] == '>'))
+		{
 			if (cmd[index + 2] == ' ')
 			{
 				res[index_res++] = cmd[index++];
@@ -82,6 +87,7 @@ char	*spaces_redirections(char *cmd)
 				res[index_res++] = cmd[index++];
 				res[index_res++] = cmd[index];
 			}
+		}
 		else
 			res[index_res++] = cmd[index];
 	}
@@ -160,7 +166,8 @@ int	get_size_cmd(char *line)
 		}
 		else
 		{
-			while (line[index] && line[index] != '"' && line[index] != '\'' && !ft_iswhitespace(line[index]))
+			while (line[index] && line[index] != '"'
+				&& line[index] != '\'' && !ft_iswhitespace(line[index]))
 			{
 				size++;
 				index++;
