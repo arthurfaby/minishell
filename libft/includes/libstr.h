@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 21:37:43 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/02 08:28:19 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/13 21:35:28 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strtrim(char const *s, char const *c);
 char		**ft_split(char const *s, char c);
 char		*ft_itoa(int n);
+char		*ft_itoa_base(long long int n, int base);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void		ft_striteri(char *s, void (*f)(unsigned int, char *));
 char		*ft_strcat(char *dest, const char *src);
@@ -44,5 +45,15 @@ char		*ft_strnew(size_t size);
 char		*ft_strcpy(char *dst, const char *src);
 char		*ft_strncpy(char *dst, const char *src, size_t len);
 void		ft_sstrdel(char **array);
+char		*ft_strcdup(const char *str, char c);
+void		ft_strclear(char *str);
+int			ft_strequ(const char *s1, const char *s2);
+int			ft_strnequ(const char *s1, const char *s2, size_t len);
+char		*ft_strncat(char *dst, const char *src, size_t len);
+char		*ft_strndup(const char *src, size_t len);
+char		*ft_strrchr(const char *s, int c);
+char		*ft_strstr(const char *big, const char *little);
+char		*ft_strtoupper(char *str);
+char		*ft_strtolower(char *str);
 
 #endif

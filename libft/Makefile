@@ -1,3 +1,25 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/06/13 20:27:25 by vnaud             #+#    #+#              #
+#    Updated: 2022/06/13 21:34:11 by vnaud            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+_END="\033[0m"
+_GREY="\033[0;30m"
+_RED="\033[0;31m"
+_GREEN="\033[0;32m"
+_YELLOW="\033[0;33m"
+_BLUE="\033[0;34m"
+_PURPLE="\033[0;35m"
+_CYAN="\033[0;36m"
+_WHITE="\033[0;37m"
+
 NAME			= libft.a
 
 INCS			= \
@@ -6,7 +28,6 @@ INCS			= \
 				includes/liblst.h \
 				includes/libmem.h \
 				includes/libprint.h \
-				includes/libsstr.h \
 				includes/libstr.h \
 				includes/ft_gnl.h \
 				includes/ft_printf.h \
@@ -74,11 +95,11 @@ SRCS			= \
 				libprint/ft_putstr_fd.c \
 				libprint/ft_putunbr.c \
 				\
-				libstr/ft_atoi_base.c \
 				libstr/ft_atoi.c \
+				libstr/ft_atoi_base.c \
 				libstr/ft_atol.c \
-				libstr/ft_itoa_base.c \
 				libstr/ft_itoa.c \
+				libstr/ft_itoa_base.c \
 				libstr/ft_strcat.c \
 				libstr/ft_strcdup.c \
 				libstr/ft_strchr.c \
@@ -94,11 +115,16 @@ SRCS			= \
 				libstr/ft_strlcpy.c \
 				libstr/ft_strlen.c \
 				libstr/ft_strmapi.c \
+				libstr/ft_strncat.c \
 				libstr/ft_strncmp.c \
+				libstr/ft_strncpy.c \
+				libstr/ft_strndup.c \
+				libstr/ft_strnequ.c \
 				libstr/ft_strnew.c \
 				libstr/ft_strnstr.c \
 				libstr/ft_strrchr.c \
 				libstr/ft_strsplit.c \
+				libstr/ft_strstr.c \
 				libstr/ft_strsub.c \
 				libstr/ft_strtolower.c \
 				libstr/ft_strtoupper.c \
@@ -115,23 +141,37 @@ CC				= gcc
 CFLAGS			= -Wall -Werror -Wextra -g
 RM				= rm -rf
 
-all:			$(NAME)
+all:			start $(NAME)
+				@echo $(_END)
+
+start:
+				@echo $(_CYAN)
+				@echo -n "LIBFT"
+				@echo $(_END)
 
 $(NAME):		$(OBJDIR) $(OBJPATH)
-				ar rcs $(NAME) $(OBJPATH)
+				@ar rcs $(NAME) $(OBJPATH)
 
 $(OBJDIR)%.o:	$(SRCSDIR)%.c $(INCS)
-				$(CC) -c $< -o $@ $(CFLAGS) -I $(INCSDIR)
+				@echo $(_GREEN)
+				@echo -n "Compiling libft: $<..."
+				@$(CC) -c $< -o $@ $(CFLAGS) -I $(INCSDIR)
 
 $(OBJDIR):
-				mkdir -p $(OBJDIR)
-				mkdir -p $(dir $(OBJPATH))
+				@mkdir -p $(OBJDIR)
+				@mkdir -p $(dir $(OBJPATH))
 
 clean:
-				$(RM) $(OBJDIR)
+				@echo $(_RED)
+				@echo -n "clean libft..."
+				@echo $(_END)
+				@$(RM) $(OBJDIR)
 
 fclean:			clean
-				$(RM) $(NAME)
+				@echo $(_RED)
+				@echo -n "fclean libft..."
+				@echo $(_END)
+				@$(RM) $(NAME)
 
 re:				fclean all
 
