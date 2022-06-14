@@ -130,6 +130,6 @@ void	ft_echo(char *option, char **args);
 void	ft_cd(char *path);
 
 // ft_exec.c
-void	ft_exec(t_ast *ast);
+void	ft_exec(t_data *data, t_ast *ast);
 
 #endif
