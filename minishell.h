@@ -50,13 +50,14 @@ typedef struct s_data
 
 typedef struct s_cmd
 {
-	int		file;
+	int		infile;
+	int		outfile;
 	int		*pipe[2];
 	pid_t	*pids;
 	int		id;
 	t_data	*data;
 	t_node	*node;
-}	t_cmd
+}			t_cmd
 
 // minishell.c
 char	*path_finder(char **envp);

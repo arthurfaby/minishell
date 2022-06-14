@@ -188,7 +188,104 @@ int	get_number_pipe(t_ast *ast)
 *
 * -------------------------
 */
-void	ft_exec(t_ast *ast)
+t_cmd	*init_cmd(t_cmd *cmd, t_data *data)
+{
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->infile = -1;
+	cmd->outfile = -1;
+	cmd->pipe = NULL;
+	cmd->pids = NULL;
+	cmd->id = -1;
+	cmd->data = data;
+	cmd->node = NULL;
+	return (cmd);
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+// Check redirect in ordre
+// if infile not found => quit error not found
+// if <<EOF then read till EOF even if not last infile
+void	simple_child(t_cmd *cmd)
+{
+	int		index;
+
+	index = -1;
+	while (cmd->node->left->value[++index])
+	{
+		if (cmd->node->left->value[index][0] == '<'
+			&& cmd->node->left->value[index][1] == '<') // double redirect infile
+		{
+			//Here_doc
+		}
+		else if (cmd->node->left->value[index][0] == '<') // simple redirect infile
+		{
+			if (cmd->infile >= 0)
+				close(cmd->infile);
+			cmd->infile = open(&cmd->node->left->value[index][1], O_RDONLY);
+			if (cmd->infile < 0)
+			{
+				perror(strerror(errno));
+				return ;
+			}
+		}
+		else if (cmd->node->left->value[index][0] == '>') // simple redirect outfile
+		{
+			if (cmd->outfile >= 0)
+				close(cmd->outfile);
+			cmd->outfile = open(&cmd->node->left->value[index][1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
+			if (cmd->outfile < 0)
+			{
+				perror(strerror(errno));
+				return ;
+			}
+		}
+		else if (cmd->node->left->value[index][0] == '>'
+			&& cmd->node->left->value[index][1] == '>') // double redirect outfile
+		{
+			if (cmd->outfile >= 0)
+				close(cmd->outfile);
+			cmd->outfile = open(&cmd->node->left->value[index][2], O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR);
+			if (cmd->outfile < 0)
+			{
+				perror(strerror(errno));
+				return ;
+			}
+		}
+	}
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	ft_exec(t-data *data, t_ast *ast)
 {
 	// Parcourir l'arbre for each command
 	// nb_pipe +1 for each pipe
@@ -197,4 +294,21 @@ void	ft_exec(t_ast *ast)
 	// fork childs
 	// close properly unused pipe
 	// waitpids
+	t_cmd	*cmd;
+	t_node	*it;
+
+	cmd = init_cmd(cmd, data);
+	if (!cmd)
+		return ;
+	it = ast->root;
+	if (it->type != 0)
+	{
+		// Basic command
+		return ;
+	}
+	while (it)
+	{
+		// Multiple command with pipe
+		it = it->right;
+	}
 }
