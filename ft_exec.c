@@ -15,6 +15,81 @@
 *
 * -------------------------
 */
+char	*get_cmd(t_data *data, char **envp)
+{
+	char	*tmp;
+	char	*cmd;
+	int		index;
+
+	data->envpth = path_finder(envp);
+	data->cmdpth = ft_split(data->envpth, ':');
+	index = -1;
+	while (data->cmdpth[++index])
+	{
+		tmp = ft_strjoin(data->cmdpth[index], "/");
+		cmd = ft_strjoin(tmp, data->args_child[0]);
+		free(tmp);
+		tmp = NULL;
+		if (access(cmd, 0) == 0)
+			return (cmd);
+		free(cmd);
+		cmd = NULL;
+	}
+	if (access(data->args_child[0], 0) == 0)
+		return (data->args_child[0]);
+	return (NULL);
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	fill_docfile(char **argv)
+{
+	char	*line;
+	int		heredoc;
+
+	heredoc = open("heredoc", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+	if (heredoc < 0)
+		ft_err_msg(strerror(errno));
+	write(1, "pipe heredoc>", 13);
+	line = get_next_line(0);
+	while (ft_strncmp(argv[2], line, ft_strlen(argv[2]))
+		|| line[ft_strlen(argv[2])] != '\n')
+	{
+		write(heredoc, line, ft_strlen(line));
+		write(1, "pipe heredoc>", 13);
+		line = get_next_line(0);
+	}
+	close(heredoc);
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
 int	get_number_pipe(t_ast *ast)
 {
 	int		nb_pipe;
