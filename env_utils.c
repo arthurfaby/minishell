@@ -54,7 +54,7 @@ int	check_env_dup(t_data *data, char *str)
 	while (data->env[i])
 	{
 		if (!comp_var_name(data->env[i], str))
-			break;
+			break ;
 		i++;
 	}
 	if (!data->env[i])
