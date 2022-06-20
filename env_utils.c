@@ -2,118 +2,66 @@
 
 /*
 * -------------------------
-* Function: new_var
+* Function: comp_var_name 
 * ------------------------- 
 *
-*	parse the input line of the user into a new struct (t_var)
+*	compare names of two variables
 *
 * Params:
-*	char *str 	: input line of the user
+*	char	*s1		: first variable
+*	char	*s2		: second variable
 *
 * Returns:
-*	NULL 		: malloc error
-*	t_var *new	: struct parse
+*	int (1)			: names are equal
+*	int (number)	: names are not equal
 *
 * -------------------------
 */
-t_var	*new_var(char *str)
+int	comp_var_name(char *s1, char *s2)
 {
-	t_var	*new;
-
-	new = malloc(sizeof(t_var));
-	if (!new)
-		return (NULL);
-	new->name = create_name(str);
-	new->value = create_value(str);
-	if (!new->name || !new->value)
+	while (*s1 && *s1 != '=' && *s2 && *s2 != '=')
 	{
-		free(new);
-		free(new->name);
-		free(new->value);
-		return (NULL);
-	}
-	new->next = NULL;
-	return (new);
-}
-
-/*
-* -------------------------
-* Function: var_add_last 
-* ------------------------- 
-*
-*	add a new variable at the end of the linked list
-*
-* Params:
-*	t_var	**lst	: address of the first variable
-*	t_var 	*new	: new variable to add
-*
-* Returns:
-*	void
-*
-* -------------------------
-*/
-void	var_add_last(t_var **lst, t_var *new)
-{
-	t_var	*tmp;
-
-	if (!lst)
-		return ;
-	if (!*lst)
-		*lst = new;
-	else
-	{
-		tmp = *lst;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-}
-
-/*
-* -------------------------
-* Function: check_dup
-* ------------------------- 
-*
-*	check if the variable to add is already in the linked list
-*
-*	if the variable is already in the linked list, it will replace
-*	the value
-*
-* Params:
-*	t_var	**lst	: address of the first variable
-*	t_var	*new	: new variable to check
-*
-* Returns:
-*	int (0)			: variable not found
-*	int (1)			: variable found
-*
-* -------------------------
-*/
-int	check_dup(t_var **lst, t_var *new)
-{
-	t_var	*tmp;
-	char	*old;
-
-	if (!lst)
-		return (0);
-	tmp = *lst;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->name, new->name) == 0)
-		{
-			old = tmp->value;
-			tmp->value = new->value;
-			free(old);
-			free(new->name);
-			free(new);
+		if (*s1 != *s2)
 			return (1);
-		}
-		tmp = tmp->next;
+		s1++;
+		s2++;
 	}
-	free(new->name);
-	free(new->value);
-	free(new);
-	return (0);
+	return (*s1 - *s2);
+}
+
+/*
+* -------------------------
+* Function: check_env_dup
+* ------------------------- 
+*
+*	check if variable to export already exists
+*
+* Params:
+*	t_data	*data	: minishell datas
+*	char	*str	: varible to export
+*
+* Returns:
+*	int (0)			: the variable does not already exists
+*	int (1)			: the variable already exists
+*
+* -------------------------
+*/
+int	check_env_dup(t_data *data, char *str)
+{
+	int		i;
+
+	i = 0;
+	while (data->env[i])
+	{
+		if (!comp_var_name(data->env[i], str))
+			break;
+		i++;
+	}
+	if (!data->env[i])
+		return (0);
+	free(data->env[i]);
+	data->env[i] = ft_strdup(str);
+	return (1);
 }
 
 /*
@@ -121,67 +69,102 @@ int	check_dup(t_var **lst, t_var *new)
 * Function: add_env
 * ------------------------- 
 *
-*	parse and add a variable to the linked list
-*
-*	if the variable is already in the linked list]
-*	the function do nothing
+*	add variable to the env
 *
 * Params:
-*	char	*str	: input line of the user
-*	t_data	*data	: datas of minishell
+*	t_data	*data	: minishell datas
+*	char	*str	: variable to export
 *
 * Returns:
-*	void
+*	int	(0)			: everything is ok
+*	int	(-1)		: malloc error
 *
 * -------------------------
 */
-void	add_env(char *str, t_data *data)
+int	add_env(t_data *data, char *str)
 {
-	if (!check_dup(&data->env, new_var(str)))
-		var_add_last(&data->env, new_var(str));
+	char	**new_env;
+	int		i;
+
+	i = 0;
+	if (check_env_dup(data, str))
+		return (0);
+	while (data->env[i])
+		i++;
+	new_env = (char **)ft_calloc(sizeof(char *), (i + 2));
+	if (!new_env)
+		return (-1);
+	i = 0;
+	while (data->env[i])
+	{
+		new_env[i] = ft_strdup(data->env[i]);
+		i++;
+	}
+	new_env[i++] = ft_strdup(str);
+	new_env[i] = NULL;
+	free_env(data);
+	data->env = new_env;
+	return (0);
 }
 
 /*
 * -------------------------
-* Function: remove_env 
+* Function: get_env_value
 * ------------------------- 
 *
-*	remove a variable from env based on the name
+*	return value of a variable based on its name
 *
 * Params:
-*	char	*name	: name of variable to remove
-*	t_data	*data	: datas of minishell
+*	t_data	*data	: minishell datas
+*	char	*name	: name of the variable
 *
 * Returns:
-*	void
+*	char *			: value of the variable
+*	NULL			: if name is NULL or is variable does not exists
 *
 * -------------------------
 */
-void	remove_env(char *name, t_data *data)
+char	*get_env_value(t_data *data, char *name)
 {
-	t_var	*tmp;
-	t_var	*old;	
+	int	i;
+	int	len;
 
-	if (!data->env)
+	if (!name)
+		return (NULL);
+	len = ft_strlen(name);
+	i = 0;
+	while (data->env[i])
+	{
+		if (ft_strncmp(data->env[i], name, len) == 0)
+			return (data->env[i] + len + 1);
+		i++;
+	}
+	return (NULL);
+}
+
+void	remove_env(t_data *data, char *name)
+{
+	char	**new_env;
+	int		i;
+	int		found;
+
+	found = 0;
+	i = 0;
+	while (data->env[i])
+		i++;
+	new_env = (char **)ft_calloc(sizeof(char *), i);
+	if (!new_env)
 		return ;
-	tmp = data->env;
-	while (tmp->next)
+	i = 0;
+	while (data->env[i])
 	{
-		if (ft_strcmp(tmp->next->name, name) == 0)
-		{
-			old = tmp->next;
-			tmp->next = tmp->next->next;
-			free(old->name);
-			free(old->value);
-			free(old);
-			return ;
-		}
-		tmp = tmp->next;
+		if (ft_strncmp(data->env[i], name, ft_strlen(name)) != 0)
+			new_env[i - found] = ft_strdup(data->env[i]);
+		else
+			found = 1;
+		i++;
 	}
-	if (ft_strcmp(tmp->name, name) == 0)
-	{
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
+	new_env[i] = NULL;
+	free_env(data);
+	data->env = new_env;
 }

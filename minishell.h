@@ -67,7 +67,8 @@ typedef struct s_data
 	char	**commands;
 	char	**redirections;
 	char	**metachars;
-	t_var	*env;
+	char	**env;
+	// t_var	*env;
 	t_cmd	*cmd;
 }				t_data;
 
@@ -107,18 +108,14 @@ int		init_data(t_data *data, char **envp);
 
 // env.c
 int		parse_env(t_data *data, char **envp);
-int		ft_env(t_data *data);
+void	ft_env(t_data *data);
 
 // env_utils.c
-t_var	*new_var(char *str);
-void	var_add_last(t_var **lst, t_var *new);
-int		check_dup(t_var **lst, t_var *new);
-void	add_env(char *str, t_data *data);
-void	remove_env(char *name, t_data *data);
-
-// env_utils2.c
-char	*create_name(char *str);
-char	*create_value(char *str);
+//void	var_add_last(t_var **lst, t_var *new);
+// int		check_dup(t_var **lst, t_var *new);
+int		add_env(t_data *data, char *str);
+void	remove_env(t_data *data, char *name);
+char	*get_env_value(t_data *data, char *name);
 
 // free_data.c
 void	free_env(t_data *data);
@@ -128,5 +125,11 @@ void	free_data(t_data *data);
 t_node	*new_node(int type);
 void	add_left(t_node *node, t_node *new);
 void	add_right(t_node *node, t_node *new);
+
+// ft_cd.c
+void	ft_cd(char *path, t_data *data);
+
+// ft_pwd.c
+void	ft_pwd(t_data *data);
 
 #endif
