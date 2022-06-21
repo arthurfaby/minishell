@@ -17,11 +17,8 @@ void	display_prompt(t_data *data)
 	char	*line;
 	char	*cmd;
 	t_ast	*ast;
+	int		i;
 
-	ast = malloc(sizeof(t_ast));
-	if (!ast)
-		return ;
-	ast->root = NULL;
 	line = readline(PROMPT);
 	while (line)
 	{
@@ -51,12 +48,45 @@ void	display_prompt(t_data *data)
 		free(line);
 		line = NULL;
 		free_ast(ast);
+			/*else if (ft_strnstr(line, "export", 7))
+			{
+				i = 0;
+				while (line[i] && line[i] != ' ')
+					i++;
+				add_env(data, line + i + 1);
+				//ft_printf("%s\n", get_env_value(data, line + i + 1));
+			}
+			else if (ft_strnstr(line, "unset", 6))
+			{
+				i = 0;
+				while (line[i] && line[i] != ' ')
+					i++;
+				remove_env(data, line + i + 1);
+			}
+			else if (ft_strnstr(line, "cd", 3))
+			{
+				i = 0;
+				while (line[i] && line[i] != ' ')
+					i++;
+				ft_cd(line + i + 1, data);
+			}
+			else if (ft_strnstr(line, "pwd", 4))
+				ft_pwd(data);
+			else if (ft_strnstr(line, "ls", 3))
+			{
+				char	**tes;
+				tes = malloc(16);
+				tes[0] = "/usr/bin/ls";
+				tes[1] = 0;
+				execve("/usr/bin/ls", tes, data->envp); 
+			}
+		}
+		free(line);
+		line = NULL;
+		free_cmd_stack(data);*/
 		line = readline(PROMPT);
 	}
 	rl_clear_history();
 	free(line);
 	line = NULL;
-	free_ast(ast);
-	free(ast);
-	ast = NULL;
 }

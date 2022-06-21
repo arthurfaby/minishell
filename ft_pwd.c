@@ -9,7 +9,8 @@
 *
 * -------------------------
 */
-void	ft_pwd(void)
+void	ft_pwd(t_data *data)
 {
+	(void) data;
 	ft_printf("%s\n", getenv("PWD"));
 }

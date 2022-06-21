@@ -2,128 +2,66 @@
 
 /*
 * -------------------------
-* Function: new_var
+* Function: comp_var_name 
 * ------------------------- 
 *
-*	Create a new env value
+*	compare names of two variables
 *
 * Params:
-*	char *str	: env variable name and value
+*	char	*s1		: first variable
+*	char	*s2		: second variable
 *
 * Returns:
-*	t_var *new	: new variable to add
+*	int (1)			: names are equal
+*	int (number)	: names are not equal
 *
 * -------------------------
 */
-t_var	*new_var(char *str)
+int	comp_var_name(char *s1, char *s2)
 {
-	t_var	*new;
-	char	*name;
-	char	*value;
+	while (*s1 && *s1 != '=' && *s2 && *s2 != '=')
+	{
+		if (*s1 != *s2)
+			return (1);
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}
+
+/*
+* -------------------------
+* Function: check_env_dup
+* ------------------------- 
+*
+*	check if variable to export already exists
+*
+* Params:
+*	t_data	*data	: minishell datas
+*	char	*str	: varible to export
+*
+* Returns:
+*	int (0)			: the variable does not already exists
+*	int (1)			: the variable already exists
+*
+* -------------------------
+*/
+int	check_env_dup(t_data *data, char *str)
+{
 	int		i;
-	int		j;
 
 	i = 0;
-	new = malloc(sizeof(t_var));
-	if (!new)
-		return (NULL);
-	while (str[i] != '=')
+	while (data->env[i])
+	{
+		if (!comp_var_name(data->env[i], str))
+			break ;
 		i++;
-	name = malloc(sizeof(char) * (i + 1));
-	if (!name)
-		return (free(new), NULL);
-	i = -1;
-	while (str[++i] != '=')
-		name[i] = str[i];
-	name[i] = '\0';
-	j = i + 1;
-	while (str[j])
-		j++;
-	value = malloc(sizeof(char) * (j - i));
-	if (!value)
-		return (free(new), free(name), NULL);
-	j = i;
-	while (str[++j])
-		value[j - i - 1] = str[j];
-	str[j] = '\0';
-	new->name = name;
-	new->value = value;
-	new->next = NULL;
-	return (new);
-}
-
-/*
-* -------------------------
-* Function: var_add_last
-* ------------------------- 
-*
-*	Add new variable at the end of envp
-*
-* Params:
-*	t_var **lst	: envp variable list
-*	t_var *new	: new element to add
-*
-* -------------------------
-*/
-void	var_add_last(t_var **lst, t_var *new)
-{
-	t_var	*tmp;
-
-	if (!lst)
-		return ;
-	if (!*lst)
-		*lst = new;
-	else
-	{
-		tmp = *lst;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
 	}
-}
-
-/*
-* -------------------------
-* Function: check_dup
-* ------------------------- 
-*
-*	Check if the new env is already in envp
-*
-* Params:
-*	t_var **lst	: envp variable list
-* 	t_var *new	: new element to add
-*
-* Returns:
-*	int (0)		: No issues
-*	int (1)		: Issues
-*
-* -------------------------
-*/
-int	check_dup(t_var **lst, t_var *new)
-{
-	t_var	*tmp;
-	char	*old;
-
-	if (!lst)
+	if (!data->env[i])
 		return (0);
-	tmp = *lst;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->name, new->name) == 0)
-		{
-			old = tmp->value;
-			tmp->value = new->value;
-			free(old);
-			free(new->name);
-			free(new);
-			return (1);
-		}
-		tmp = tmp->next;
-	}
-	free(new->name);
-	free(new->value);
-	free(new);
-	return (0);
+	free(data->env[i]);
+	data->env[i] = ft_strdup(str);
+	return (1);
 }
 
 /*
@@ -131,22 +69,77 @@ int	check_dup(t_var **lst, t_var *new)
 * Function: add_env
 * ------------------------- 
 *
-*	Add new element to envp list
+*	add variable to the env
 *
 * Params:
-*	char *str		: user input line
-* 	t_data *data	: data struct
+*	t_data	*data	: minishell datas
+*	char	*str	: variable to export
 *
 * Returns:
-*	int (1)			: No issues
+*	int	(0)			: everything is ok
+*	int	(-1)		: malloc error
 *
 * -------------------------
 */
-int	add_env(char *str, t_data *data)
+int	add_env(t_data *data, char *str)
 {
-	if (!check_dup(&data->env, new_var(str)))
-		var_add_last(&data->env, new_var(str));
-	return (1);
+	char	**new_env;
+	int		i;
+
+	i = 0;
+	if (check_env_dup(data, str))
+		return (0);
+	while (data->env[i])
+		i++;
+	new_env = (char **)ft_calloc(sizeof(char *), (i + 2));
+	if (!new_env)
+		return (-1);
+	i = 0;
+	while (data->env[i])
+	{
+		new_env[i] = ft_strdup(data->env[i]);
+		i++;
+	}
+	new_env[i++] = ft_strdup(str);
+	new_env[i] = NULL;
+	free_env(data);
+	data->env = new_env;
+	return (0);
+}
+
+/*
+* -------------------------
+* Function: get_env_value
+* ------------------------- 
+*
+*	return value of a variable based on its name
+*
+* Params:
+*	t_data	*data	: minishell datas
+*	char	*name	: name of the variable
+*
+* Returns:
+*	char *			: value of the variable
+*	NULL			: if name is NULL or is variable does not exists
+*
+* -------------------------
+*/
+char	*get_env_value(t_data *data, char *name)
+{
+	int	i;
+	int	len;
+
+	if (!name)
+		return (NULL);
+	len = ft_strlen(name);
+	i = 0;
+	while (data->env[i])
+	{
+		if (ft_strncmp(data->env[i], name, len) == 0)
+			return (data->env[i] + len + 1);
+		i++;
+	}
+	return (NULL);
 }
 
 /*
@@ -162,32 +155,29 @@ int	add_env(char *str, t_data *data)
 *
 * -------------------------
 */
-void	remove_env(char *name, t_data *data)
+void	remove_env(t_data *data, char *name)
 {
-	t_var	*tmp;
-	t_var	*old;	
+	char	**new_env;
+	int		i;
+	int		found;
 
-	if (!data->env)
+	found = 0;
+	i = 0;
+	while (data->env[i])
+		i++;
+	new_env = (char **)ft_calloc(sizeof(char *), i);
+	if (!new_env)
 		return ;
-	tmp = data->env;
-	while (tmp->next)
+	i = 0;
+	while (data->env[i])
 	{
-		if (ft_strcmp(tmp->next->name, name) == 0)
-		{
-			old = tmp->next;
-			tmp->next = tmp->next->next;
-			free(old->name);
-			free(old->value);
-			free(old);
-			return ;
-		}
-		tmp = tmp->next;
+		if (ft_strncmp(data->env[i], name, ft_strlen(name)) != 0)
+			new_env[i - found] = ft_strdup(data->env[i]);
+		else
+			found = 1;
+		i++;
 	}
-	if (ft_strcmp(tmp->name, name) == 0)
-	{
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-		tmp = NULL;
-	}
+	new_env[i] = NULL;
+	free_env(data);
+	data->env = new_env;
 }

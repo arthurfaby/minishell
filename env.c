@@ -2,33 +2,40 @@
 
 /*
 * -------------------------
-* Function: parse_env
+* Function: parse_env 
 * ------------------------- 
 *
-*	Parse env variables
+*	create and malloc the env
 *
 * Params:
-*	t_data *data	: data struct
-*	char **envp		: env variables
+*	t_data	*data 	: minishell datas
+*	char	**envp	: the env of the user
 *
 * Returns:
-*	int	(1)	: No issues
+*	int (-1)		: malloc error
+*	int	(1)			: everyting is ok
 *
 * -------------------------
 */
 int	parse_env(t_data *data, char **envp)
 {
-	int	i;
+	int		i;
+	char	**new_env;
 
 	i = 0;
 	while (envp[i])
+		i++;
+	new_env = malloc(sizeof(char *) * (i + 1));
+	if (!new_env)
+		return (-1);
+	i = 0;
+	while (envp[i])
 	{
-		if (!data->env)
-			data->env = new_var(envp[i]);
-		else
-			var_add_last(&data->env, new_var(envp[i]));
+		new_env[i] = ft_strdup(envp[i]);
 		i++;
 	}
+	new_env[i] = NULL;
+	data->env = new_env;
 	return (1);
 }
 
@@ -37,25 +44,21 @@ int	parse_env(t_data *data, char **envp)
 * Function: ft_env
 * ------------------------- 
 *
-*	Print env variables
+*	print the env on the shell
 *
 * Params:
-*	t_data *data	: data struct
-*
-* Returns:
-*	int (1)			: No issues
+*	t_data	*data : minishell datas
 *
 * -------------------------
 */
-int	ft_env(t_data *data)
+void	ft_env(t_data *data)
 {
-	t_var	*tmp;
+	int	i;
 
-	tmp = data->env;
-	while (tmp)
+	i = 0;
+	while (data->env[i])
 	{
-		printf("%s=%s\n", tmp->name, tmp->value);
-		tmp = tmp->next;
+		ft_printf("%s\n", data->env[i]);
+		i++;
 	}
-	return (1);
 }

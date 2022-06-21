@@ -86,18 +86,16 @@ void	free_ast(t_ast *ast)
 */
 void	free_env(t_data *data)
 {
-	t_var	*tmp;
-	t_var	*old;
+	int	i;
 
-	tmp = data->env;
-	while (tmp)
+	i = 0;
+	while (data->env[i])
 	{
-		old = tmp;
-		tmp = tmp->next;
-		free(old->name);
-		free(old->value);
-		free(old);
+		free(data->env[i]);
+		data->env[i] = NULL;
+		i++;
 	}
+	free(data->env);
 }
 
 /*

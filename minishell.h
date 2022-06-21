@@ -45,7 +45,11 @@ typedef struct s_data
 {
 	char	**path;
 	char	**envp;
-	t_var	*env;
+	char	**commands;
+	char	**redirections;
+	char	**metachars;
+	char	**env;
+	t_cmd	*cmd;
 }				t_data;
 
 typedef struct s_cmd
@@ -87,14 +91,14 @@ int		init_data(t_data *data, char **envp);
 
 // env.c
 int		parse_env(t_data *data, char **envp);
-int		ft_env(t_data *data);
+void	ft_env(t_data *data);
 
 // env_utils.c
-t_var	*new_var(char *str);
-void	var_add_last(t_var **lst, t_var *new);
-int		check_dup(t_var **lst, t_var *new);
-int		add_env(char *str, t_data *data);
-void	remove_env(char *name, t_data *data);
+//void	var_add_last(t_var **lst, t_var *new);
+// int		check_dup(t_var **lst, t_var *new);
+int		add_env(t_data *data, char *str);
+void	remove_env(t_data *data, char *name);
+char	*get_env_value(t_data *data, char *name);
 
 // free_data.c
 void	free_env(t_data *data);
@@ -117,19 +121,18 @@ char	**get_content(char *str);
 // ft_unset.c
 void	ft_unset(t_data *data, char *line);
 
-// ft_pwd.c
-void	ft_pwd(void);
-
 // ft_export.c
 void	ft_export(t_data *data, char *line);
 
 // ft_echo.c
 void	ft_echo(char *option, char **args);
 
-// ft_cd.c
-void	ft_cd(char *path);
-
 // ft_exec.c
 void	ft_exec(t_data *data, t_ast *ast);
+// ft_cd.c
+void	ft_cd(char *path, t_data *data);
+
+// ft_pwd.c
+void	ft_pwd(t_data *data);
 
 #endif

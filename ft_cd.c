@@ -12,8 +12,9 @@
 *
 * -------------------------
 */
-void	ft_cd(char *path)
+void	ft_cd(char *path, t_data *data)
 {
-	if (chdir(path) < 0)
-		ft_putstr_fd(strerror(errno), 2);
+	(void)data;
+	ft_printf("change to : %s\n", path);
+	chdir(path);
 }
