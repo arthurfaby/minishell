@@ -30,7 +30,7 @@ void	display_prompt(t_data *data)
 			else if (ft_strnstr(line, "echo", 4))
 				ft_echo(NULL, NULL);
 			else if (ft_strnstr(line, "cd", 2))
-				ft_cd(line, data);
+				ft_cd(data, line + 3);
 			else if (ft_strnstr(line, "pwd", 3))
 				ft_pwd(data);
 			else if (ft_strcmp(line, "env") == 0)
