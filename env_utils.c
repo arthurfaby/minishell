@@ -177,7 +177,7 @@ void	remove_env(t_data *data, char *name)
 			found = 1;
 		i++;
 	}
-	new_env[i] = NULL;
+	new_env[i - found] = NULL;
 	free_env(data);
 	data->env = new_env;
 }

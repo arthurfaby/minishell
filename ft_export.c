@@ -20,5 +20,5 @@ void	ft_export(t_data *data, char *line)
 	i = 0;
 	while (line[i] && line[i] != ' ')
 		i++;
-	add_env(line + i + 1, data);
+	add_env(data, line + i + 1);
 }

@@ -41,16 +41,7 @@ typedef struct s_var
 	struct s_var	*next;
 }			t_var;
 
-typedef struct s_data
-{
-	char	**path;
-	char	**envp;
-	char	**commands;
-	char	**redirections;
-	char	**metachars;
-	char	**env;
-	t_cmd	*cmd;
-}				t_data;
+typedef struct s_data	t_data;
 
 typedef struct s_cmd
 {
@@ -62,6 +53,17 @@ typedef struct s_cmd
 	t_data	*data;
 	t_node	*node;
 }			t_cmd;
+
+typedef struct s_data
+{
+	char	**path;
+	char	**envp;
+	char	**commands;
+	char	**redirections;
+	char	**metachars;
+	char	**env;
+	t_cmd	*cmd;
+}				t_data;
 
 // minishell.c
 char	*path_finder(char **envp);
