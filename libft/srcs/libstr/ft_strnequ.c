@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 20:57:33 by vnaud             #+#    #+#             */
-/*   Updated: 2022/04/27 21:02:42 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/13 21:19:34 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_strnequ(const char *s1, const char *s2, size_t len)
 		return (0);
 	while (s1[index] == s2[index] && s1[index] && s2[index] && index < len)
 		index++;
-	if (index == ft_strlen(s1) && index == ft_strlen(s2) || index == len)
+	if ((index == ft_strlen(s1) && index == ft_strlen(s2)) || index == len)
 		return (1);
 	return (0);
 }

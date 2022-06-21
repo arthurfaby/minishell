@@ -1,6 +1,24 @@
 #include "minishell.h"
 
-void	ft_export(void)
+/*
+* -------------------------
+* Function: ft_export
+* ------------------------- 
+*
+* Create/Modify env variable
+*
+* Params:
+*	t_data *data	: data struct
+*	char *line		: user input line
+*
+* -------------------------
+*/
+void	ft_export(t_data *data, char *line)
 {
-	return ;
+	int	i;
+
+	i = 0;
+	while (line[i] && line[i] != ' ')
+		i++;
+	add_env(line + i + 1, data);
 }

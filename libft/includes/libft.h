@@ -6,7 +6,7 @@
 /*   By: vnaud <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 07:04:03 by vnaud             #+#    #+#             */
-/*   Updated: 2022/04/24 08:22:30 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/13 21:34:29 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include "liblst.h"
 # include "libmem.h"
 # include "libprint.h"
-# include "libsstr.h"
 # include "libstr.h"
 # include "ft_gnl.h"
 # include "ft_printf.h"

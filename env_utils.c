@@ -142,6 +142,19 @@ char	*get_env_value(t_data *data, char *name)
 	return (NULL);
 }
 
+/*
+* -------------------------
+* Function: remove_env
+* ------------------------- 
+*
+*	Remove the name envp variable from list
+*
+* Params:
+*	char *name		: envp name to remove
+*	t_data *data	: data struct
+*
+* -------------------------
+*/
 void	remove_env(t_data *data, char *name)
 {
 	char	**new_env;
