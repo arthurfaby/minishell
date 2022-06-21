@@ -2,42 +2,45 @@
 
 /*
 * -------------------------
-* Function: 
+* Function: get_cmd
 * ------------------------- 
 *
-*
+*	return if the command path exist
 *
 * Params:
-*
+*	t_cmd *cmd	: command struct
 *
 * Returns:
-*
+*	int (1)		: command found
+*	int (0)		: command not found
 *
 * -------------------------
 */
-char	*get_cmd(t_data *data, char **envp)
+int	get_cmd(t_cmd *cmd)
 {
 	char	*tmp;
-	char	*cmd;
+	char	*cmd_tmp;
 	int		index;
 
-	data->envpth = path_finder(envp);
-	data->cmdpth = ft_split(data->envpth, ':');
 	index = -1;
-	while (data->cmdpth[++index])
+	while (data->path[++index])
 	{
-		tmp = ft_strjoin(data->cmdpth[index], "/");
-		cmd = ft_strjoin(tmp, data->args_child[0]);
+		tmp = ft_strjoin(data->path[index], "/");
+		cmd_tmp = ft_strjoin(tmp, cmd->node->right->value[0]);
 		free(tmp);
 		tmp = NULL;
-		if (access(cmd, 0) == 0)
-			return (cmd);
-		free(cmd);
+		if (access(cmd_tmp, 0) == 0)
+		{
+			free(cmd->node->right->value[0]);
+			cmd->node->right->value[0] = cmd_tmp;
+			return (1);
+		}
+		free(cmd_tmp);
 		cmd = NULL;
 	}
-	if (access(data->args_child[0], 0) == 0)
-		return (data->args_child[0]);
-	return (NULL);
+	if (access(cmd->node->right->value[0], 0) == 0)
+		return (1);
+	return (0);
 }
 
 /*
@@ -77,16 +80,16 @@ void	fill_docfile(char **argv)
 
 /*
 * -------------------------
-* Function: 
+* Function: get_number_pipe
 * ------------------------- 
 *
-*
+*	return the number of pipe in command AST
 *
 * Params:
-*
+*	t_ast *ast	: AST from command
 *
 * Returns:
-*
+*	int nb_pipe	: number of pipe
 *
 * -------------------------
 */
@@ -108,16 +111,16 @@ int	get_number_pipe(t_ast *ast)
 
 /*
 * -------------------------
-* Function: 
+* Function: init_cmd
 * ------------------------- 
 *
-*
+*	Initialize t_cmd struct
 *
 * Params:
-*
+*	t_data *data	: data struct
 *
 * Returns:
-*
+*	t_cmd *cmd		: cmd struct
 *
 * -------------------------
 */
@@ -140,16 +143,17 @@ t_cmd	*init_cmd(t_data *data)
 
 /*
 * -------------------------
-* Function: 
+* Function: get_redirect
 * ------------------------- 
 *
-*
+*	Open redirections files until last one
 *
 * Params:
-*
+*	t_cmd *cmd	: cmd struct
 *
 * Returns:
-*
+*	int (1)	: error redirections files
+*	int (0)	: redirections opened
 *
 * -------------------------
 */
@@ -161,12 +165,12 @@ int	get_redirect(t_cmd *cmd)
 	while (cmd->node->left->value[++index])
 	{
 		if (cmd->node->left->value[index][0] == '<'
-			&& cmd->node->left->value[index][1] == '<') // double redirect infile
+			&& cmd->node->left->value[index][1] == '<')
 		{
 			//Here_doc
 			return (1);
 		}
-		else if (cmd->node->left->value[index][0] == '<') // simple redirect infile
+		else if (cmd->node->left->value[index][0] == '<')
 		{
 			if (cmd->infile >= 0)
 				close(cmd->infile);
@@ -177,7 +181,7 @@ int	get_redirect(t_cmd *cmd)
 				return (1);
 			}
 		}
-		else if (cmd->node->left->value[index][0] == '>') // simple redirect outfile
+		else if (cmd->node->left->value[index][0] == '>')
 		{
 			if (cmd->outfile >= 0)
 				close(cmd->outfile);
@@ -189,7 +193,7 @@ int	get_redirect(t_cmd *cmd)
 			}
 		}
 		else if (cmd->node->left->value[index][0] == '>'
-			&& cmd->node->left->value[index][1] == '>') // double redirect outfile
+			&& cmd->node->left->value[index][1] == '>')
 		{
 			if (cmd->outfile >= 0)
 				close(cmd->outfile);
@@ -206,16 +210,13 @@ int	get_redirect(t_cmd *cmd)
 
 /*
 * -------------------------
-* Function: 
+* Function: simple_child
 * ------------------------- 
 *
-*
+*	child process function if only one command in user input
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_cmd *cmd	: cmd struct
 *
 * -------------------------
 */
@@ -226,28 +227,31 @@ void	simple_child(t_cmd *cmd)
 {
 	int	ret;
 
-	ret = get_redirect(cmd); // if infile or outfile > -1 then redirect from/on them
-	if (ret == 1)//Error redirect
+	ret = get_redirect(cmd);
+	if (ret == 1)//Error redirect : message ?
 		return ;
 	if (cmd->infile >= 0)
 		dup2(cmd->infile, 0);
 	if (cmd->outfile >= 0)
 		dup2(cmd->outfile, 1);
+	if (!get_cmd(cmd))
+	{
+		perror(CMD_NOT_FOUND);
+		exit(-1);
+	}
 	execve(cmd->node->right->value[0], cmd->node->right->value, cmd->data->envp);
 }
 
 /*
 * -------------------------
-* Function: 
+* Function: ft_exec
 * ------------------------- 
 *
-*
+*	Start child process
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_data *data	: data struct
+*	t_ast *ast		: ast struct
 *
 * -------------------------
 */
@@ -268,7 +272,7 @@ void	ft_exec(t_data *data, t_ast *ast)
 	if (!cmd)
 		return ;
 	it = ast->root;
-	if (it->type != 0)
+	if (it->type != PIPE)
 	{
 		// Basic command
 		cmd->node = it;
