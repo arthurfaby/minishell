@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: ft_cd
+* ------------------------- 
+*
+*	builtin function for cd command
+*
+* Params:
+*	t_data	*data	: minishell datas
+*	char	*path	: path to go to
+*
+* -------------------------
+*/
 void	ft_cd(t_data *data, char *path)
 {
 	char	*tmp;

@@ -71,7 +71,6 @@ int	check_env_dup(t_data *data, char *str)
 	return (1);
 }
 
-
 /*
 * -------------------------
 * Function: get_env_value

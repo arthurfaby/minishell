@@ -83,6 +83,20 @@ void	remove_env(t_data *data, char *name)
 	data->env = new_env;
 }
 
+/*
+* -------------------------
+* Function: modif_env 
+* ------------------------- 
+*
+*	modify a the value of a var in env
+*
+* Params:
+*	t_data	*data	: minishell datas
+*	char	*name	: name of var
+*	char	*nvalue	: new value
+*
+* -------------------------
+*/
 void	modif_env(t_data *data, char *name, char *nvalue)
 {
 	int		len;
@@ -100,7 +114,7 @@ void	modif_env(t_data *data, char *name, char *nvalue)
 			data->env[i] = ft_strjoin(name, tmp);
 			free(tmp);
 			tmp = NULL;
-			return ; 
+			return ;
 		}
 		i++;
 	}
