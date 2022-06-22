@@ -20,5 +20,5 @@ void	ft_unset(t_data *data, char *line)
 	i = 0;
 	while (line[i] && line[i] != ' ')
 		i++;
-	remove_env(line + i + 1, data);
+	remove_env(data, line + i + 1);
 }

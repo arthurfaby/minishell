@@ -1,20 +1,22 @@
 #include "minishell.h"
 
-/*
-* -------------------------
-* Function: ft_cd
-* ------------------------- 
-*
-*	Change working directory
-*
-* Params:
-*	char *path	: path directory
-*
-* -------------------------
-*/
-void	ft_cd(char *path, t_data *data)
+void	ft_cd(t_data *data, char *path)
 {
-	(void)data;
-	ft_printf("change to : %s\n", path);
-	chdir(path);
+	char	*tmp;
+	char	pwd[500];
+
+	if (ft_strcmp(path, ".") == 0)
+		return ;
+	if (ft_strcmp(path, "-") == 0)
+		chdir(get_env_value(data, "OLDPWD"));
+	else
+		chdir(path);
+	getcwd(pwd, 500);
+	tmp = ft_strjoin("OLDPWD=", get_env_value(data, "PWD"));
+	add_env(data, tmp);
+	free(tmp);
+	tmp = ft_strjoin("PWD=", pwd);
+	add_env(data, tmp);
+	free(tmp);
+	tmp = NULL;
 }

@@ -15,6 +15,7 @@ SRCS			= \
 				ft_pwd.c \
 				env.c \
 				env_utils.c \
+				env_modif.c \
 				ft_export.c \
 				ft_unset.c \
 				free_data.c \
@@ -22,7 +23,7 @@ SRCS			= \
 				tokenizer.c \
 				tokenizer_utils.c \
 				tree.c \
-				ft_exec.c \
+				#ft_exec.c \
 				\
 
 OBJS			= $(SRCS:.c=.o)

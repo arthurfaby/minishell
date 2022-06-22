@@ -41,16 +41,7 @@ typedef struct s_var
 	struct s_var	*next;
 }			t_var;
 
-typedef struct s_data
-{
-	char	**path;
-	char	**envp;
-	char	**commands;
-	char	**redirections;
-	char	**metachars;
-	char	**env;
-	t_cmd	*cmd;
-}				t_data;
+typedef struct s_data	t_data;
 
 typedef struct s_cmd
 {
@@ -62,6 +53,17 @@ typedef struct s_cmd
 	t_data	*data;
 	t_node	*node;
 }			t_cmd;
+
+typedef struct s_data
+{
+	char	**path;
+	char	**envp;
+	char	**commands;
+	char	**redirections;
+	char	**metachars;
+	char	**env;
+	t_cmd	*cmd;
+}				t_data;
 
 // minishell.c
 char	*path_finder(char **envp);
@@ -94,11 +96,12 @@ int		parse_env(t_data *data, char **envp);
 void	ft_env(t_data *data);
 
 // env_utils.c
-//void	var_add_last(t_var **lst, t_var *new);
-// int		check_dup(t_var **lst, t_var *new);
+int		check_env_dup(t_data *data, char *str);
+char	*get_env_value(t_data *data, char *name);
+
+// env_modif.c
 int		add_env(t_data *data, char *str);
 void	remove_env(t_data *data, char *name);
-char	*get_env_value(t_data *data, char *name);
 
 // free_data.c
 void	free_env(t_data *data);
@@ -130,7 +133,7 @@ void	ft_echo(char *option, char **args);
 // ft_exec.c
 void	ft_exec(t_data *data, t_ast *ast);
 // ft_cd.c
-void	ft_cd(char *path, t_data *data);
+void	ft_cd(t_data *data, char *path);
 
 // ft_pwd.c
 void	ft_pwd(t_data *data);
