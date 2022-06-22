@@ -13,20 +13,26 @@
 *
 * Returns:
 *	int (1)			: names are equal
-*	int (number)	: names are not equal
+*	int (*s1 - *s2)	: names are not equal
 *
 * -------------------------
 */
 int	comp_var_name(char *s1, char *s2)
 {
-	while (*s1 && *s1 != '=' && *s2 && *s2 != '=')
+	int	i;
+	int	j;
+
+	i = 0;
+	while (s1[i] && s1[i] != '=')
+		i++;
+	j = 0;
+	while (s1[j] && s2[j] && j < i)
 	{
-		if (*s1 != *s2)
+		if (s1[j] != s2[j])
 			return (1);
-		s1++;
-		s2++;
+		j++;
 	}
-	return (*s1 - *s2);
+	return (s1[j] - s2[j] - 61);
 }
 
 /*
@@ -60,6 +66,7 @@ int	check_env_dup(t_data *data, char *str)
 	if (!data->env[i])
 		return (0);
 	free(data->env[i]);
+	data->env[i] = NULL;
 	data->env[i] = ft_strdup(str);
 	return (1);
 }

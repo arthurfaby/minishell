@@ -66,13 +66,13 @@ void	remove_env(t_data *data, char *name)
 	i = 0;
 	while (data->env[i])
 		i++;
-	new_env = (char **)ft_calloc(sizeof(char *), i);
+	new_env = (char **)ft_calloc(sizeof(char *), i + 1);
 	if (!new_env)
 		return ;
 	i = 0;
 	while (data->env[i])
 	{
-		if (ft_strncmp(data->env[i], name, ft_strlen(name)) != 0)
+		if (comp_var_name(data->env[i], name) != 0)
 			new_env[i - found] = ft_strdup(data->env[i]);
 		else
 			found = 1;
@@ -99,6 +99,7 @@ void	modif_env(t_data *data, char *name, char *nvalue)
 			tmp = ft_strjoin("=", nvalue);
 			data->env[i] = ft_strjoin(name, tmp);
 			free(tmp);
+			tmp = NULL;
 			return ; 
 		}
 		i++;
