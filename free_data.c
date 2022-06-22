@@ -70,6 +70,7 @@ void	free_ast(t_ast *ast)
 		}
 	}
 	ast->root = NULL;
+	free(ast);
 }
 
 /*

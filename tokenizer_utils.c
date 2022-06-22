@@ -27,6 +27,8 @@ char	**get_split_args(char **split, char **args)
 	while (split[++index])
 		if (split[index][0] != '<' && split[index][0] != '>')
 			size++;
+	if (size == 0)
+		return (NULL);
 	args = malloc(sizeof(char *) * (size + 1));
 	if (!args)
 		return (NULL);
@@ -73,6 +75,8 @@ char	**get_split_redirect(char **split, char **redirect)
 	while (split[++index])
 		if (split[index][0] == '<' || split[index][0] == '>')
 			size++;
+	if (size == 0)
+		return (NULL);
 	redirect = malloc(sizeof(char *) * (size + 1));
 	if (!redirect)
 		return (NULL);
@@ -119,22 +123,22 @@ void	split_args_redirect(t_ast *ast)
 			split = ft_split(it->value[0], ' ');
 			args = get_split_args(split, args);
 			redirect = get_split_redirect(split, redirect);
-			it->left = new_node(REDIRECTION, redirect);
-			it->right = new_node(ARGS, args);
+			it->left = new_node(REDIRECTION, ft_sstrdup(redirect));
+			it->right = new_node(ARGS, ft_sstrdup(args));
 			ft_sstrdel(split);
-			//ft_sstrdel(args);
-			//ft_sstrdel(redirect);
+			ft_sstrdel(args);
+			ft_sstrdel(redirect);
 			break ;
 		}
 		split = ft_split(it->left->value[0], ' ');
 		args = get_split_args(split, args);
 		redirect = get_split_redirect(split, redirect);
-		it->left->left = new_node(REDIRECTION, redirect);
-		it->left->right = new_node(ARGS, args);
+		it->left->left = new_node(REDIRECTION, ft_sstrdup(redirect));
+		it->left->right = new_node(ARGS, ft_sstrdup(args));
 		it = it->right;
 		ft_sstrdel(split);
-		//ft_sstrdel(args);
-		//ft_sstrdel(redirect);
+		ft_sstrdel(args);
+		ft_sstrdel(redirect);
 	}
 }
 

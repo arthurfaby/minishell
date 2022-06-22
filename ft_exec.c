@@ -23,9 +23,9 @@ int	get_cmd(t_cmd *cmd)
 	int		index;
 
 	index = -1;
-	while (data->path[++index])
+	while (cmd->data->path[++index])
 	{
-		tmp = ft_strjoin(data->path[index], "/");
+		tmp = ft_strjoin(cmd->data->path[index], "/");
 		cmd_tmp = ft_strjoin(tmp, cmd->node->right->value[0]);
 		free(tmp);
 		tmp = NULL;
@@ -58,7 +58,7 @@ int	get_cmd(t_cmd *cmd)
 *
 * -------------------------
 */
-void	fill_docfile(char **argv)
+/*void	fill_docfile(char **argv)
 {
 	char	*line;
 	int		heredoc;
@@ -76,7 +76,7 @@ void	fill_docfile(char **argv)
 		line = get_next_line(0);
 	}
 	close(heredoc);
-}
+}*/
 
 /*
 * -------------------------
@@ -227,18 +227,21 @@ void	simple_child(t_cmd *cmd)
 {
 	int	ret;
 
-	ret = get_redirect(cmd);
-	if (ret == 1)//Error redirect : message ?
-		return ;
+	if (cmd->node->left->value)
+	{
+		ret = get_redirect(cmd);
+		if (ret == 1)//Error redirect : message ?
+			return ;
+	}
 	if (cmd->infile >= 0)
 		dup2(cmd->infile, 0);
 	if (cmd->outfile >= 0)
 		dup2(cmd->outfile, 1);
-	if (!get_cmd(cmd))
-	{
-		perror(CMD_NOT_FOUND);
-		exit(-1);
-	}
+	//if (!get_cmd(cmd))
+	//{
+	//	perror(CMD_NOT_FOUND);
+	//	exit(-1);
+	//}
 	execve(cmd->node->right->value[0], cmd->node->right->value, cmd->data->envp);
 }
 

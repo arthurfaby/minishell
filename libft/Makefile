@@ -6,7 +6,7 @@
 #    By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/13 20:27:25 by vnaud             #+#    #+#              #
-#    Updated: 2022/06/13 21:34:11 by vnaud            ###   ########.fr        #
+#    Updated: 2022/06/22 13:48:52 by vnaud            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,6 +130,7 @@ SRCS			= \
 				libstr/ft_strtoupper.c \
 				libstr/ft_strtrim.c \
 				libstr/ft_sstrdel.c \
+				libstr/ft_sstrdup.c \
 				\
 
 INCSDIR			= includes/

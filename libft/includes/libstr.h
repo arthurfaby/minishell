@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 21:37:43 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/13 21:35:28 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/06/22 14:23:17 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ char		*ft_strrchr(const char *s, int c);
 char		*ft_strstr(const char *big, const char *little);
 char		*ft_strtoupper(char *str);
 char		*ft_strtolower(char *str);
+char		**ft_sstrdup(char **sstr);
 
 #endif

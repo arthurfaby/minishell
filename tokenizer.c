@@ -22,9 +22,15 @@ t_ast	*tokenizer(char *cmd, t_ast *ast)
 	char	**pipe;
 	t_node	*it;
 
+	ast = malloc(sizeof(t_ast));
+	if (!ast)
+		return (NULL);
 	pipe = ft_split(cmd, '|');
 	if (!pipe)
+	{
+		free(ast);
 		return (NULL);
+	}
 	size = 0;
 	while (pipe[size])
 		size++;

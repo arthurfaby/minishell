@@ -23,7 +23,7 @@ SRCS			= \
 				tokenizer.c \
 				tokenizer_utils.c \
 				tree.c \
-				#ft_exec.c \
+				ft_exec.c \
 				\
 
 OBJS			= $(SRCS:.c=.o)
