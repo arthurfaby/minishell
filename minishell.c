@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		ft_usage_err(argv[0], "");
 	init_data(&data, envp);
-	init_sig();
+	create_handler();
 	display_prompt(&data);
 	ft_printf("exit\n");
 	free_data(&data);

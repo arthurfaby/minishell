@@ -25,23 +25,66 @@ void	sig_handler(int sigcode)
 
 /*
 * -------------------------
-* Function: init_sig
+* Function:  delete_handler
+* ------------------------- 
+*
+*	delete handler on signals
+*
+* -------------------------
+*/
+void	delete_handler(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+/*
+* -------------------------
+* Function:  ignore_handler
+* ------------------------- 
+*
+*	ignore handler on signals
+*
+* -------------------------
+*/
+void	ignore_handler(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+
+/*
+* -------------------------
+* Function: create_handler
 * ------------------------- 
 *
 *	Initialize signal handler
 *
-* Returns:
-*	int	(0)		: No issues
-*	int (-1)	: Error signal function
+* -------------------------
+*/
+void	create_handler(void)
+{
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+/*
+* -------------------------
+* Function: message_signal 
+* ------------------------- 
+*
+*	print special message in case of status
+*
+* Params:
+*	int	status	: status of execve
 *
 * -------------------------
 */
-int	init_sig(void)
+void	message_signal(int status)
 {
-	
-	if (signal(SIGINT, sig_handler) == SIG_ERR)
-		return (-1);
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		return (-1);
-	return (0);
+	if (status == 2)
+		ft_printf("\n");
+	else if (status == 131)
+		ft_printf("Quit (core dumped)\n");
 }

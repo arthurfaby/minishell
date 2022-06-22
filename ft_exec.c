@@ -227,6 +227,7 @@ void	simple_child(t_cmd *cmd)
 {
 	int	ret;
 
+	delete_handler();
 	if (cmd->node->left->value)
 	{
 		ret = get_redirect(cmd);
@@ -271,6 +272,7 @@ void	ft_exec(t_data *data, t_ast *ast)
 	t_node	*it;
 	int		status;
 
+	status = 0;
 	cmd = init_cmd(data);
 	if (!cmd)
 		return ;
@@ -282,10 +284,13 @@ void	ft_exec(t_data *data, t_ast *ast)
 		cmd->pids = malloc(sizeof(pid_t));
 		if(!cmd->pids)
 			return ;//free cmd etc
+		ignore_handler();
 		cmd->pids[0] = fork();
 		if (cmd->pids[0] == 0)
 			simple_child(cmd);
 		waitpid(cmd->pids[0], &status, 0);
+		message_signal(status);
+		create_handler();
 		return ;
 	}
 	//while (it)

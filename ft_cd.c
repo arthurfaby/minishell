@@ -18,8 +18,6 @@ void	ft_cd(t_data *data, char *path)
 	char	*tmp;
 	char	pwd[2048];
 
-	if (ft_strcmp(path, ".") == 0)
-		return ;
 	if (ft_strcmp(path, "-") == 0)
 		chdir(get_env_value(data, "OLDPWD"));
 	else if (ft_strcmp(path, "~") == 0 || !path || !*path)
