@@ -83,7 +83,10 @@ int		get_size_cmd(char *line);
 
 // signal.c
 void	sig_handler(int sigcode);
-int		init_sig(void);
+void	message_signal(int status);
+void	create_handler(void);
+void	delete_handler(void);
+void	ignore_handler(void);
 
 // tokenizer.c
 t_ast	*tokenizer(char *cmd, t_ast *ast);
