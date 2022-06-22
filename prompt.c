@@ -54,6 +54,8 @@ void	display_prompt(t_data *data)
 		line = readline(PROMPT);
 	}
 	rl_clear_history();
+	free_ast(ast);
+	ast = NULL;
 	free(line);
 	line = NULL;
 }

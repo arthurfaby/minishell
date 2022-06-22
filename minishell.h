@@ -98,6 +98,7 @@ void	ft_env(t_data *data);
 // env_utils.c
 int		check_env_dup(t_data *data, char *str);
 char	*get_env_value(t_data *data, char *name);
+int		comp_var_name(char *s1, char *s2);
 
 // env_modif.c
 int		add_env(t_data *data, char *str);

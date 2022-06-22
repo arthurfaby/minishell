@@ -38,6 +38,7 @@ void	sig_handler(int sigcode)
 */
 int	init_sig(void)
 {
+	
 	if (signal(SIGINT, sig_handler) == SIG_ERR)
 		return (-1);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
