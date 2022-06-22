@@ -18,11 +18,15 @@ void	free_node(t_node *node)
 		return ;
 	if (node->left)
 	{
+		ft_sstrdel(node->left->value);
+		node->left->value = NULL;
 		free(node->left);
 		node->left = NULL;
 	}
 	if (node->right)
 	{
+		ft_sstrdel(node->right->value);
+		node->right->value = NULL;
 		free(node->right);
 		node->right = NULL;
 	}
