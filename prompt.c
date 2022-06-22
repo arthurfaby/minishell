@@ -42,7 +42,7 @@ void	display_prompt(t_data *data)
 			{
 				cmd = parser(line);
 				ast = tokenizer(cmd, ast);
-				//ft_exec(data, ast);
+				ft_exec(data, ast);
 				free(cmd);
 				cmd = NULL;
 				free_ast(ast);
@@ -54,8 +54,6 @@ void	display_prompt(t_data *data)
 		line = readline(PROMPT);
 	}
 	rl_clear_history();
-	free_ast(ast);
-	ast = NULL;
 	free(line);
 	line = NULL;
 }
