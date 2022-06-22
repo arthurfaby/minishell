@@ -17,7 +17,6 @@ void	display_prompt(t_data *data)
 	char	*line;
 	char	*cmd;
 	t_ast	*ast;
-	//int		i;
 
 	line = readline(PROMPT);
 	while (line)
@@ -39,16 +38,19 @@ void	display_prompt(t_data *data)
 				ft_export(data, line);
 			else if (ft_strnstr(line, "unset", 5))
 				ft_unset(data, line);
-			cmd = parser(line);
-			ast = tokenizer(cmd, ast);
-			//ft_exec(data, ast);
-			free(cmd);
-			cmd = NULL;
+			else
+			{
+				cmd = parser(line);
+				ast = tokenizer(cmd, ast);
+				//ft_exec(data, ast);
+				free(cmd);
+				cmd = NULL;
+				free_ast(ast);
+				ast = NULL;
+			}
 		}
 		free(line);
 		line = NULL;
-		free_ast(ast);
-		ast = NULL;
 		line = readline(PROMPT);
 	}
 	rl_clear_history();
