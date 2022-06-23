@@ -135,7 +135,9 @@ void	ft_export(t_data *data, char *line);
 void	ft_echo(char *option, char **args);
 
 // ft_exec.c
+char	*get_cmd(t_cmd *cmd);
 void	ft_exec(t_data *data, t_ast *ast);
+
 // ft_cd.c
 void	ft_cd(t_data *data, char *path);
 

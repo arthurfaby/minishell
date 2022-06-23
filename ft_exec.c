@@ -16,12 +16,14 @@
 *
 * -------------------------
 */
-int	get_cmd(t_cmd *cmd)
+char	*get_cmd(t_cmd *cmd)
 {
 	char	*tmp;
 	char	*cmd_tmp;
 	int		index;
 
+	if (access(cmd->node->right->value[0], F_OK | X_OK) == 0)
+		return (cmd->node->right->value[0]);
 	index = -1;
 	while (cmd->data->path[++index])
 	{
@@ -29,18 +31,12 @@ int	get_cmd(t_cmd *cmd)
 		cmd_tmp = ft_strjoin(tmp, cmd->node->right->value[0]);
 		free(tmp);
 		tmp = NULL;
-		if (access(cmd_tmp, 0) == 0)
-		{
-			free(cmd->node->right->value[0]);
-			cmd->node->right->value[0] = cmd_tmp;
-			return (1);
-		}
+		if (access(cmd_tmp, F_OK | X_OK) == 0)
+			return (cmd_tmp);
 		free(cmd_tmp);
-		cmd = NULL;
+		cmd_tmp = NULL;
 	}
-	if (access(cmd->node->right->value[0], 0) == 0)
-		return (1);
-	return (0);
+	return (NULL);
 }
 
 /*
@@ -225,7 +221,8 @@ int	get_redirect(t_cmd *cmd)
 // if <<EOF then read till EOF even if not last infile
 void	simple_child(t_cmd *cmd)
 {
-	int	ret;
+	int		ret;
+	char	*cmd_path;
 
 	delete_handler();
 	if (cmd->node->left->value)
@@ -238,12 +235,13 @@ void	simple_child(t_cmd *cmd)
 		dup2(cmd->infile, 0);
 	if (cmd->outfile >= 0)
 		dup2(cmd->outfile, 1);
-	//if (!get_cmd(cmd))
-	//{
-	//	perror(CMD_NOT_FOUND);
-	//	exit(-1);
-	//}
-	execve(cmd->node->right->value[0], cmd->node->right->value, cmd->data->envp);
+	cmd_path = get_cmd(cmd);
+	if (!cmd_path)
+	{
+		perror(CMD_NOT_FOUND);
+		exit(-1);
+	}
+	execve(cmd_path, cmd->node->right->value, cmd->data->envp);
 }
 
 /*
@@ -286,6 +284,8 @@ void	ft_exec(t_data *data, t_ast *ast)
 			return ;//free cmd etc
 		ignore_handler();
 		cmd->pids[0] = fork();
+		if (cmd->pids[0] < 0)
+			return ; //free cmd etc
 		if (cmd->pids[0] == 0)
 			simple_child(cmd);
 		waitpid(cmd->pids[0], &status, 0);
