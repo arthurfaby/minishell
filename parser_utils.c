@@ -146,7 +146,7 @@ int	get_size_cmd(t_data *data, char *line)
 						free(tmp);
 						tmp = NULL;
 						size += ft_strlen(env_value);
-						index += ft_strlen(env_value);
+						index += (index_tmp - index);
 					}
 				}
 				else

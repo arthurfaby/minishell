@@ -54,7 +54,7 @@ char	*parser(t_data *data, char *line)
 							index_tmp++;
 						tmp = ft_substr(line, index, (index_tmp - index));
 						env_value = get_env_value(data, tmp);
-						index += ft_strlen(env_value);
+						index += (index_tmp - index);
 						free(tmp);
 						tmp = NULL;
 					}
