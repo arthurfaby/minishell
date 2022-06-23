@@ -15,12 +15,19 @@
 */
 void	ft_echo(t_data *data, char *cmd)
 {
+	int	option;
+
+	option = 0;
+	while (ft_iswhitespace(*cmd))
+		cmd++;
 	cmd += 5;
-	if (ft_strncmp(cmd, "-n", 2) == 0 && (cmd[2] == ' ' || !cmd[2]))
+	while (ft_strncmp(cmd, "-n", 2) == 0 && (cmd[2] == ' ' || !cmd[2]))
 	{
 		cmd += 3;
-		ft_putstr(cmd);
+		option = 1;
 	}
+	if (option)
+		ft_putstr(cmd);
 	else
 	{
 		ft_putstr(cmd);

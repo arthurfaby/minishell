@@ -101,7 +101,7 @@ char	*get_env_value(t_data *data, char *name)
 	i = 0;
 	while (data->env[i])
 	{
-		if (ft_strncmp(data->env[i], name, len) == 0)
+		if (ft_strcmp(data->env[i], name) == '=')
 			return (data->env[i] + len + 1);
 		i++;
 	}
