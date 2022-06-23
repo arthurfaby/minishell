@@ -95,6 +95,8 @@ char	*get_env_value(t_data *data, char *name)
 
 	if (!name)
 		return (NULL);
+	if (!*name)
+		return ("$");
 	len = ft_strlen(name);
 	i = 0;
 	while (data->env[i])

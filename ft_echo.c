@@ -13,12 +13,18 @@
 *
 * -------------------------
 */
-void	ft_echo(char *option, char **args)
+void	ft_echo(t_data *data, char *cmd)
 {
-	if (option && ft_strcmp(option, "-n") == 0)
-		while (*args)
-			ft_putstr(*args++);
+	cmd += 5;
+	if (ft_strncmp(cmd, "-n", 2) == 0 && (cmd[2] == ' ' || !cmd[2]))
+	{
+		cmd += 3;
+		ft_putstr(cmd);
+	}
 	else
-		while (*args)
-			ft_putendl(*args++);
+	{
+		ft_putstr(cmd);
+		ft_putchar('\n');
+	}
+	data->status = 0;
 }

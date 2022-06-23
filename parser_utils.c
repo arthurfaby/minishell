@@ -111,13 +111,13 @@ char	*spaces_redirections(char *cmd)
 *
 * -------------------------
 */
-int	get_size_cmd(char *line)
+int	get_size_cmd(t_data *data, char *line)
 {
 	int		index;
 	int		size;
 	char	*tmp;
 	int		index_tmp;
-	//char	*env_value;
+	char	*env_value;
 
 	size = 0;
 	index = skip_whitespace(line, 0);
@@ -141,11 +141,12 @@ int	get_size_cmd(char *line)
 						index_tmp = index;
 						while (line[index_tmp] && ft_isalnum(line[index_tmp]))
 							index_tmp++;
-						tmp = ft_substr(line, index, (index_tmp - index + 1));
-						//env_value = getenv_value(tmp);
+						tmp = ft_substr(line, index, (index_tmp - index));
+						env_value = get_env_value(data, tmp);
 						free(tmp);
 						tmp = NULL;
-						//size += ft_strlen(env_value);
+						size += ft_strlen(env_value);
+						index += ft_strlen(env_value);
 					}
 				}
 				index++;
