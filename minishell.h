@@ -6,6 +6,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <errno.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
@@ -62,6 +63,7 @@ typedef struct s_data
 	char	**redirections;
 	char	**metachars;
 	char	**env;
+	int		status;
 	t_cmd	*cmd;
 }				t_data;
 
@@ -74,12 +76,12 @@ void	free_ast(t_ast *ast);
 void	display_prompt(t_data *data);
 
 // parser.c
-char	*parser(char *line);
+char	*parser(t_data *data, char *line);
 
 // parser_utils.c
 int		skip_whitespace(char *cmd, int index_start);
 char	*spaces_redirections(char *cmd);
-int		get_size_cmd(char *line);
+int		get_size_cmd(t_data *data, char *line);
 
 // signal.c
 void	sig_handler(int sigcode);
@@ -132,7 +134,7 @@ void	ft_unset(t_data *data, char *line);
 void	ft_export(t_data *data, char *line);
 
 // ft_echo.c
-void	ft_echo(char *option, char **args);
+void	ft_echo(t_data *data, char *cmd);
 
 // ft_exec.c
 char	*get_cmd(t_cmd *cmd);

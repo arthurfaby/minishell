@@ -15,7 +15,7 @@
 *
 * -------------------------
 */
-char	*parser(char *line)
+char	*parser(t_data *data, char *line)
 {
 	char	*res;
 	int		index;
@@ -26,7 +26,7 @@ char	*parser(char *line)
 	char	*env_value;
 
 	index_res = 0;
-	size = get_size_cmd(line);
+	size = get_size_cmd(data, line);
 	res = malloc(sizeof(char) * (size + 1));
 	res[size] = '\0';
 	index = skip_whitespace(line, 0);
@@ -50,12 +50,13 @@ char	*parser(char *line)
 						index_tmp = index;
 						while (line[index_tmp] && ft_isalnum(line[index_tmp]))
 							index_tmp++;
-						tmp = ft_substr(line, index, (index_tmp - index + 1));
-						//env_value = getenv_value(tmp);
+						tmp = ft_substr(line, index, (index_tmp - index));
+						env_value = get_env_value(data, tmp);
+						index += ft_strlen(env_value);
 						free(tmp);
 						tmp = NULL;
 					}
-					while (*env_value)
+					while (env_value && *env_value)
 						res[index_res++] = *env_value++;
 				}
 				else
