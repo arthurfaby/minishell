@@ -148,6 +148,7 @@ int	get_size_cmd(char *line)
 						//size += ft_strlen(env_value);
 					}
 				}
+				index++;
 			}
 		}
 		else if (line[index] == '\'')
