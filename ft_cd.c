@@ -56,5 +56,6 @@ void	ft_cd(t_data *data, char *path)
 		add_env(data, tmp);
 		free(tmp);
 		tmp = NULL;
+		data->status = 0;
 	}
 }
