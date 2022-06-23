@@ -28,6 +28,8 @@ char	*parser(t_data *data, char *line)
 	index_res = 0;
 	size = get_size_cmd(data, line);
 	res = malloc(sizeof(char) * (size + 1));
+	if (!res)
+		return (NULL);//free
 	res[size] = '\0';
 	index = skip_whitespace(line, 0);
 	while (line[index])
@@ -42,7 +44,7 @@ char	*parser(t_data *data, char *line)
 					index++;
 					if (line[index] == '?')
 					{
-						size++;
+						size++;//itoa data->status
 						index++;
 					}
 					else
@@ -52,7 +54,7 @@ char	*parser(t_data *data, char *line)
 							index_tmp++;
 						tmp = ft_substr(line, index, (index_tmp - index));
 						env_value = get_env_value(data, tmp);
-						index += ft_strlen(env_value);
+						index += (index_tmp - index);
 						free(tmp);
 						tmp = NULL;
 					}
@@ -64,17 +66,41 @@ char	*parser(t_data *data, char *line)
 					res[index_res++] = line[index++];
 				}
 			}
+			index++;
 		}
 		else if (line[index] == '\'')
 		{
 			index++;
 			while (line[index] && line[index] != '\'')
 				res[index_res++] = line[index++];
+			index++;
 		}
 		else if (ft_iswhitespace(line[index]))
 		{
 			res[index_res++] = ' ';
 			index = skip_whitespace(line, index);
+		}
+		else if (line[index] == '$')
+		{
+			index++;
+			if (line[index] == '?')
+			{
+				size++;//itoa data->status
+				index++;
+			}
+			else
+			{
+				index_tmp = index;
+				while (line[index_tmp] && ft_isalnum(line[index_tmp]))
+					index_tmp++;
+				tmp = ft_substr(line, index, (index_tmp - index));
+				env_value = get_env_value(data, tmp);
+				index += index_tmp;
+				free(tmp);
+				tmp = NULL;
+			}
+			while (env_value && *env_value)
+				res[index_res++] = *env_value++;
 		}
 		else
 		{
@@ -83,6 +109,7 @@ char	*parser(t_data *data, char *line)
 				res[index_res++] = line[index++];
 		}
 	}
+	res[index_res] = '\0';
 	res = spaces_redirections(res);
 	return (res);
 }

@@ -177,23 +177,23 @@ int	get_redirect(t_cmd *cmd)
 				return (1);
 			}
 		}
-		else if (cmd->node->left->value[index][0] == '>')
-		{
-			if (cmd->outfile >= 0)
-				close(cmd->outfile);
-			cmd->outfile = open(&cmd->node->left->value[index][1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
-			if (cmd->outfile < 0)
-			{
-				perror(strerror(errno));
-				return (1);
-			}
-		}
 		else if (cmd->node->left->value[index][0] == '>'
 			&& cmd->node->left->value[index][1] == '>')
 		{
 			if (cmd->outfile >= 0)
 				close(cmd->outfile);
 			cmd->outfile = open(&cmd->node->left->value[index][2], O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR);
+			if (cmd->outfile < 0)
+			{
+				perror(strerror(errno));
+				return (1);
+			}
+		}
+		else if (cmd->node->left->value[index][0] == '>')
+		{
+			if (cmd->outfile >= 0)
+				close(cmd->outfile);
+			cmd->outfile = open(&cmd->node->left->value[index][1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
 			if (cmd->outfile < 0)
 			{
 				perror(strerror(errno));
