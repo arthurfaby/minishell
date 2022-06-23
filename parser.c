@@ -80,6 +80,28 @@ char	*parser(t_data *data, char *line)
 			res[index_res++] = ' ';
 			index = skip_whitespace(line, index);
 		}
+		else if (line[index] == '$')
+		{
+			index++;
+			if (line[index] == '?')
+			{
+				size++;//itoa data->status
+				index++;
+			}
+			else
+			{
+				index_tmp = index;
+				while (line[index_tmp] && ft_isalnum(line[index_tmp]))
+					index_tmp++;
+				tmp = ft_substr(line, index, (index_tmp - index));
+				env_value = get_env_value(data, tmp);
+				index += index_tmp;
+				free(tmp);
+				tmp = NULL;
+			}
+			while (env_value && *env_value)
+				res[index_res++] = *env_value++;
+		}
 		else
 		{
 			while (line[index] && line[index] != '"' && line[index] != '\''

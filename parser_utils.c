@@ -170,6 +170,27 @@ int	get_size_cmd(t_data *data, char *line)
 			index = skip_whitespace(line, index);
 			size++;
 		}
+		else if (line[index] == '$')
+		{
+			index++;
+			if (line[index] == '?')
+			{
+				size++;// int size from data->status
+				index++;
+			}
+			else
+			{
+				index_tmp = index;
+				while (line[index_tmp] && ft_isalnum(line[index_tmp]))
+					index_tmp++;
+				tmp = ft_substr(line, index, (index_tmp - index));
+				env_value = get_env_value(data, tmp);
+				free(tmp);
+				tmp = NULL;
+				size += ft_strlen(env_value);
+				index += index_tmp;
+			}
+		}
 		else
 		{
 			while (line[index] && line[index] != '"'
