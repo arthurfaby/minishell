@@ -23,5 +23,6 @@ int	init_data(t_data *data, char **envp)
 	data->envp = envp;
 	data->env = NULL;
 	parse_env(data, envp);
+	data->status = 0;
 	return (1);
 }

@@ -133,7 +133,7 @@ int	get_size_cmd(t_data *data, char *line)
 					index++;
 					if (line[index] == '?')
 					{
-						size++;
+						size++;// int size from data->status
 						index++;
 					}
 					else
@@ -149,8 +149,11 @@ int	get_size_cmd(t_data *data, char *line)
 						index += ft_strlen(env_value);
 					}
 				}
+				else
+					size++;
 				index++;
 			}
+			index++;
 		}
 		else if (line[index] == '\'')
 		{
@@ -160,6 +163,7 @@ int	get_size_cmd(t_data *data, char *line)
 				size++;
 				index++;
 			}
+			index++;
 		}
 		else if (ft_iswhitespace(line[index]))
 		{

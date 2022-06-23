@@ -28,6 +28,8 @@ char	*parser(t_data *data, char *line)
 	index_res = 0;
 	size = get_size_cmd(data, line);
 	res = malloc(sizeof(char) * (size + 1));
+	if (!res)
+		return (NULL);//free
 	res[size] = '\0';
 	index = skip_whitespace(line, 0);
 	while (line[index])
@@ -42,7 +44,7 @@ char	*parser(t_data *data, char *line)
 					index++;
 					if (line[index] == '?')
 					{
-						size++;
+						size++;//itoa data->status
 						index++;
 					}
 					else
@@ -64,12 +66,14 @@ char	*parser(t_data *data, char *line)
 					res[index_res++] = line[index++];
 				}
 			}
+			index++;
 		}
 		else if (line[index] == '\'')
 		{
 			index++;
 			while (line[index] && line[index] != '\'')
 				res[index_res++] = line[index++];
+			index++;
 		}
 		else if (ft_iswhitespace(line[index]))
 		{
@@ -83,6 +87,7 @@ char	*parser(t_data *data, char *line)
 				res[index_res++] = line[index++];
 		}
 	}
+	res[index_res] = '\0';
 	res = spaces_redirections(res);
 	return (res);
 }
