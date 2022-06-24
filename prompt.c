@@ -24,12 +24,12 @@ void	display_prompt(t_data *data)
 		if (*line)
 		{
 			add_history(line);
-			if (ft_strcmp(line, "exit") == 0)
-				break ;
 			cmd = parser(data, line);
 			ast = tokenizer(cmd, ast);
-			//ft_printf("Command = %s\n", cmd);
-			if (ft_strncmp(cmd, "echo ", 5) == 0)
+			ft_printf("Command = |%s|\n", cmd);
+			if (ft_strncmp(line, "exit ", 5) == 0)
+				ft_exit(data, line, cmd, ast);
+			else if (ft_strncmp(cmd, "echo ", 5) == 0)
 				ft_echo(data, cmd);
 			else if (ft_strncmp(cmd, "cd ", 3) == 0)
 				ft_cd(data, cmd);
@@ -53,6 +53,10 @@ void	display_prompt(t_data *data)
 		line = readline(PROMPT);
 	}
 	rl_clear_history();
+	free(cmd);
+	cmd = NULL;
+	free_ast(ast);
+	ast = NULL;
 	free(line);
 	line = NULL;
 }

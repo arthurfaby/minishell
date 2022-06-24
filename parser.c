@@ -44,8 +44,13 @@ char	*parser(t_data *data, char *line)
 					index++;
 					if (line[index] == '?')
 					{
+						tmp = ft_itoa(data->status);
+						while (*tmp)
+							res[index_res++] = *tmp++;
 						size++;//itoa data->status
-						index++;
+						index++;// increase index 
+						// free(tmp); // FREE TMP WITHOUT tmp++
+						// tmp = NULL;
 					}
 					else
 					{
@@ -57,9 +62,9 @@ char	*parser(t_data *data, char *line)
 						index += (index_tmp - index);
 						free(tmp);
 						tmp = NULL;
+						while (env_value && *env_value)
+							res[index_res++] = *env_value++;
 					}
-					while (env_value && *env_value)
-						res[index_res++] = *env_value++;
 				}
 				else
 				{
@@ -85,8 +90,13 @@ char	*parser(t_data *data, char *line)
 			index++;
 			if (line[index] == '?')
 			{
+				tmp = ft_itoa(data->status);
+				while (*tmp)
+					res[index_res++] = *tmp++;
 				size++;//itoa data->status
-				index++;
+				index++; //increase index
+				// free(tmp); // FREE TMP WITHOUT tmp++
+				// tmp = NULL;
 			}
 			else
 			{
@@ -105,7 +115,7 @@ char	*parser(t_data *data, char *line)
 		else
 		{
 			while (line[index] && line[index] != '"' && line[index] != '\''
-				&& !ft_iswhitespace(line[index]))
+				&& !ft_iswhitespace(line[index]) && line[index] != '$')
 				res[index_res++] = line[index++];
 		}
 	}

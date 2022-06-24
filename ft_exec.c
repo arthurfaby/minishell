@@ -21,21 +21,29 @@ char	*get_cmd(t_cmd *cmd)
 	char	*tmp;
 	char	*cmd_tmp;
 	int		index;
+	char	**path;
 
 	if (access(cmd->node->right->value[0], F_OK | X_OK) == 0)
 		return (cmd->node->right->value[0]);
 	index = -1;
-	while (cmd->data->path[++index])
+	path = ft_split(get_env_value(cmd->data, "PATH"), ':');
+	if (!path)
+		return (NULL);
+	while (path[++index])
 	{
 		tmp = ft_strjoin(cmd->data->path[index], "/");
 		cmd_tmp = ft_strjoin(tmp, cmd->node->right->value[0]);
 		free(tmp);
 		tmp = NULL;
 		if (access(cmd_tmp, F_OK | X_OK) == 0)
+		{
+			ft_sstrdel(path);
 			return (cmd_tmp);
+		}
 		free(cmd_tmp);
 		cmd_tmp = NULL;
 	}
+	ft_sstrdel(path);
 	return (NULL);
 }
 
@@ -268,11 +276,9 @@ void	ft_exec(t_data *data, t_ast *ast)
 	// waitpids
 	t_cmd	*cmd;
 	t_node	*it;
-	int		status;
 
-	status = 0;
 	cmd = init_cmd(data);
-	if (!cmd)
+	if (!cmd || !ast->root)
 		return ;
 	it = ast->root;
 	if (it->type != PIPE)
@@ -288,8 +294,8 @@ void	ft_exec(t_data *data, t_ast *ast)
 			return ; //free cmd etc
 		if (cmd->pids[0] == 0)
 			simple_child(cmd);
-		waitpid(cmd->pids[0], &status, 0);
-		message_signal(status);
+		waitpid(cmd->pids[0], &data->status, 0);
+		message_signal(data->status);
 		create_handler();
 		return ;
 	}

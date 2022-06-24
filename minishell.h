@@ -146,4 +146,7 @@ void	ft_cd(t_data *data, char *path);
 // ft_pwd.c
 void	ft_pwd(t_data *data);
 
+// ft_exit.c
+void	ft_exit(t_data *data, char *line, char *cmd, t_ast *ast);
+
 #endif

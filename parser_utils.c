@@ -96,6 +96,29 @@ char	*spaces_redirections(char *cmd)
 	return (res);
 }
 
+
+int	ft_intlen(int n)
+{
+	int size;
+
+	size = 0;
+	if (n == 0)
+		return (1);
+	else if (n == -2147483648)
+		return (11);
+	else if (n < 0)
+	{
+		size++;
+		n = -n;
+	}
+	while (n)
+	{
+		n /= 10;
+		size++;
+	}
+	return (size);
+}
+
 /*
 * -------------------------
 * Function: get_size_cmd
@@ -133,7 +156,7 @@ int	get_size_cmd(t_data *data, char *line)
 					index++;
 					if (line[index] == '?')
 					{
-						size++;// int size from data->status
+						size += ft_intlen(data->status);// int size from data->status
 						index++;
 					}
 					else
@@ -175,7 +198,7 @@ int	get_size_cmd(t_data *data, char *line)
 			index++;
 			if (line[index] == '?')
 			{
-				size++;// int size from data->status
+				size += ft_intlen(data->status);// int size from data->status
 				index++;
 			}
 			else
@@ -193,8 +216,8 @@ int	get_size_cmd(t_data *data, char *line)
 		}
 		else
 		{
-			while (line[index] && line[index] != '"'
-				&& line[index] != '\'' && !ft_iswhitespace(line[index]))
+			while (line[index] && line[index] != '"' && line[index] != '\'' 
+						&& !ft_iswhitespace(line[index]) && line[index] != '$')
 			{
 				size++;
 				index++;
