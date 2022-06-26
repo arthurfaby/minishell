@@ -48,11 +48,12 @@ typedef struct s_cmd
 {
 	int		infile;
 	int		outfile;
-	int		*pipe[2];
+	int		**pipe;
 	pid_t	*pids;
 	int		id;
 	t_data	*data;
 	t_node	*node;
+	int		nb_cmd;
 }			t_cmd;
 
 typedef struct s_data
@@ -138,7 +139,19 @@ void	ft_echo(t_data *data, char *cmd);
 
 // ft_exec.c
 char	*get_cmd(t_cmd *cmd);
+int		get_number_pipe(t_ast *ast);
+t_cmd	*init_cmd(t_data *data);
+int		get_redirect(t_cmd *cmd);
+void	simple_child(t_cmd *cmd);
+void	open_pipe(t_cmd *cmd);
+void	close_pipe(t_cmd *cmd, int id);
+void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd);
 void	ft_exec(t_data *data, t_ast *ast);
+
+// ft_exec_utils.c
+void	first_child(t_cmd *cmd);
+void	mid_child(t_cmd *cmd);
+void	last_child(t_cmd *cmd);
 
 // ft_cd.c
 void	ft_cd(t_data *data, char *path);
