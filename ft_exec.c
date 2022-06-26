@@ -296,14 +296,20 @@ void	ft_exec(t_data *data, t_ast *ast)
 			simple_child(cmd);
 		waitpid(cmd->pids[0], &data->status, 0);
 		message_signal(data->status);
+		free(cmd->pids);
+		free(cmd);
 		create_handler();
 		return ;
 	}
-	//while (it)
-	//{
+	while (it)
+	{
 		// Multiple command with pipe
-	//	it = it->right;
-	//}
+		// get number of commands
+		// create number oof commands - 1 pipe
+		// launch childs process
+		// close every pipe
+		it = it->right;
+	}
 	free(cmd->pids);
 	free(cmd);
 }
