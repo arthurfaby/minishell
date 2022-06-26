@@ -141,6 +141,7 @@ void	ft_echo(t_data *data, char *cmd);
 char	*get_cmd(t_cmd *cmd);
 int		get_number_pipe(t_ast *ast);
 t_cmd	*init_cmd(t_data *data);
+void	fill_docfile(char *eof);
 int		get_redirect(t_cmd *cmd);
 void	simple_child(t_cmd *cmd);
 void	open_pipe(t_cmd *cmd);

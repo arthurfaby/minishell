@@ -49,41 +49,6 @@ char	*get_cmd(t_cmd *cmd)
 
 /*
 * -------------------------
-* Function: 
-* ------------------------- 
-*
-*
-*
-* Params:
-*
-*
-* Returns:
-*
-*
-* -------------------------
-*/
-/*void	fill_docfile(char **argv)
-{
-	char	*line;
-	int		heredoc;
-
-	heredoc = open("heredoc", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
-	if (heredoc < 0)
-		ft_err_msg(strerror(errno));
-	write(1, "pipe heredoc>", 13);
-	line = get_next_line(0);
-	while (ft_strncmp(argv[2], line, ft_strlen(argv[2]))
-		|| line[ft_strlen(argv[2])] != '\n')
-	{
-		write(heredoc, line, ft_strlen(line));
-		write(1, "pipe heredoc>", 13);
-		line = get_next_line(0);
-	}
-	close(heredoc);
-}*/
-
-/*
-* -------------------------
 * Function: get_number_pipe
 * ------------------------- 
 *
@@ -148,6 +113,41 @@ t_cmd	*init_cmd(t_data *data)
 
 /*
 * -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	fill_docfile(char *eof)
+{
+	char	*line;
+	int		heredoc;
+
+	heredoc = open("heredoc", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+	if (heredoc < 0)
+		return ;// open error + free clean
+	write(1, "heredoc> ", 9);
+	line = get_next_line(0);
+	while (ft_strncmp(eof, line, ft_strlen(eof))
+		|| line[ft_strlen(eof)] != '\n')
+	{
+		write(heredoc, line, ft_strlen(line));
+		write(1, "heredoc> ", 9);
+		line = get_next_line(0);
+	}
+	close(heredoc);
+}
+
+/*
+* -------------------------
 * Function: get_redirect
 * ------------------------- 
 *
@@ -172,8 +172,15 @@ int	get_redirect(t_cmd *cmd)
 		if (cmd->node->left->value[index][0] == '<'
 			&& cmd->node->left->value[index][1] == '<')
 		{
-			//Here_doc
-			return (1);
+			if (cmd->infile >= 0)
+				close(cmd->infile);
+			fill_docfile(cmd->node->left->value[index] + 2);
+			cmd->infile = open("heredoc", O_RDONLY);
+			if (cmd->infile < 0)
+			{
+				perror(strerror(errno));
+				return (1);
+			}
 		}
 		else if (cmd->node->left->value[index][0] == '<')
 		{
@@ -352,7 +359,6 @@ void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
 	int		ret;
 
 	it = ast->root;
-	index = -1;
 	while (it)
 	{
 		cmd->nb_cmd++;
@@ -366,6 +372,7 @@ void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
 		return ; // free clean
 	open_pipe(cmd);
 	it = ast->root;
+	index = -1;
 	while (++index < cmd->nb_cmd)
 	{
 		cmd->node = it->left;
@@ -394,6 +401,8 @@ void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
 	index = -1;
 	while (++index < cmd->nb_cmd)
 		waitpid(cmd->pids[index], &cmd->data->status, 0);
+	// if << in redirect then unlink
+	//unlink("heredoc");
 }
 
 /*
