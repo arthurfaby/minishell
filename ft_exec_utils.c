@@ -30,7 +30,7 @@ void	first_child(t_cmd *cmd)
 		perror(CMD_NOT_FOUND);
 		exit(-1);
 	}
-	execve(cmd_path, cmd->node->right->value, cmd->data->envp);
+	execve(cmd_path, cmd->node->right->value, cmd->data->env);
 }
 
 /*
@@ -63,7 +63,7 @@ void	mid_child(t_cmd *cmd)
 		perror(CMD_NOT_FOUND);
 		exit(-1);
 	}
-	execve(cmd_path, cmd->node->right->value, cmd->data->envp);
+	execve(cmd_path, cmd->node->right->value, cmd->data->env);
 }
 
 /*
@@ -97,5 +97,5 @@ void	last_child(t_cmd *cmd)
 		perror(CMD_NOT_FOUND);
 		exit(-1);
 	}
-	execve(cmd_path, cmd->node->right->value, cmd->data->envp);
+	execve(cmd_path, cmd->node->right->value, cmd->data->env);
 }

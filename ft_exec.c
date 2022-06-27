@@ -140,9 +140,11 @@ void	fill_docfile(char *eof)
 		|| line[ft_strlen(eof)] != '\n')
 	{
 		write(heredoc, line, ft_strlen(line));
+		free(line);
 		write(1, "heredoc> ", 9);
 		line = get_next_line(0);
 	}
+	free(line);
 	close(heredoc);
 }
 
@@ -257,7 +259,7 @@ void	simple_child(t_cmd *cmd)
 		perror(CMD_NOT_FOUND);
 		exit(-1);
 	}
-	execve(cmd_path, cmd->node->right->value, cmd->data->envp);
+	execve(cmd_path, cmd->node->right->value, cmd->data->env);
 }
 
 /*
@@ -402,7 +404,32 @@ void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
 	while (++index < cmd->nb_cmd)
 		waitpid(cmd->pids[index], &cmd->data->status, 0);
 	// if << in redirect then unlink
-	//unlink("heredoc");
+	unlink("heredoc");
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	free_pipe(t_cmd *cmd)
+{
+	int	index;
+
+	index = -1;
+	while (++index < cmd->nb_cmd - 1)
+		free(cmd->pipe[index]);
+	free(cmd->pipe);
 }
 
 /*
@@ -450,6 +477,7 @@ void	ft_exec(t_data *data, t_ast *ast)
 	// Multiple command with pipe
 	ignore_handler();
 	exec_multiple_cmd(ast, cmd);
+	free_pipe(cmd);
 	free(cmd->pids);
 	free(cmd);
 	create_handler();

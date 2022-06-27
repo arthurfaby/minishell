@@ -17,5 +17,6 @@ void	ft_exit(t_data *data, char *line, char *cmd, t_ast *ast)
 	free_ast(ast);
 	ast = NULL;
 	free_data(data);
-	exit(ret);	
+	rl_clear_history();
+	exit(ret);
 }

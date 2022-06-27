@@ -117,6 +117,7 @@ void	free_env(t_data *data)
 */
 void	free_data(t_data *data)
 {
-	free_env(data);
+	//free_env(data);
 	ft_sstrdel(data->path);
+	ft_sstrdel(data->env);
 }

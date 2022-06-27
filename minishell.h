@@ -59,10 +59,6 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	char	**path;
-	char	**envp;
-	char	**commands;
-	char	**redirections;
-	char	**metachars;
 	char	**env;
 	int		status;
 	t_cmd	*cmd;
