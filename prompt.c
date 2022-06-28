@@ -19,6 +19,8 @@ void	display_prompt(t_data *data)
 	t_ast	*ast;
 
 	line = readline(PROMPT);
+	cmd = NULL;
+	ast = NULL;
 	while (line)
 	{
 		if (*line)
@@ -26,8 +28,7 @@ void	display_prompt(t_data *data)
 			add_history(line);
 			cmd = parser(data, line);
 			ast = tokenizer(cmd, ast);
-			ft_printf("Command = |%s|\n", cmd);
-			if (ft_strncmp(line, "exit ", 5) == 0)
+			if (ft_strncmp(cmd, "exit", 4) == 0 && (cmd[4] == ' ' || cmd[4] == 0))
 				ft_exit(data, line, cmd, ast);
 			else if (ft_strncmp(cmd, "echo ", 5) == 0)
 				ft_echo(data, cmd);

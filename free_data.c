@@ -56,6 +56,8 @@ void	free_ast(t_ast *ast)
 	t_node	*it;
 	t_node	*tmp;
 
+	if (!ast)
+		return ;
 	it = ast->root;
 	while (it)
 	{

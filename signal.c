@@ -53,7 +53,6 @@ void	ignore_handler(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-
 /*
 * -------------------------
 * Function: create_handler

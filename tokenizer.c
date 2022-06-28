@@ -1,5 +1,20 @@
 #include "minishell.h"
 
+int	fill_ast(t_ast *ast, int size)
+{
+	t_node	*it;
+
+	ast->root = new_node(PIPE, NULL);
+	it = ast->root;
+	size--;
+	while (size--)
+	{
+		add_right(it, new_node(PIPE, NULL));
+		it = it->right;
+	}
+	return (size);
+}
+
 /*
 * -------------------------
 * Function: tokenizer
@@ -27,24 +42,22 @@ t_ast	*tokenizer(char *cmd, t_ast *ast)
 		return (NULL);
 	pipe = ft_split(cmd, '|');
 	if (!pipe)
-	{
-		free(ast);
-		return (NULL);
-	}
+		return (free(ast), NULL);
 	size = 0;
 	while (pipe[size])
 		size++;
 	if (size > 1)
-	{
-		ast->root = new_node(PIPE, NULL);
+		size = fill_ast(ast, size);
+	//{
+		/*ast->root = new_node(PIPE, NULL);
 		it = ast->root;
 		size--;
 		while (size--)
 		{
 			add_right(it, new_node(PIPE, NULL));
 			it = it->right;
-		}
-	}
+		}*/
+	//}
 	if (size == 1)
 	{
 		ast->root = new_node(COMMAND, get_content(pipe[0]));
