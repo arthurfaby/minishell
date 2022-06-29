@@ -19,6 +19,8 @@ void	display_prompt(t_data *data)
 	t_ast	*ast;
 
 	line = readline(PROMPT);
+	cmd = NULL;
+	ast = NULL;
 	while (line)
 	{
 		if (*line)
