@@ -90,8 +90,6 @@ void	create_handler(void);
 void	delete_handler(void);
 void	ignore_handler(void);
 
-// tokenizer.c
-t_ast	*tokenizer(char *cmd, t_ast *ast);
 
 // init.c
 int		init_data(t_data *data, char **envp);
@@ -119,12 +117,17 @@ void	add_left(t_node *node, t_node *new);
 void	add_right(t_node *node, t_node *new);
 
 // tokenizer.c
+int		fill_ast(t_ast *ast, int size);
+t_ast	*set_unique_cmd(t_ast *ast, char **pipe);
+void	set_multi_cmd(t_ast *ast, char **pipe);
+void	split_args_redirect(t_ast *ast);
 t_ast	*tokenizer(char *cmd, t_ast *ast);
 
 // tokenizer_utils.c
+char	**free_before(char **args, int size);
+void	free_trio(char **split, char **args, char **redirect);
 char	**get_split_args(char **split, char **args);
 char	**get_split_redirect(char **split, char **redirect);
-void	split_args_redirect(t_ast *ast);
 char	**get_content(char *str);
 
 // ft_unset.c

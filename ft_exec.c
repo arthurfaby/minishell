@@ -295,7 +295,6 @@ void	ft_exec(t_data *data, t_ast *ast)
 		if (cmd->pids[0] == 0)
 			simple_child(cmd);
 		waitpid(cmd->pids[0], &data->status, 0);
-		ft_printf("ERROR CODE : %d\n", WSTOPSIG(data->status));
 		message_signal(data->status);
 		create_handler();
 		return ;
