@@ -224,6 +224,33 @@ int	get_redirect(t_cmd *cmd)
 
 /*
 * -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+t_builtins	get_builtins(t_cmd *cmd)
+{
+	int	index;
+
+	index = 0;
+	while (cmd->data->builtins[index].name
+		&& !ft_strstr(cmd->data->builtins[index].name,
+			cmd->node->right->value[0]))
+		index++;
+	return (cmd->data->builtins[index]);
+}
+
+/*
+* -------------------------
 * Function: simple_child
 * ------------------------- 
 *
@@ -239,8 +266,9 @@ int	get_redirect(t_cmd *cmd)
 // if <<EOF then read till EOF even if not last infile
 void	simple_child(t_cmd *cmd)
 {
-	int		ret;
-	char	*cmd_path;
+	int			ret;
+	char		*cmd_path;
+	t_builtins	builtin;
 
 	delete_handler();
 	if (cmd->node->left->value)
@@ -253,6 +281,12 @@ void	simple_child(t_cmd *cmd)
 		dup2(cmd->infile, 0);
 	if (cmd->outfile >= 0)
 		dup2(cmd->outfile, 1);
+	builtin = get_builtins(cmd);
+	if (builtin.name)//join every part of value to a single string
+	{
+		builtin.builtin(cmd->data, cmd->node->right->value[0]);
+		exit(cmd->data->status);
+	}
 	cmd_path = get_cmd(cmd);
 	if (!cmd_path)
 	{

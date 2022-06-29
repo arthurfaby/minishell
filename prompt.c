@@ -26,22 +26,22 @@ void	display_prompt(t_data *data)
 			add_history(line);
 			cmd = parser(data, line);
 			ast = tokenizer(cmd, ast);
-			ft_printf("Command = |%s|\n", cmd);
-			if (ft_strncmp(line, "exit ", 5) == 0)
+			if (!ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, " exit")
+				|| !ft_strncmp(cmd, " exit ", 6) || !ft_strncmp(cmd, "exit ", 5))
 				ft_exit(data, line, cmd, ast);
-			else if (ft_strncmp(cmd, "echo ", 5) == 0)
+			/*else if (!ft_strncmp(cmd, "echo ", 5))
 				ft_echo(data, cmd);
-			else if (ft_strncmp(cmd, "cd ", 3) == 0)
+			else if (!ft_strncmp(cmd, "cd ", 3))
 				ft_cd(data, cmd);
-			else if (ft_strncmp(cmd, "pwd ", 4) == 0)
-				ft_pwd(data);
-			else if (ft_strcmp(cmd, "env") == 0)
-				ft_env(data);
-			else if (ft_strncmp(cmd, "export ", 7) == 0)
+			else if (!ft_strncmp(cmd, "pwd ", 4))
+				ft_pwd(data, cmd);
+			else if (!ft_strcmp(cmd, "env"))
+				ft_env(data, cmd);
+			else if (!ft_strncmp(cmd, "export ", 7))
 				ft_export(data, cmd);
-			else if (ft_strncmp(line, "unset ", 6) == 0)
+			else if (!ft_strncmp(line, "unset ", 6))
 				ft_unset(data, cmd);
-			else
+			else*/
 				ft_exec(data, ast);
 			free(cmd);
 			cmd = NULL;

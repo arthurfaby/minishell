@@ -51,10 +51,11 @@ int	parse_env(t_data *data, char **envp)
 *
 * -------------------------
 */
-void	ft_env(t_data *data)
+void	ft_env(t_data *data, char *cmd)
 {
 	int	i;
 
+	(void)cmd;
 	i = 0;
 	while (data->env[i])
 	{

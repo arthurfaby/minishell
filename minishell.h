@@ -13,6 +13,7 @@
 
 # define CMD_NOT_FOUND "minishell: command not found\n"
 # define PROMPT "\e[48;5;25m\e[38;5;226m minishell ➔ \e[0m "
+# define BUILTINS " echo cd pwd export unset env exit "
 
 enum e_types {
 	PIPE,
@@ -56,12 +57,19 @@ typedef struct s_cmd
 	int		nb_cmd;
 }			t_cmd;
 
+typedef struct s_builtins
+{
+	char	*name;
+	void	(*builtin)(t_data *data, char *cmd);
+}			t_builtins;
+
 typedef struct s_data
 {
-	char	**path;
-	char	**env;
-	int		status;
-	t_cmd	*cmd;
+	char		**path;
+	char		**env;
+	int			status;
+	t_cmd		*cmd;
+	t_builtins	*builtins;
 }				t_data;
 
 // minishell.c
@@ -95,7 +103,7 @@ int		init_data(t_data *data, char **envp);
 
 // env.c
 int		parse_env(t_data *data, char **envp);
-void	ft_env(t_data *data);
+void	ft_env(t_data *data, char *cmd);
 
 // env_utils.c
 int		check_env_dup(t_data *data, char *str);
@@ -144,6 +152,7 @@ void	open_pipe(t_cmd *cmd);
 void	close_pipe(t_cmd *cmd, int id);
 void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd);
 void	ft_exec(t_data *data, t_ast *ast);
+t_builtins	get_builtins(t_cmd *cmd);
 
 // ft_exec_utils.c
 void	first_child(t_cmd *cmd);
@@ -154,7 +163,7 @@ void	last_child(t_cmd *cmd);
 void	ft_cd(t_data *data, char *path);
 
 // ft_pwd.c
-void	ft_pwd(t_data *data);
+void	ft_pwd(t_data *data, char *cmd);
 
 // ft_exit.c
 void	ft_exit(t_data *data, char *line, char *cmd, t_ast *ast);
