@@ -1,70 +1,7 @@
 #include "minishell.h"
 
-int	check_arg_exit(char *arg)
+void	free_ft_exit(t_data *data, char *line, char *cmd, t_ast *ast)
 {
-	int	i;
-
-	i = 0;
-	while (arg[i])
-	{
-		if (!(arg[i] >= '0' && arg[i] <= '9'))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	check_error_exit(t_data *data, char *cmd)
-{
-	char	**args;
-	int		j;
-	int		ret;
-
-	ret = -1;
-	j = -1;
-	args = ft_split(cmd, ' ');
-	if (!args || !*args)
-		return (free(args), data->status);
-	while (args[++j])
-	{
-		if (j >= 1)
-		{
-			ft_putstr_fd("minishell: exit: too many arguments.\n", 2);
-			ft_sstrdel(args);
-			return (-1);
-		}
-		if (!check_arg_exit(args[j]))
-		{	
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(args[j], 2);
-			ft_putstr_fd(": numeric argument required.\n", 2);
-			ret = 2;
-			break;
-		}
-	}
-	if (ret == -1)
-		ret = (short int)ft_atoi(args[0]);
-	ft_sstrdel(args);
-	return (ret);
-		
-}
-
-void	ft_exit(t_data *data, char *line, char *cmd, t_ast *ast)
-{
-	int	i;
-	int	ret;
-
-	i = 0;
-	while (ft_iswhitespace(cmd[i]))
-		i++;
-	i += 4;
-	ft_putstr_fd("exit\n", 2);
-	ret = check_error_exit(data, cmd + i);
-	if (ret == -1)
-	{
-		data->status = 1;
-		return ;
-	}
 	free(line);
 	line = NULL;
 	free(cmd);
@@ -72,5 +9,56 @@ void	ft_exit(t_data *data, char *line, char *cmd, t_ast *ast)
 	free_ast(ast);
 	ast = NULL;
 	free_data(data);
-	exit(ret);	
+	rl_clear_history();
+}
+
+int	isnumeric(char *arg)
+{
+	int	i;
+
+	i = -1;
+	while (arg[++i])
+		if (!ft_isdigit(arg[i]))
+			return (0);
+	return (1);
+}
+
+int	size_split(char **split)
+{
+	int	i;
+
+	i = 0;
+	while (split[i])
+		i++;
+	return (i);
+}
+
+void	ft_exit(t_data *data, char *line, char *cmd, t_ast *ast)
+{
+	int	i;
+	int	ret;
+	char	**split;
+
+	ret = data->status;
+	split = ft_split(cmd, ' ');
+	i = size_split(split);
+	if (i != 1)
+	{
+		if (!isnumeric(split[1]))
+		{//redirect printf on stderr (2)
+			ft_printf("exit\nminishell: exit: %s: numeric argument required\n", split[1]);
+			ret = 2;
+		}
+		else if (i > 2)
+		{
+			ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
+			ft_sstrdel(split);
+			return ;
+		}
+		else
+			ret = ft_atoi(split[1]);
+	}
+	free_ft_exit(data, line, cmd, ast);
+	ft_sstrdel(split);
+	exit(ret);
 }

@@ -24,6 +24,7 @@ SRCS			= \
 				tokenizer_utils.c \
 				tree.c \
 				ft_exec.c \
+				ft_exec_utils.c \
 				ft_exit.c \
 				\
 

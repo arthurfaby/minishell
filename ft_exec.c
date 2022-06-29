@@ -49,41 +49,6 @@ char	*get_cmd(t_cmd *cmd)
 
 /*
 * -------------------------
-* Function: 
-* ------------------------- 
-*
-*
-*
-* Params:
-*
-*
-* Returns:
-*
-*
-* -------------------------
-*/
-/*void	fill_docfile(char **argv)
-{
-	char	*line;
-	int		heredoc;
-
-	heredoc = open("heredoc", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
-	if (heredoc < 0)
-		ft_err_msg(strerror(errno));
-	write(1, "pipe heredoc>", 13);
-	line = get_next_line(0);
-	while (ft_strncmp(argv[2], line, ft_strlen(argv[2]))
-		|| line[ft_strlen(argv[2])] != '\n')
-	{
-		write(heredoc, line, ft_strlen(line));
-		write(1, "pipe heredoc>", 13);
-		line = get_next_line(0);
-	}
-	close(heredoc);
-}*/
-
-/*
-* -------------------------
 * Function: get_number_pipe
 * ------------------------- 
 *
@@ -137,12 +102,50 @@ t_cmd	*init_cmd(t_data *data)
 		return (NULL);
 	cmd->infile = -1;
 	cmd->outfile = -1;
-	//cmd->pipe = NULL;
+	cmd->pipe = NULL;
 	cmd->pids = NULL;
 	cmd->id = -1;
 	cmd->data = data;
 	cmd->node = NULL;
+	cmd->nb_cmd = 0;
 	return (cmd);
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	fill_docfile(char *eof)
+{
+	char	*line;
+	int		heredoc;
+
+	heredoc = open("heredoc", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+	if (heredoc < 0)
+		return ;// open error + free clean
+	write(1, "heredoc> ", 9);
+	line = get_next_line(0);
+	while (ft_strncmp(eof, line, ft_strlen(eof))
+		|| line[ft_strlen(eof)] != '\n')
+	{
+		write(heredoc, line, ft_strlen(line));
+		free(line);
+		write(1, "heredoc> ", 9);
+		line = get_next_line(0);
+	}
+	free(line);
+	close(heredoc);
 }
 
 /*
@@ -171,8 +174,15 @@ int	get_redirect(t_cmd *cmd)
 		if (cmd->node->left->value[index][0] == '<'
 			&& cmd->node->left->value[index][1] == '<')
 		{
-			//Here_doc
-			return (1);
+			if (cmd->infile >= 0)
+				close(cmd->infile);
+			fill_docfile(cmd->node->left->value[index] + 2);
+			cmd->infile = open("heredoc", O_RDONLY);
+			if (cmd->infile < 0)
+			{
+				perror(strerror(errno));
+				return (1);
+			}
 		}
 		else if (cmd->node->left->value[index][0] == '<')
 		{
@@ -214,6 +224,33 @@ int	get_redirect(t_cmd *cmd)
 
 /*
 * -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+t_builtins	get_builtins(t_cmd *cmd)
+{
+	int	index;
+
+	index = 0;
+	while (cmd->data->builtins[index].name
+		&& !ft_strstr(cmd->data->builtins[index].name,
+			cmd->node->right->value[0]))
+		index++;
+	return (cmd->data->builtins[index]);
+}
+
+/*
+* -------------------------
 * Function: simple_child
 * ------------------------- 
 *
@@ -229,8 +266,9 @@ int	get_redirect(t_cmd *cmd)
 // if <<EOF then read till EOF even if not last infile
 void	simple_child(t_cmd *cmd)
 {
-	int		ret;
-	char	*cmd_path;
+	int			ret;
+	char		*cmd_path;
+	t_builtins	builtin;
 
 	delete_handler();
 	if (cmd->node->left->value)
@@ -243,13 +281,189 @@ void	simple_child(t_cmd *cmd)
 		dup2(cmd->infile, 0);
 	if (cmd->outfile >= 0)
 		dup2(cmd->outfile, 1);
+	builtin = get_builtins(cmd);
+	if (builtin.name)//join every part of value to a single string
+	{
+		builtin.builtin(cmd->data, cmd->node->right->value[0]);
+		exit(cmd->data->status);
+	}
 	cmd_path = get_cmd(cmd);
 	if (!cmd_path)
 	{
 		perror(CMD_NOT_FOUND);
 		exit(-1);
 	}
-	execve(cmd_path, cmd->node->right->value, cmd->data->envp);
+	execve(cmd_path, cmd->node->right->value, cmd->data->env);
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	open_pipe(t_cmd *cmd)
+{
+	int	index;
+
+	index = -1;
+	while (++index < cmd->nb_cmd - 1)
+	{
+		cmd->pipe[index] = malloc(sizeof(int) * 2);
+		if (!cmd->pipe[index])
+			return ;// malloc error free clean
+		if (pipe(cmd->pipe[index]) < 0)
+			return ;// Error opening pipe + free clean
+	}
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	close_pipe(t_cmd *cmd, int id)
+{
+	int	index;
+
+	index = -1;
+	while (++index < cmd->nb_cmd - 1)
+	{
+		if (id == 0 && index == 0)
+			close(cmd->pipe[index][0]);
+		else if (id == cmd->nb_cmd - 1 && index == cmd->nb_cmd - 2)
+			close(cmd->pipe[index][1]);
+		else if (id == 0 || id == cmd->nb_cmd - 1)
+		{
+			close(cmd->pipe[index][0]);
+			close(cmd->pipe[index][1]);
+		}
+		else if (index == id - 1)
+			close(cmd->pipe[index][1]);
+		else if (index == id)
+			close(cmd->pipe[index][0]);
+		else
+		{
+			close(cmd->pipe[index][0]);
+			close(cmd->pipe[index][1]);
+		}
+	}
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
+{
+	// get number of commands
+	// create number oof commands - 1 pipe
+	// launch childs process
+	// close every pipe
+	t_node	*it;
+	int		index;
+	int		ret;
+
+	it = ast->root;
+	while (it)
+	{
+		cmd->nb_cmd++;
+		it = it->right;
+	}
+	cmd->pids = malloc(sizeof(pid_t) * cmd->nb_cmd);
+	if (!cmd->pids)
+		return ; // free clean
+	cmd->pipe = malloc(sizeof(int *) * cmd->nb_cmd - 1);
+	if (!cmd->pipe)
+		return ; // free clean
+	open_pipe(cmd);
+	it = ast->root;
+	index = -1;
+	while (++index < cmd->nb_cmd)
+	{
+		cmd->node = it->left;
+		cmd->id = index;
+		if (cmd->node->left->value)
+		{
+			ret = get_redirect(cmd);
+			if (ret == 1)
+			{
+				create_handler();
+				return ;// Error redirect +free clean
+			}
+		}
+		cmd->pids[index] = fork();
+		if (cmd->pids[index] < 0)
+			return ; // Error fork + free clean
+		else if (index == 0 && cmd->pids[index] == 0)
+			first_child(cmd);
+		else if (index == cmd->nb_cmd - 1 && cmd->pids[index] == 0)
+			last_child(cmd);
+		else if (cmd->pids[index] == 0)
+			mid_child(cmd);
+		it = it->right;
+	}
+	close_pipe(cmd, -42);
+	index = -1;
+	while (++index < cmd->nb_cmd)
+		waitpid(cmd->pids[index], &cmd->data->status, 0);
+	// if << in redirect then unlink
+	unlink("heredoc");
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	free_pipe(t_cmd *cmd)
+{
+	int	index;
+
+	index = -1;
+	while (++index < cmd->nb_cmd - 1)
+		free(cmd->pipe[index]);
+	free(cmd->pipe);
 }
 
 /*
@@ -267,13 +481,6 @@ void	simple_child(t_cmd *cmd)
 */
 void	ft_exec(t_data *data, t_ast *ast)
 {
-	// Parcourir l'arbre for each command
-	// nb_pipe +1 for each pipe
-	// init pipe
-	// malloc pid_t pids[nb_command]
-	// fork childs
-	// close properly unused pipe
-	// waitpids
 	t_cmd	*cmd;
 	t_node	*it;
 
@@ -296,14 +503,16 @@ void	ft_exec(t_data *data, t_ast *ast)
 			simple_child(cmd);
 		waitpid(cmd->pids[0], &data->status, 0);
 		message_signal(data->status);
+		free(cmd->pids);
+		free(cmd);
 		create_handler();
 		return ;
 	}
-	//while (it)
-	//{
-		// Multiple command with pipe
-	//	it = it->right;
-	//}
+	// Multiple command with pipe
+	ignore_handler();
+	exec_multiple_cmd(ast, cmd);
+	free_pipe(cmd);
 	free(cmd->pids);
 	free(cmd);
+	create_handler();
 }

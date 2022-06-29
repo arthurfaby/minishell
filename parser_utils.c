@@ -63,7 +63,6 @@ char	*spaces_redirections(char *cmd)
 		}
 	}
 	res = malloc(sizeof(char) * (size + 1));
-	res[size] = '\0';
 	index = -1;
 	while (cmd[++index])
 	{
@@ -93,6 +92,7 @@ char	*spaces_redirections(char *cmd)
 	}
 	free(cmd);
 	cmd = NULL;
+	res[size] = '\0';
 	return (res);
 }
 
