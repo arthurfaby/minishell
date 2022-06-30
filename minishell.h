@@ -157,6 +157,9 @@ void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd);
 void	ft_exec(t_data *data, t_ast *ast);
 t_builtins	get_builtins(t_cmd *cmd);
 char	*join_cmd(char **value, char *cmd);
+void	command_not_found(t_cmd *cmd);
+void	redirect_check(t_cmd *cmd);
+void	exec_builtin(t_cmd *cmd, t_builtins builtin);
 
 // ft_exec_utils.c
 void	first_child(t_cmd *cmd);
