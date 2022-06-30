@@ -31,7 +31,7 @@ char	*get_cmd(t_cmd *cmd)
 		return (NULL);
 	while (path[++index])
 	{
-		tmp = ft_strjoin(cmd->data->path[index], "/");
+		tmp = ft_strjoin(path[index], "/");
 		cmd_tmp = ft_strjoin(tmp, cmd->node->right->value[0]);
 		free(tmp);
 		tmp = NULL;
@@ -131,17 +131,17 @@ void	fill_docfile(char *eof)
 	char	*line;
 	int		heredoc;
 
-	heredoc = open("heredoc", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+	heredoc = open("heredoc", O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 	if (heredoc < 0)
 		return ;// open error + free clean
-	write(1, "heredoc> ", 9);
+	write(1, "> ", 2);
 	line = get_next_line(0);
 	while (ft_strncmp(eof, line, ft_strlen(eof))
 		|| line[ft_strlen(eof)] != '\n')
 	{
 		write(heredoc, line, ft_strlen(line));
 		free(line);
-		write(1, "heredoc> ", 9);
+		write(1, "> ", 2);
 		line = get_next_line(0);
 	}
 	free(line);
@@ -290,9 +290,14 @@ void	simple_child(t_cmd *cmd)
 	cmd_path = get_cmd(cmd);
 	if (!cmd_path)
 	{
-		perror(CMD_NOT_FOUND);
+		ft_putstr_fd(cmd->node->right->value[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit(-1);
 	}
+	if (cmd->infile >= 0)
+		close(cmd->infile);
+	if (cmd->outfile >= 0)
+		close(cmd->outfile);
 	execve(cmd_path, cmd->node->right->value, cmd->data->env);
 }
 
@@ -436,7 +441,10 @@ void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
 	close_pipe(cmd, -42);
 	index = -1;
 	while (++index < cmd->nb_cmd)
+	{
 		waitpid(cmd->pids[index], &cmd->data->status, 0);
+		message_signal(cmd->data->status);
+	}
 	// if << in redirect then unlink
 	unlink("heredoc");
 }

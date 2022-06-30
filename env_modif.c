@@ -38,7 +38,7 @@ int	add_env(t_data *data, char *str)
 	}
 	new_env[i++] = ft_strdup(str);
 	new_env[i] = NULL;
-	free_env(data);
+	ft_sstrdel(data->env);
 	data->env = new_env;
 	return (0);
 }
@@ -79,7 +79,7 @@ void	remove_env(t_data *data, char *name)
 		i++;
 	}
 	new_env[i - found] = NULL;
-	free_env(data);
+	ft_sstrdel(data->env);
 	data->env = new_env;
 }
 

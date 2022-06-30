@@ -34,9 +34,12 @@ void	first_child(t_cmd *cmd)
 	cmd_path = get_cmd(cmd);
 	if (!cmd_path)
 	{
-		perror(CMD_NOT_FOUND);
+		ft_putstr_fd(cmd->node->right->value[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit(-1);
 	}
+	if (cmd->infile >= 0)
+		close(cmd->infile);
 	execve(cmd_path, cmd->node->right->value, cmd->data->env);
 }
 
@@ -74,7 +77,8 @@ void	mid_child(t_cmd *cmd)
 	cmd_path = get_cmd(cmd);
 	if (!cmd_path)
 	{
-		perror(CMD_NOT_FOUND);
+		ft_putstr_fd(cmd->node->right->value[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit(-1);
 	}
 	execve(cmd_path, cmd->node->right->value, cmd->data->env);
@@ -115,8 +119,11 @@ void	last_child(t_cmd *cmd)
 	cmd_path = get_cmd(cmd);
 	if (!cmd_path)
 	{
-		perror(CMD_NOT_FOUND);
+		ft_putstr_fd(cmd->node->right->value[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit(-1);
 	}
+	if (cmd->outfile >= 0)
+		close(cmd->outfile);
 	execve(cmd_path, cmd->node->right->value, cmd->data->env);
 }
