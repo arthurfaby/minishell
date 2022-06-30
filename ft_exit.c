@@ -20,6 +20,7 @@ int	isnumeric(char *arg)
 	while (arg[++i])
 		if (!ft_isdigit(arg[i]))
 			return (0);
+	// ATOLLLLLLL check 9223372036854775807
 	return (1);
 }
 
@@ -60,5 +61,6 @@ void	ft_exit(t_data *data, char *line, char *cmd, t_ast *ast)
 	}
 	free_ft_exit(data, line, cmd, ast);
 	ft_sstrdel(split);
+	ft_putstr_fd("exit\n", 2);
 	exit(ret);
 }

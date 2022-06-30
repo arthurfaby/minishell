@@ -81,32 +81,6 @@ void	free_ast(t_ast *ast)
 
 /*
 * -------------------------
-* Function: free_env
-* ------------------------- 
-*
-*	free env value in data struct
-*
-* Params:
-*	t_data *data	: data struct
-*
-* -------------------------
-*/
-void	free_env(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->env[i])
-	{
-		free(data->env[i]);
-		data->env[i] = NULL;
-		i++;
-	}
-	free(data->env);
-}
-
-/*
-* -------------------------
 * Function: free_data
 * ------------------------- 
 *
@@ -119,7 +93,6 @@ void	free_env(t_data *data)
 */
 void	free_data(t_data *data)
 {
-	//free_env(data);
-	ft_sstrdel(data->path);
 	ft_sstrdel(data->env);
+	free(data->builtins);
 }

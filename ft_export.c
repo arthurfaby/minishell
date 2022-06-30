@@ -31,7 +31,9 @@ void	ft_export(t_data *data, char *line)
 {
 	while (ft_iswhitespace(*line))
 		line++;
-	line += 7;
+	line += 6;
+	while (ft_iswhitespace(*line))
+		line++;
 	if (!check_line_export(line))
 		return ;
 	add_env(data, line);

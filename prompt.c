@@ -31,7 +31,7 @@ void	display_prompt(t_data *data)
 			if (!ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, " exit")
 				|| !ft_strncmp(cmd, " exit ", 6) || !ft_strncmp(cmd, "exit ", 5))
 				ft_exit(data, line, cmd, ast);
-			/*else if (!ft_strncmp(cmd, "echo ", 5))
+			else if (!ft_strncmp(cmd, "echo ", 5))
 				ft_echo(data, cmd);
 			else if (!ft_strncmp(cmd, "cd ", 3))
 				ft_cd(data, cmd);
@@ -43,7 +43,7 @@ void	display_prompt(t_data *data)
 				ft_export(data, cmd);
 			else if (!ft_strncmp(line, "unset ", 6))
 				ft_unset(data, cmd);
-			else*/
+			else
 				ft_exec(data, ast);
 			free(cmd);
 			cmd = NULL;

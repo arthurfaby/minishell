@@ -13,7 +13,6 @@
 
 # define CMD_NOT_FOUND "minishell: command not found\n"
 # define PROMPT "\e[48;5;25m\e[38;5;226m minishell ➔ \e[0m "
-# define BUILTINS " echo cd pwd export unset env exit "
 
 enum e_types {
 	PIPE,
@@ -65,7 +64,6 @@ typedef struct s_builtins
 
 typedef struct s_data
 {
-	char		**path;
 	char		**env;
 	int			status;
 	t_cmd		*cmd;
