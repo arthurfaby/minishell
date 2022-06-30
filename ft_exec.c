@@ -34,14 +34,12 @@ char	*get_cmd(t_cmd *cmd)
 		tmp = ft_strjoin(path[index], "/");
 		cmd_tmp = ft_strjoin(tmp, cmd->node->right->value[0]);
 		free(tmp);
-		tmp = NULL;
 		if (access(cmd_tmp, F_OK | X_OK) == 0)
 		{
 			ft_sstrdel(path);
 			return (cmd_tmp);
 		}
 		free(cmd_tmp);
-		cmd_tmp = NULL;
 	}
 	ft_sstrdel(path);
 	return (NULL);
@@ -95,7 +93,7 @@ int	get_number_pipe(t_ast *ast)
 */
 t_cmd	*init_cmd(t_data *data)
 {
-	t_cmd *cmd;
+	t_cmd	*cmd;
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
@@ -126,14 +124,14 @@ t_cmd	*init_cmd(t_data *data)
 *
 * -------------------------
 */
-void	fill_docfile(char *eof)
+int	fill_docfile(char *eof)
 {
 	char	*line;
 	int		heredoc;
 
 	heredoc = open("heredoc", O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 	if (heredoc < 0)
-		return ;// open error + free clean
+		return (0);
 	write(1, "> ", 2);
 	line = get_next_line(0);
 	while (ft_strncmp(eof, line, ft_strlen(eof))
@@ -146,6 +144,97 @@ void	fill_docfile(char *eof)
 	}
 	free(line);
 	close(heredoc);
+	return (1);
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+int	get_input_redirect(t_cmd *cmd, int index)
+{
+	if (cmd->node->left->value[index][0] == '<'
+		&& cmd->node->left->value[index][1] == '<')
+	{
+		if (cmd->infile >= 0)
+			close(cmd->infile);
+		if (!fill_docfile(cmd->node->left->value[index] + 2))
+			return (1);
+		cmd->infile = open("heredoc", O_RDONLY);
+		if (cmd->infile < 0)
+		{
+			perror(strerror(errno));
+			return (1);
+		}
+	}
+	else if (cmd->node->left->value[index][0] == '<')
+	{
+		if (cmd->infile >= 0)
+			close(cmd->infile);
+		cmd->infile = open(&cmd->node->left->value[index][1], O_RDONLY);
+		if (cmd->infile < 0)
+		{
+			perror(strerror(errno));
+			return (1);
+		}
+	}
+	return (0);
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+int	get_output_redirect(t_cmd *cmd, int index)
+{
+	if (cmd->node->left->value[index][0] == '>'
+		&& cmd->node->left->value[index][1] == '>')
+	{
+		if (cmd->outfile >= 0)
+			close(cmd->outfile);
+		cmd->outfile = open(&cmd->node->left->value[index][2],
+				O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR);
+		if (cmd->outfile < 0)
+		{
+			perror(strerror(errno));
+			return (1);
+		}
+	}
+	else if (cmd->node->left->value[index][0] == '>')
+	{
+		if (cmd->outfile >= 0)
+			close(cmd->outfile);
+		cmd->outfile = open(&cmd->node->left->value[index][1],
+				O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
+		if (cmd->outfile < 0)
+		{
+			perror(strerror(errno));
+			return (1);
+		}
+	}
+	return (0);
 }
 
 /*
@@ -171,53 +260,10 @@ int	get_redirect(t_cmd *cmd)
 	index = -1;
 	while (cmd->node->left->value[++index])
 	{
-		if (cmd->node->left->value[index][0] == '<'
-			&& cmd->node->left->value[index][1] == '<')
-		{
-			if (cmd->infile >= 0)
-				close(cmd->infile);
-			fill_docfile(cmd->node->left->value[index] + 2);
-			cmd->infile = open("heredoc", O_RDONLY);
-			if (cmd->infile < 0)
-			{
-				perror(strerror(errno));
-				return (1);
-			}
-		}
-		else if (cmd->node->left->value[index][0] == '<')
-		{
-			if (cmd->infile >= 0)
-				close(cmd->infile);
-			cmd->infile = open(&cmd->node->left->value[index][1], O_RDONLY);
-			if (cmd->infile < 0)
-			{
-				perror(strerror(errno));
-				return (1);
-			}
-		}
-		else if (cmd->node->left->value[index][0] == '>'
-			&& cmd->node->left->value[index][1] == '>')
-		{
-			if (cmd->outfile >= 0)
-				close(cmd->outfile);
-			cmd->outfile = open(&cmd->node->left->value[index][2], O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR);
-			if (cmd->outfile < 0)
-			{
-				perror(strerror(errno));
-				return (1);
-			}
-		}
-		else if (cmd->node->left->value[index][0] == '>')
-		{
-			if (cmd->outfile >= 0)
-				close(cmd->outfile);
-			cmd->outfile = open(&cmd->node->left->value[index][1], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
-			if (cmd->outfile < 0)
-			{
-				perror(strerror(errno));
-				return (1);
-			}
-		}
+		if (get_input_redirect(cmd, index))
+			return (1);
+		if (get_output_redirect(cmd, index))
+			return (1);
 	}
 	return (0);
 }
@@ -251,6 +297,49 @@ t_builtins	get_builtins(t_cmd *cmd)
 
 /*
 * -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+char	*join_cmd(char **value, char *cmd)
+{
+	int	index;
+	int	index_str;
+	int	size;
+	int	index_res;
+
+	index = -1;
+	size = 0;
+	while (value[++index])
+		size += ft_strlen(value[index]);
+	size += (index - 1);
+	cmd = malloc(sizeof(char) * (size + 1));
+	if (!cmd)
+		return (NULL);
+	index = -1;
+	index_res = 0;
+	while (value[++index])
+	{
+		index_str = 0;
+		while (value[index][index_str])
+			cmd[index_res++] = value[index][index_str++];
+		cmd[index_res++] = ' ';
+	}
+	cmd[--index_res] = '\0';
+	return (cmd);
+}
+
+/*
+* -------------------------
 * Function: simple_child
 * ------------------------- 
 *
@@ -261,9 +350,6 @@ t_builtins	get_builtins(t_cmd *cmd)
 *
 * -------------------------
 */
-// Check redirect in ordre
-// if infile not found => quit error not found
-// if <<EOF then read till EOF even if not last infile
 void	simple_child(t_cmd *cmd)
 {
 	int			ret;
@@ -274,17 +360,22 @@ void	simple_child(t_cmd *cmd)
 	if (cmd->node->left->value)
 	{
 		ret = get_redirect(cmd);
-		if (ret == 1)//Error redirect : message ?
-			return ;
+		if (ret == 1)
+			exit(-5);// Error code redirection error ?
 	}
 	if (cmd->infile >= 0)
 		dup2(cmd->infile, 0);
 	if (cmd->outfile >= 0)
 		dup2(cmd->outfile, 1);
 	builtin = get_builtins(cmd);
-	if (builtin.name)//join every part of value to a single string
+	if (builtin.name)
 	{
-		builtin.builtin(cmd->data, cmd->node->right->value[0]);
+		cmd_path = NULL;
+		cmd_path = join_cmd(cmd->node->right->value, cmd_path);
+		if (!cmd_path)
+			exit(-2);//error builtin
+		builtin.builtin(cmd->data, cmd_path);
+		free(cmd_path);
 		exit(cmd->data->status);
 	}
 	cmd_path = get_cmd(cmd);
@@ -422,10 +513,7 @@ void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
 		{
 			ret = get_redirect(cmd);
 			if (ret == 1)
-			{
-				create_handler();
-				return ;// Error redirect +free clean
-			}
+				return ;//(-5) Error redirect code ?
 		}
 		cmd->pids[index] = fork();
 		if (cmd->pids[index] < 0)

@@ -146,7 +146,9 @@ void	ft_echo(t_data *data, char *cmd);
 char	*get_cmd(t_cmd *cmd);
 int		get_number_pipe(t_ast *ast);
 t_cmd	*init_cmd(t_data *data);
-void	fill_docfile(char *eof);
+int		fill_docfile(char *eof);
+int		get_input_redirect(t_cmd *cmd, int index);
+int		get_output_redirect(t_cmd *cmd, int index);
 int		get_redirect(t_cmd *cmd);
 void	simple_child(t_cmd *cmd);
 void	open_pipe(t_cmd *cmd);
@@ -154,6 +156,7 @@ void	close_pipe(t_cmd *cmd, int id);
 void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd);
 void	ft_exec(t_data *data, t_ast *ast);
 t_builtins	get_builtins(t_cmd *cmd);
+char	*join_cmd(char **value, char *cmd);
 
 // ft_exec_utils.c
 void	first_child(t_cmd *cmd);
