@@ -397,7 +397,7 @@ void	redirect_check(t_cmd *cmd)
 
 	ret = get_redirect(cmd);
 	if (ret == 1)
-		exit(-5);// Error code redirection ?
+		exit(1);
 }
 
 /*
@@ -460,9 +460,9 @@ void	open_pipe(t_cmd *cmd)
 	while (++index < cmd->nb_cmd - 1)
 	{
 		cmd->pipe[index] = malloc(sizeof(int) * 2);
-		if (!cmd->pipe[index]) // malloc error free clean
+		if (!cmd->pipe[index])
 			return ;
-		if (pipe(cmd->pipe[index]) < 0) // Error opening pipe + free clean
+		if (pipe(cmd->pipe[index]) < 0)
 			return ;
 	}
 }
@@ -537,7 +537,7 @@ void	start_child(t_cmd *cmd, t_node *it)
 		if (cmd->node->left->value)
 			redirect_check(cmd);
 		cmd->pids[index] = fork();
-		if (cmd->pids[index] < 0) // Error fork + free clean
+		if (cmd->pids[index] < 0)
 			return ;
 		else if (index == 0 && cmd->pids[index] == 0)
 			first_child(cmd);
@@ -598,10 +598,10 @@ void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
 
 	get_nb_cmd(ast, cmd);
 	cmd->pids = malloc(sizeof(pid_t) * cmd->nb_cmd);
-	if (!cmd->pids) // free clean
+	if (!cmd->pids)
 		return ;
 	cmd->pipe = malloc(sizeof(int *) * cmd->nb_cmd - 1);
-	if (!cmd->pipe) // free clean
+	if (!cmd->pipe)
 		return ;
 	open_pipe(cmd);
 	it = ast->root;
@@ -667,11 +667,11 @@ void	ft_exec(t_data *data, t_ast *ast)
 	{
 		cmd->node = it;
 		cmd->pids = malloc(sizeof(pid_t));
-		if (!cmd->pids) //free cmd etc
+		if (!cmd->pids)
 			return ;
 		ignore_handler();
 		cmd->pids[0] = fork();
-		if (cmd->pids[0] < 0) //free cmd etc
+		if (cmd->pids[0] < 0)
 			return ;
 		if (cmd->pids[0] == 0)
 			simple_child(cmd);
