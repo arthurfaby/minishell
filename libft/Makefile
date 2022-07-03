@@ -6,7 +6,7 @@
 #    By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/13 20:27:25 by vnaud             #+#    #+#              #
-#    Updated: 2022/06/22 13:48:52 by vnaud            ###   ########.fr        #
+#    Updated: 2022/06/30 10:39:11 by afaby            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,6 +98,8 @@ SRCS			= \
 				libstr/ft_atoi.c \
 				libstr/ft_atoi_base.c \
 				libstr/ft_atol.c \
+				libstr/ft_atoll.c \
+				libstr/ft_atod.c \
 				libstr/ft_itoa.c \
 				libstr/ft_itoa_base.c \
 				libstr/ft_strcat.c \

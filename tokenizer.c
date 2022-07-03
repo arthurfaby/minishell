@@ -103,6 +103,8 @@ void	fill_nodes(t_node *it)
 	split = NULL;
 	args = NULL;
 	redirect = NULL;
+	if (!it)
+		return ;
 	split = ft_split(it->value[0], ' ');
 	args = get_split_args(split, args);
 	redirect = get_split_redirect(split, redirect);

@@ -1,29 +1,47 @@
 #include "minishell.h"
 
-void	free_ft_exit(t_data *data, char *line, char *cmd, t_ast *ast)
-{
-	free(line);
-	line = NULL;
-	free(cmd);
-	cmd = NULL;
-	free_ast(ast);
-	ast = NULL;
-	free_data(data);
-	rl_clear_history();
-}
-
+/*
+* -------------------------
+* Function: isnumeric
+* ------------------------- 
+*
+*	check if an arg is made of digit
+*
+* Params:
+*	char	*arg	: arg to check
+*
+* Returns:
+*	int	(0)			: not numeric
+*	int	(1)			: numeric
+*
+* -------------------------
+*/
 int	isnumeric(char *arg)
 {
-	int	i;
+	int		i;
 
 	i = -1;
 	while (arg[++i])
 		if (!ft_isdigit(arg[i]))
 			return (0);
-	// ATOLLLLLLL check 9223372036854775807
 	return (1);
 }
 
+/*
+* -------------------------
+* Function: size_split
+* ------------------------- 
+*
+*	get size of a split
+*
+* Params:
+*	char	**split	: args of exit
+*
+* Returns:
+*	int				: size of split
+*
+* -------------------------
+*/
 int	size_split(char **split)
 {
 	int	i;
@@ -34,33 +52,75 @@ int	size_split(char **split)
 	return (i);
 }
 
+/*
+* -------------------------
+* Function: check_errors
+* ------------------------- 
+*
+*	check and print errors for exit
+*
+* Params:
+*	char	**split : args of exit
+*	int		i		: size of split
+*
+* Returns:
+*	int (2)			: numeric error
+*	int	(-1)		: too many args error
+*	int				: exit status
+*
+* -------------------------
+*/
+int	check_errors(char **split, int i)
+{
+	if (!isnumeric(split[1]))
+	{
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(split[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		return (2);
+	}
+	else if (i > 2)
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		ft_sstrdel(split);
+		return (-1);
+	}
+	else
+		return (ft_atoi(split[1]));
+}
+
+/*
+* -------------------------
+* Function: ft_exit
+* ------------------------- 
+*
+*	execute exit builtin
+*
+* Params:
+*	t_data	*data	: minishell datas
+*	char	*line	: input line
+*	char	*cmd	: parsed line
+*	t_ast	*ast	: ast
+*
+* -------------------------
+*/
 void	ft_exit(t_data *data, char *line, char *cmd, t_ast *ast)
 {
-	int	i;
-	int	ret;
+	int		i;
+	int		ret;
 	char	**split;
 
 	ret = data->status;
 	split = ft_split(cmd, ' ');
 	i = size_split(split);
+	ft_putstr_fd("exit\n", 2);
 	if (i != 1)
 	{
-		if (!isnumeric(split[1]))
-		{//redirect printf on stderr (2)
-			ft_printf("exit\nminishell: exit: %s: numeric argument required\n", split[1]);
-			ret = 2;
-		}
-		else if (i > 2)
-		{
-			ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
-			ft_sstrdel(split);
+		ret = check_errors(split, i);
+		if (ret == -1)
 			return ;
-		}
-		else
-			ret = ft_atoi(split[1]);
 	}
-	free_ft_exit(data, line, cmd, ast);
+	free_all(data, line, cmd, ast);
 	ft_sstrdel(split);
-	ft_putstr_fd("exit\n", 2);
 	exit(ret);
 }

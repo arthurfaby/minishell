@@ -32,6 +32,5 @@ int	main(int argc, char **argv, char **envp)
 	create_handler();
 	display_prompt(&data);
 	ft_printf("exit\n");
-	free_data(&data);
 	return (0);
 }

@@ -376,7 +376,7 @@ void	command_not_found(t_cmd *cmd)
 {
 	ft_putstr_fd(cmd->node->right->value[0], 2);
 	ft_putstr_fd(": command not found\n", 2);
-	exit(-1);//Error code command not found
+	exit(127);//Error code command not found
 }
 
 /*
@@ -645,6 +645,18 @@ void	free_pipe(t_cmd *cmd)
 	free(cmd->pipe);
 }
 
+void	convert_signal(t_data *data)
+{
+	if (data->status == 256)
+		data->status = 1;
+	else if (data->status == 65280 || data->status == 32512)
+		data->status = 127;
+	else if (data->status == 512)
+		data->status = 2;
+	else if (data->status == 2)
+		data->status = 130;
+}
+
 /*
 * -------------------------
 * Function: ft_exec
@@ -684,6 +696,7 @@ void	ft_exec(t_data *data, t_ast *ast)
 		free(cmd->pids);
 		free(cmd);
 		create_handler();
+		convert_signal(data);
 		return ;
 	}
 	ignore_handler();
@@ -692,4 +705,5 @@ void	ft_exec(t_data *data, t_ast *ast)
 	free(cmd->pids);
 	free(cmd);
 	create_handler();
+	convert_signal(data);
 }
