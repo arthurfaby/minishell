@@ -26,7 +26,7 @@ char	*get_cmd(t_cmd *cmd)
 	if (access(cmd->node->right->value[0], F_OK | X_OK) == 0)
 		return (cmd->node->right->value[0]);
 	index = -1;
-	path = ft_split(get_env_value(cmd->data, "PATH"), ':');
+	path = ft_split(get_env_value("PATH"), ':');
 	if (!path)
 		return (NULL);
 	while (path[++index])
@@ -91,7 +91,7 @@ int	get_number_pipe(t_ast *ast)
 *
 * -------------------------
 */
-t_cmd	*init_cmd(t_data *data)
+t_cmd	*init_cmd(void)
 {
 	t_cmd	*cmd;
 
@@ -352,7 +352,7 @@ void	exec_builtin(t_cmd *cmd, t_builtins builtin)
 	cmd_path = join_cmd(cmd->node->right->value, cmd_path);
 	if (!cmd_path)
 		exit(-2);//error builtin
-	builtin.builtin(cmd->data, cmd_path);
+	builtin.builtin(cmd_path);
 	free(cmd_path);
 	exit(cmd->data->status);
 }
@@ -670,12 +670,12 @@ void	convert_signal(t_data *data)
 *
 * -------------------------
 */
-void	ft_exec(t_data *data, t_ast *ast)
+void	ft_exec(t_ast *ast)
 {
 	t_cmd	*cmd;
 	t_node	*it;
 
-	cmd = init_cmd(data);
+	cmd = init_cmd();
 	if (!cmd || !ast->root)
 		return ;
 	it = ast->root;

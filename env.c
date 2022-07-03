@@ -17,7 +17,7 @@
 *
 * -------------------------
 */
-int	parse_env(t_data *data, char **envp)
+int	parse_env(char **envp)
 {
 	int		i;
 	char	**new_env;
@@ -51,7 +51,7 @@ int	parse_env(t_data *data, char **envp)
 *
 * -------------------------
 */
-void	ft_env(t_data *data, char *cmd)
+void	ft_env(char *cmd)
 {
 	int	i;
 

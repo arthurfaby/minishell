@@ -104,7 +104,7 @@ int	check_errors(char **split, int i)
 *
 * -------------------------
 */
-void	ft_exit(t_data *data, char *line, char *cmd, t_ast *ast)
+void	ft_exit(char *line, char *cmd, t_ast *ast)
 {
 	int		i;
 	int		ret;
@@ -120,7 +120,7 @@ void	ft_exit(t_data *data, char *line, char *cmd, t_ast *ast)
 		if (ret == -1)
 			return ;
 	}
-	free_all(data, line, cmd, ast);
+	free_all(line, cmd, ast);
 	ft_sstrdel(split);
 	exit(ret);
 }

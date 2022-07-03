@@ -13,7 +13,7 @@
 *
 * -------------------------
 */
-void	ft_unset(t_data *data, char *line)
+void	ft_unset(char *line)
 {
 	while (ft_iswhitespace(*line))
 		line++;
@@ -26,5 +26,5 @@ void	ft_unset(t_data *data, char *line)
 		data->status = 1;
 		return ;
 	}
-	remove_env(data, line);
+	remove_env(line);
 }

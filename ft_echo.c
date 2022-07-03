@@ -13,7 +13,7 @@
 *
 * -------------------------
 */
-void	ft_echo(t_data *data, char *cmd)
+void	ft_echo(char *cmd)
 {
 	int	option;
 

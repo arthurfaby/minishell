@@ -27,7 +27,7 @@ int	check_line_export(char *line)
 *
 * -------------------------
 */
-void	ft_export(t_data *data, char *line)
+void	ft_export(char *line)
 {
 	while (ft_iswhitespace(*line))
 		line++;
@@ -36,6 +36,6 @@ void	ft_export(t_data *data, char *line)
 		line++;
 	if (!check_line_export(line))
 		return ;
-	add_env(data, line);
+	add_env(line);
 	data->status = 0;
 }

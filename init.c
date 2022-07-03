@@ -15,7 +15,7 @@
 *
 * -------------------------
 */
-void	init_builtins(t_data *data)
+void	init_builtins(void)
 {
 	data->builtins[0].name = " echo ";
 	data->builtins[0].builtin = ft_echo;
@@ -49,14 +49,17 @@ void	init_builtins(t_data *data)
 *
 * -------------------------
 */
-int	init_data(t_data *data, char **envp)
+int	init_data(char **envp)
 {
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (0);
 	data->env = NULL;
-	parse_env(data, envp);
+	parse_env(envp);
 	data->status = 0;
 	data->builtins = malloc(sizeof(t_builtins) * 7);
 	if (!data->builtins)
 		return (0);
-	init_builtins(data);
+	init_builtins();
 	return (1);
 }

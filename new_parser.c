@@ -1,6 +1,7 @@
 //#include "minishell.h"
 
-void	treat_error_code(
+void	treat_error_code()
+{}
 
 void	treat_dollar(char *res, char *line, int *index, int *index_res)
 {

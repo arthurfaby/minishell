@@ -134,7 +134,7 @@ int	ft_intlen(int n)
 *
 * -------------------------
 */
-int	get_size_cmd(t_data *data, char *line)
+int	get_size_cmd(char *line)
 {
 	int		index;
 	int		size;
@@ -165,7 +165,7 @@ int	get_size_cmd(t_data *data, char *line)
 						while (line[index_tmp] && ft_isalnum(line[index_tmp]))
 							index_tmp++;
 						tmp = ft_substr(line, index, (index_tmp - index));
-						env_value = get_env_value(data, tmp);
+						env_value = get_env_value(tmp);
 						free(tmp);
 						tmp = NULL;
 						size += ft_strlen(env_value);
@@ -207,7 +207,7 @@ int	get_size_cmd(t_data *data, char *line)
 				while (line[index_tmp] && ft_isalnum(line[index_tmp]))
 					index_tmp++;
 				tmp = ft_substr(line, index, (index_tmp - index));
-				env_value = get_env_value(data, tmp);
+				env_value = get_env_value(tmp);
 				free(tmp);
 				tmp = NULL;
 				size += ft_strlen(env_value);
