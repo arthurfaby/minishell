@@ -277,8 +277,11 @@ t_builtins	get_builtins(t_cmd *cmd)
 
 	index = 0;
 	while (cmd->data->builtins[index].name
-		&& !ft_strstr(cmd->data->builtins[index].name,
-			cmd->node->right->value[0]))
+		&& ft_strncmp(cmd->data->builtins[index].name,
+			cmd->node->right->value[0], ft_strlen(cmd->node->right->value[0]))
+		&& ft_strncmp(cmd->data->builtins[index].name + 1,
+			cmd->node->right->value[0],
+			ft_strlen(cmd->node->right->value[0])))
 		index++;
 	return (cmd->data->builtins[index]);
 }
@@ -534,12 +537,13 @@ void	start_child(t_cmd *cmd, t_node *it)
 	{
 		cmd->node = it->left;
 		cmd->id = index;
-		if (cmd->node->left->value)
-			redirect_check(cmd);
 		cmd->pids[index] = fork();
 		if (cmd->pids[index] < 0)
 			return ;
-		else if (index == 0 && cmd->pids[index] == 0)
+		if (cmd->pids[index] == 0)
+			if (cmd->node->left->value)
+				redirect_check(cmd);
+		if (index == 0 && cmd->pids[index] == 0)
 			first_child(cmd);
 		else if (index == cmd->nb_cmd - 1 && cmd->pids[index] == 0)
 			last_child(cmd);
