@@ -21,12 +21,28 @@ void	print_error_cd(char *path)
 	g_data->status = 1;
 }
 
+void	change_directory(DIR *dir, char *path)
+{
+	char	*tmp;
+	char	pwd[2048];
+
+	closedir(dir);
+	chdir(path);
+	getcwd(pwd, 2048);
+	tmp = ft_strjoin("OLDPWD=", get_env_value("PWD"));
+	add_env(tmp);
+	free(tmp);
+	tmp = ft_strjoin("PWD=", pwd);
+	add_env(tmp);
+	free(tmp);
+	tmp = NULL;
+	g_data->status = 0;
+}
+
 void	go_to_home(char *path)
 {
 	DIR		*dir;	
-	char	*tmp;
-	char	pwd[2048];
-	
+
 	if (!path)
 	{
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
@@ -37,20 +53,7 @@ void	go_to_home(char *path)
 	if (errno == ENOENT)
 		print_error_cd(path);
 	else
-	{
-		ft_printf("change to : %s\n", path);
-		closedir(dir);
-		chdir(path);
-		getcwd(pwd, 2048);
-		tmp = ft_strjoin("OLDPWD=", get_env_value("PWD"));
-		add_env(tmp);
-		free(tmp);
-		tmp = ft_strjoin("PWD=", pwd);
-		add_env(tmp);
-		free(tmp);
-		tmp = NULL;
-		g_data->status = 0;
-	}
+		change_directory(dir, path);
 }
 
 /*
@@ -68,14 +71,11 @@ void	go_to_home(char *path)
 */
 void	ft_cd(char *path)
 {
-	char	*tmp;
 	DIR		*dir;
-	char	pwd[2048];
 
 	path += 2;
 	while (*path && ft_iswhitespace(*path))
 		path++;
-	ft_printf("path : |%d|\n", *path);
 	if (!*path)
 		go_to_home(get_env_value("HOME"));
 	else
@@ -84,18 +84,6 @@ void	ft_cd(char *path)
 		if (errno == ENOENT)
 			print_error_cd(path);
 		else
-		{
-			closedir(dir);
-			chdir(path);
-			getcwd(pwd, 2048);
-			tmp = ft_strjoin("OLDPWD=", get_env_value("PWD"));
-			add_env(tmp);
-			free(tmp);
-			tmp = ft_strjoin("PWD=", pwd);
-			add_env(tmp);
-			free(tmp);
-			tmp = NULL;
-			g_data->status = 0;
-		}
+			change_directory(dir, path);
 	}
 }

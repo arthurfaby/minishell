@@ -29,13 +29,19 @@ int	check_line_export(char *line)
 */
 void	ft_export(char *line)
 {
-	while (ft_iswhitespace(*line))
-		line++;
-	line += 6;
-	while (ft_iswhitespace(*line))
-		line++;
-	if (!check_line_export(line))
+	char	**args;
+	int		i;
+
+	args = ft_split(line, ' ');
+	if (!args || !*args)
 		return ;
-	add_env(line);
+	i = 1;
+	while (args[i])
+	{
+		if (check_line_export(args[i]))
+			add_env(args[i]);
+		i++;
+	}
 	g_data->status = 0;
+	ft_sstrdel(args);
 }

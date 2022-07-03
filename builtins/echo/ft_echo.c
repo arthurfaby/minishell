@@ -18,20 +18,21 @@ void	ft_echo(char *cmd)
 	int	option;
 
 	option = 0;
-	while (ft_iswhitespace(*cmd))
+	while (*cmd && ft_iswhitespace(*cmd))
 		cmd++;
-	cmd += 5;
+	cmd += 4;
+	while (*cmd && ft_iswhitespace(*cmd))
+		cmd++;
 	while (ft_strncmp(cmd, "-n", 2) == 0 && (cmd[2] == ' ' || !cmd[2]))
 	{
-		cmd += 3;
+		if (cmd[2] == ' ')
+			cmd += 3;
+		else
+			cmd += 2;
 		option = 1;
 	}
-	if (option)
-		ft_putstr(cmd);
-	else
-	{
-		ft_putstr(cmd);
+	ft_putstr(cmd);
+	if (!option)
 		ft_putchar('\n');
-	}
 	g_data->status = 0;
 }
