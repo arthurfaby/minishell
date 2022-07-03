@@ -17,19 +17,19 @@
 */
 void	init_builtins(void)
 {
-	data->builtins[0].name = " echo ";
-	data->builtins[0].builtin = ft_echo;
-	data->builtins[1].name = " cd ";
-	data->builtins[1].builtin = ft_cd;
-	data->builtins[2].name = " pwd ";
-	data->builtins[2].builtin = ft_pwd;
-	data->builtins[3].name = " export ";
-	data->builtins[3].builtin = ft_export;
-	data->builtins[4].name = " unset ";
-	data->builtins[4].builtin = ft_unset;
-	data->builtins[5].name = " env ";
-	data->builtins[5].builtin = ft_env;
-	data->builtins[6].name = NULL;
+	g_data->builtins[0].name = " echo ";
+	g_data->builtins[0].builtin = ft_echo;
+	g_data->builtins[1].name = " cd ";
+	g_data->builtins[1].builtin = ft_cd;
+	g_data->builtins[2].name = " pwd ";
+	g_data->builtins[2].builtin = ft_pwd;
+	g_data->builtins[3].name = " export ";
+	g_data->builtins[3].builtin = ft_export;
+	g_data->builtins[4].name = " unset ";
+	g_data->builtins[4].builtin = ft_unset;
+	g_data->builtins[5].name = " env ";
+	g_data->builtins[5].builtin = ft_env;
+	g_data->builtins[6].name = NULL;
 }
 
 /*
@@ -51,14 +51,14 @@ void	init_builtins(void)
 */
 int	init_data(char **envp)
 {
-	data = malloc(sizeof(t_data));
-	if (!data)
+	g_data = malloc(sizeof(t_data));
+	if (!g_data)
 		return (0);
-	data->env = NULL;
+	g_data->env = NULL;
 	parse_env(envp);
-	data->status = 0;
-	data->builtins = malloc(sizeof(t_builtins) * 7);
-	if (!data->builtins)
+	g_data->status = 0;
+	g_data->builtins = malloc(sizeof(t_builtins) * 7);
+	if (!g_data->builtins)
 		return (0);
 	init_builtins();
 	return (1);

@@ -20,6 +20,7 @@ void	sig_handler(int sigcode)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_data->status = 130;
 	}
 }
 

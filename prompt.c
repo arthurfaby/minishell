@@ -1,5 +1,42 @@
 #include "minishell.h"
 
+int	check_builtin(char *line, char *cmd, t_ast *ast)
+{
+	if (!ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, " exit")
+		|| !ft_strncmp(cmd, " exit ", 6) || !ft_strncmp(cmd, "exit ", 5))
+		return (ft_exit(line, cmd, ast), 1);
+	else if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, " echo")
+		|| !ft_strncmp(cmd, " echo ", 6) || !ft_strncmp(cmd, "echo ", 5))
+		return (ft_echo(cmd), 1);
+	else if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, " cd")
+		|| !ft_strncmp(cmd, " cd ", 4) || !ft_strncmp(cmd, "cd ", 3))
+		return (ft_cd(cmd), 1);
+	else if (!ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, " pwd")
+		|| !ft_strncmp(cmd, " pwd ", 5) || !ft_strncmp(cmd, "pwd ", 4))
+		return (ft_pwd(cmd), 1);
+	else if (!ft_strcmp(cmd, "env") || !ft_strcmp(cmd, " env")
+		|| !ft_strncmp(cmd, " env ", 5) || !ft_strncmp(cmd, "env ", 4))
+		return (ft_env(cmd), 1);
+	else if (!ft_strcmp(cmd, "export") || !ft_strcmp(cmd, " export")
+		|| !ft_strncmp(cmd, " export ", 8) || !ft_strncmp(cmd, "export ", 7))
+		return (ft_export(cmd), 1);
+	else if (!ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, " unset")
+		|| !ft_strncmp(cmd, " unset ", 7) || !ft_strncmp(cmd, "unset ", 6))
+		return (ft_unset(cmd), 1);
+	return (0);
+}
+
+void	choose_execution(char *line, char *cmd, t_ast **ast)
+{
+	*ast = tokenizer(cmd, *ast);
+	if (!check_builtin(line, cmd, *ast))
+		ft_exec(*ast);
+	free(cmd);
+	cmd = NULL;
+	free_ast(*ast);
+	*ast = NULL;
+}
+
 /*
 * -------------------------
 * Function: display_prompt
@@ -30,36 +67,7 @@ void	display_prompt(void)
 			{
 				cmd = parser(line);
 				if (cmd)
-				{
-					ast = tokenizer(cmd, ast);
-          if (!ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, " exit")
-            || !ft_strncmp(cmd, " exit ", 6) || !ft_strncmp(cmd, "exit ", 5))
-            ft_exit(line, cmd, ast);
-          else if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, " echo")
-            || !ft_strncmp(cmd, " echo ", 6) || !ft_strncmp(cmd, "echo ", 5))
-            ft_echo(cmd);
-          else if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, " cd")
-            || !ft_strncmp(cmd, " cd ", 4) || !ft_strncmp(cmd, "cd ", 3))
-            ft_cd(cmd);
-          else if (!ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, " pwd")
-            || !ft_strncmp(cmd, " pwd ", 5) || !ft_strncmp(cmd, "pwd ", 4))
-            ft_pwd(cmd);
-          else if (!ft_strcmp(cmd, "env") || !ft_strcmp(cmd, " env")
-            || !ft_strncmp(cmd, " env ", 5) || !ft_strncmp(cmd, "env ", 4))
-            ft_env(cmd);
-          else if (!ft_strcmp(cmd, "export") || !ft_strcmp(cmd, " export")
-            || !ft_strncmp(cmd, " export ", 8) || !ft_strncmp(cmd, "export ", 7))
-            ft_export(cmd);
-          else if (!ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, " unset")
-            || !ft_strncmp(cmd, " unset ", 7) || !ft_strncmp(cmd, "unset ", 6))
-            ft_unset(cmd);
-					else
-						ft_exec(ast);
-					free(cmd);
-					cmd = NULL;
-					free_ast(ast);
-					ast = NULL;
-				}
+					choose_execution(line, cmd, &ast);
 			}
 		}
 		free(line);

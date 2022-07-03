@@ -156,7 +156,7 @@ int	get_size_cmd(char *line)
 					index++;
 					if (line[index] == '?')
 					{
-						size += ft_intlen(data->status);// int size from data->status
+						size += ft_intlen(g_data->status);// int size from data->status
 						index++;
 					}
 					else
@@ -198,7 +198,7 @@ int	get_size_cmd(char *line)
 			index++;
 			if (line[index] == '?')
 			{
-				size += ft_intlen(data->status);// int size from data->status
+				size += ft_intlen(g_data->status);// int size from data->status
 				index++;
 			}
 			else
