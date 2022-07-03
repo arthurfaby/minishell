@@ -15,7 +15,7 @@
 *
 * -------------------------
 */
-void	free_all(t_data *data, char *line, char *cmd, t_ast *ast)
+void	free_all(char *line, char *cmd, t_ast *ast)
 {
 	free(line);
 	line = NULL;
@@ -23,7 +23,7 @@ void	free_all(t_data *data, char *line, char *cmd, t_ast *ast)
 	cmd = NULL;
 	free_ast(ast);
 	ast = NULL;
-	free_data(data);
+	free_data();
 	rl_clear_history();
 }
 
@@ -118,8 +118,9 @@ void	free_ast(t_ast *ast)
 *
 * -------------------------
 */
-void	free_data(t_data *data)
+void	free_data(void)
 {
 	ft_sstrdel(data->env);
 	free(data->builtins);
+	free(data);
 }

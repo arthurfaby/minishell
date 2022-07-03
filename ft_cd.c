@@ -13,7 +13,7 @@
 *
 * -------------------------
 */
-void	print_error_cd(t_data *data, char *path)
+void	print_error_cd(char *path)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(path, 2);
@@ -21,7 +21,7 @@ void	print_error_cd(t_data *data, char *path)
 	data->status = 1;
 }
 
-void	go_to_home(t_data *data, char *path)
+void	go_to_home(char *path)
 {
 	DIR		*dir;	
 	char	*tmp;
@@ -35,18 +35,18 @@ void	go_to_home(t_data *data, char *path)
 	}
 	dir = opendir(path);
 	if (errno == ENOENT)
-		print_error_cd(data, path);
+		print_error_cd(path);
 	else
 	{
 		ft_printf("change to : %s\n", path);
 		closedir(dir);
 		chdir(path);
 		getcwd(pwd, 2048);
-		tmp = ft_strjoin("OLDPWD=", get_env_value(data, "PWD"));
-		add_env(data, tmp);
+		tmp = ft_strjoin("OLDPWD=", get_env_value("PWD"));
+		add_env(tmp);
 		free(tmp);
 		tmp = ft_strjoin("PWD=", pwd);
-		add_env(data, tmp);
+		add_env(tmp);
 		free(tmp);
 		tmp = NULL;
 		data->status = 0;
@@ -66,7 +66,7 @@ void	go_to_home(t_data *data, char *path)
 *
 * -------------------------
 */
-void	ft_cd(t_data *data, char *path)
+void	ft_cd(char *path)
 {
 	char	*tmp;
 	DIR		*dir;
@@ -77,22 +77,22 @@ void	ft_cd(t_data *data, char *path)
 		path++;
 	ft_printf("path : |%d|\n", *path);
 	if (!*path)
-		go_to_home(data, get_env_value(data, "HOME"));
+		go_to_home(get_env_value("HOME"));
 	else
 	{
 		dir = opendir(path);
 		if (errno == ENOENT)
-			print_error_cd(data, path);
+			print_error_cd(path);
 		else
 		{
 			closedir(dir);
 			chdir(path);
 			getcwd(pwd, 2048);
-			tmp = ft_strjoin("OLDPWD=", get_env_value(data, "PWD"));
-			add_env(data, tmp);
+			tmp = ft_strjoin("OLDPWD=", get_env_value("PWD"));
+			add_env(tmp);
 			free(tmp);
 			tmp = ft_strjoin("PWD=", pwd);
-			add_env(data, tmp);
+			add_env(tmp);
 			free(tmp);
 			tmp = NULL;
 			data->status = 0;

@@ -17,13 +17,13 @@
 *
 * -------------------------
 */
-int	add_env(t_data *data, char *str)
+int	add_env(char *str)
 {
 	char	**new_env;
 	int		i;
 
 	i = 0;
-	if (check_env_dup(data, str))
+	if (check_env_dup(str))
 		return (0);
 	while (data->env[i])
 		i++;
@@ -57,7 +57,7 @@ int	add_env(t_data *data, char *str)
 *
 * -------------------------
 */
-void	remove_env(t_data *data, char *name)
+void	remove_env(char *name)
 {
 	char	**new_env;
 	int		i;
@@ -98,7 +98,7 @@ void	remove_env(t_data *data, char *name)
 *
 * -------------------------
 */
-void	modif_env(t_data *data, char *name, char *nvalue)
+void	modif_env(char *name, char *nvalue)
 {
 	int		len;
 	int		i;

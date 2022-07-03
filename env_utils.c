@@ -52,7 +52,7 @@ int	comp_var_name(char *s1, char *s2)
 *
 * -------------------------
 */
-int	check_env_dup(t_data *data, char *str)
+int	check_env_dup(char *str)
 {
 	int		i;
 
@@ -88,7 +88,7 @@ int	check_env_dup(t_data *data, char *str)
 *
 * -------------------------
 */
-char	*get_env_value(t_data *data, char *name)
+char	*get_env_value(char *name)
 {
 	int	i;
 	int	len;

@@ -59,7 +59,7 @@ typedef struct s_cmd
 typedef struct s_builtins
 {
 	char	*name;
-	void	(*builtin)(t_data *data, char *cmd);
+	void	(*builtin)(char *cmd);
 }			t_builtins;
 
 typedef struct s_data
@@ -70,21 +70,23 @@ typedef struct s_data
 	t_builtins	*builtins;
 }				t_data;
 
+t_data *data;
+
 // minishell.c
 char	*path_finder(char **envp);
 
 // prompt.c
 void	free_node(t_node *node);
 void	free_ast(t_ast *ast);
-void	display_prompt(t_data *data);
+void	display_prompt(void);
 
 // parser.c
-char	*parser(t_data *data, char *line);
+char	*parser(char *line);
 
 // parser_utils.c
 int		skip_whitespace(char *cmd, int index_start);
 char	*spaces_redirections(char *cmd);
-int		get_size_cmd(t_data *data, char *line);
+int		get_size_cmd(char *line);
 
 // signal.c
 void	sig_handler(int sigcode);
@@ -95,25 +97,25 @@ void	ignore_handler(void);
 
 
 // init.c
-int		init_data(t_data *data, char **envp);
+int		init_data(char **envp);
 
 // env.c
-int		parse_env(t_data *data, char **envp);
-void	ft_env(t_data *data, char *cmd);
+int		parse_env(char **envp);
+void	ft_env(char *cmd);
 
 // env_utils.c
-int		check_env_dup(t_data *data, char *str);
-char	*get_env_value(t_data *data, char *name);
+int		check_env_dup(char *str);
+char	*get_env_value(char *name);
 int		comp_var_name(char *s1, char *s2);
 
 // env_modif.c
-int		add_env(t_data *data, char *str);
-void	remove_env(t_data *data, char *name);
+int		add_env(char *str);
+void	remove_env(char *name);
 
 // free_data.c
-void	free_all(t_data *data, char *line, char *cmd, t_ast *ast);
-void	free_env(t_data *data);
-void	free_data(t_data *data);
+void	free_all(char *line, char *cmd, t_ast *ast);
+void	free_env(void);
+void	free_data(void);
 
 // tree.c
 t_node	*new_node(int type, char **content);
@@ -135,18 +137,18 @@ char	**get_split_redirect(char **split, char **redirect);
 char	**get_content(char *str);
 
 // ft_unset.c
-void	ft_unset(t_data *data, char *line);
+void	ft_unset(char *line);
 
 // ft_export.c
-void	ft_export(t_data *data, char *line);
+void	ft_export(char *line);
 
 // ft_echo.c
-void	ft_echo(t_data *data, char *cmd);
+void	ft_echo(char *cmd);
 
 // ft_exec.c
 char	*get_cmd(t_cmd *cmd);
 int		get_number_pipe(t_ast *ast);
-t_cmd	*init_cmd(t_data *data);
+t_cmd	*init_cmd(void);
 int		fill_docfile(char *eof);
 int		get_input_redirect(t_cmd *cmd, int index);
 int		get_output_redirect(t_cmd *cmd, int index);
@@ -155,7 +157,7 @@ void	simple_child(t_cmd *cmd);
 void	open_pipe(t_cmd *cmd);
 void	close_pipe(t_cmd *cmd, int id);
 void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd);
-void	ft_exec(t_data *data, t_ast *ast);
+void	ft_exec(t_ast *ast);
 t_builtins	get_builtins(t_cmd *cmd);
 char	*join_cmd(char **value, char *cmd);
 void	command_not_found(t_cmd *cmd);
@@ -168,12 +170,12 @@ void	mid_child(t_cmd *cmd);
 void	last_child(t_cmd *cmd);
 
 // ft_cd.c
-void	ft_cd(t_data *data, char *path);
+void	ft_cd(char *path);
 
 // ft_pwd.c
-void	ft_pwd(t_data *data, char *cmd);
+void	ft_pwd(char *cmd);
 
 // ft_exit.c
-void	ft_exit(t_data *data, char *line, char *cmd, t_ast *ast);
+void	ft_exit(char *line, char *cmd, t_ast *ast);
 
 #endif
