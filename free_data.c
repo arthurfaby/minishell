@@ -120,7 +120,7 @@ void	free_ast(t_ast *ast)
 */
 void	free_data(void)
 {
-	ft_sstrdel(data->env);
-	free(data->builtins);
-	free(data);
+	ft_sstrdel(g_data->env);
+	free(g_data->builtins);
+	free(g_data);
 }

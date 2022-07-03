@@ -70,7 +70,7 @@ typedef struct s_data
 	t_builtins	*builtins;
 }				t_data;
 
-t_data *data;
+t_data *g_data;
 
 // minishell.c
 char	*path_finder(char **envp);

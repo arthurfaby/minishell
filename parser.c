@@ -44,7 +44,7 @@ char	*parser(char *line)
 					index++;
 					if (line[index] == '?')
 					{
-						tmp = ft_itoa(data->status);
+						tmp = ft_itoa(g_data->status);
 						while (*tmp)
 							res[index_res++] = *tmp++;
 						size++;//itoa data->status
@@ -90,7 +90,7 @@ char	*parser(char *line)
 			index++;
 			if (line[index] == '?')
 			{
-				tmp = ft_itoa(data->status);
+				tmp = ft_itoa(g_data->status);
 				while (*tmp)
 					res[index_res++] = *tmp++;
 				size++;//itoa data->status
