@@ -57,17 +57,17 @@ int	check_env_dup(char *str)
 	int		i;
 
 	i = 0;
-	while (data->env[i])
+	while (g_data->env[i])
 	{
-		if (comp_var_name(data->env[i], str) == -61)
+		if (comp_var_name(g_data->env[i], str) == -61)
 			break ;
 		i++;
 	}
-	if (!data->env[i])
+	if (!g_data->env[i])
 		return (0);
-	free(data->env[i]);
-	data->env[i] = NULL;
-	data->env[i] = ft_strdup(str);
+	free(g_data->env[i]);
+	g_data->env[i] = NULL;
+	g_data->env[i] = ft_strdup(str);
 	return (1);
 }
 
@@ -99,10 +99,10 @@ char	*get_env_value(char *name)
 		return ("$");
 	len = ft_strlen(name);
 	i = 0;
-	while (data->env[i])
+	while (g_data->env[i])
 	{
-		if (ft_strcmp(data->env[i], name) == '=')
-			return (data->env[i] + len + 1);
+		if (ft_strcmp(g_data->env[i], name) == '=')
+			return (g_data->env[i] + len + 1);
 		i++;
 	}
 	return (NULL);

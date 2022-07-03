@@ -103,7 +103,7 @@ t_cmd	*init_cmd(void)
 	cmd->pipe = NULL;
 	cmd->pids = NULL;
 	cmd->id = -1;
-	cmd->data = data;
+	cmd->data = g_data;
 	cmd->node = NULL;
 	cmd->nb_cmd = 0;
 	return (cmd);
@@ -645,16 +645,16 @@ void	free_pipe(t_cmd *cmd)
 	free(cmd->pipe);
 }
 
-void	convert_signal(t_data *data)
+void	convert_signal(void)
 {
-	if (data->status == 256)
-		data->status = 1;
-	else if (data->status == 65280 || data->status == 32512)
-		data->status = 127;
-	else if (data->status == 512)
-		data->status = 2;
-	else if (data->status == 2)
-		data->status = 130;
+	if (g_data->status == 256)
+		g_data->status = 1;
+	else if (g_data->status == 65280 || g_data->status == 32512)
+		g_data->status = 127;
+	else if (g_data->status == 512)
+		g_data->status = 2;
+	else if (g_data->status == 2)
+		g_data->status = 130;
 }
 
 /*
@@ -691,12 +691,12 @@ void	ft_exec(t_ast *ast)
 			return ;
 		if (cmd->pids[0] == 0)
 			simple_child(cmd);
-		waitpid(cmd->pids[0], &data->status, 0);
-		message_signal(data->status);
+		waitpid(cmd->pids[0], &g_data->status, 0);
+		message_signal(g_data->status);
 		free(cmd->pids);
 		free(cmd);
 		create_handler();
-		convert_signal(data);
+		convert_signal();
 		return ;
 	}
 	ignore_handler();
@@ -705,5 +705,5 @@ void	ft_exec(t_ast *ast)
 	free(cmd->pids);
 	free(cmd);
 	create_handler();
-	convert_signal(data);
+	convert_signal();
 }

@@ -162,6 +162,7 @@ t_builtins	get_builtins(t_cmd *cmd);
 char	*join_cmd(char **value, char *cmd);
 void	command_not_found(t_cmd *cmd);
 void	redirect_check(t_cmd *cmd);
+void	convert_signal(void);
 void	exec_builtin(t_cmd *cmd, t_builtins builtin);
 
 // ft_exec_utils.c

@@ -33,5 +33,5 @@ void	ft_echo(char *cmd)
 		ft_putstr(cmd);
 		ft_putchar('\n');
 	}
-	data->status = 0;
+	g_data->status = 0;
 }

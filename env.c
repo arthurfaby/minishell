@@ -35,7 +35,7 @@ int	parse_env(char **envp)
 		i++;
 	}
 	new_env[i] = NULL;
-	data->env = new_env;
+	g_data->env = new_env;
 	return (1);
 }
 
@@ -57,9 +57,9 @@ void	ft_env(char *cmd)
 
 	(void)cmd;
 	i = 0;
-	while (data->env[i])
+	while (g_data->env[i])
 	{
-		ft_printf("%s\n", data->env[i]);
+		ft_printf("%s\n", g_data->env[i]);
 		i++;
 	}
 }

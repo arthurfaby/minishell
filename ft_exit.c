@@ -110,7 +110,7 @@ void	ft_exit(char *line, char *cmd, t_ast *ast)
 	int		ret;
 	char	**split;
 
-	ret = data->status;
+	ret = g_data->status;
 	split = ft_split(cmd, ' ');
 	i = size_split(split);
 	ft_putstr_fd("exit\n", 2);
