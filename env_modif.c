@@ -25,22 +25,22 @@ int	add_env(char *str)
 	i = 0;
 	if (check_env_dup(str))
 		return (0);
-	while (data->env[i])
+	while (g_data->env[i])
 		i++;
 	new_env = (char **)malloc(sizeof(char *) * (i + 2));
 	if (!new_env)
 		return (-1);
 	i = 0;
-	while (data->env[i])
+	while (g_data->env[i])
 	{
-		new_env[i] = ft_strdup(data->env[i]);
+		new_env[i] = ft_strdup(g_data->env[i]);
 		i++;
 	}
 	new_env[i++] = ft_strdup(str);
 	ft_printf("new_env[i] : %s\n", new_env[i - 1]);
 	new_env[i] = NULL;
-	ft_sstrdel(data->env);
-	data->env = new_env;
+	ft_sstrdel(g_data->env);
+	g_data->env = new_env;
 	return (0);
 }
 
@@ -65,23 +65,23 @@ void	remove_env(char *name)
 
 	found = 0;
 	i = 0;
-	while (data->env[i])
+	while (g_data->env[i])
 		i++;
 	new_env = (char **)ft_calloc(sizeof(char *), i + 1);
 	if (!new_env)
 		return ;
 	i = 0;
-	while (data->env[i])
+	while (g_data->env[i])
 	{
-		if (comp_var_name(data->env[i], name) != 0)
-			new_env[i - found] = ft_strdup(data->env[i]);
+		if (comp_var_name(g_data->env[i], name) != 0)
+			new_env[i - found] = ft_strdup(g_data->env[i]);
 		else
 			found = 1;
 		i++;
 	}
 	new_env[i - found] = NULL;
-	ft_sstrdel(data->env);
-	data->env = new_env;
+	ft_sstrdel(g_data->env);
+	g_data->env = new_env;
 }
 
 /*
@@ -106,13 +106,13 @@ void	modif_env(char *name, char *nvalue)
 
 	i = 0;
 	len = ft_strlen(name);
-	while (data->env[i])
+	while (g_data->env[i])
 	{
-		if (ft_strncmp(data->env[i], name, len) == 0)
+		if (ft_strncmp(g_data->env[i], name, len) == 0)
 		{
-			free(data->env[i]);
+			free(g_data->env[i]);
 			tmp = ft_strjoin("=", nvalue);
-			data->env[i] = ft_strjoin(name, tmp);
+			g_data->env[i] = ft_strjoin(name, tmp);
 			free(tmp);
 			tmp = NULL;
 			return ;

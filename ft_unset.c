@@ -23,7 +23,7 @@ void	ft_unset(char *line)
 		ft_putstr_fd("minishell: unset: '", 2);
 		ft_putstr_fd(line, 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
-		data->status = 1;
+		g_data->status = 1;
 		return ;
 	}
 	remove_env(line);

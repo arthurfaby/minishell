@@ -37,5 +37,5 @@ void	ft_export(char *line)
 	if (!check_line_export(line))
 		return ;
 	add_env(line);
-	data->status = 0;
+	g_data->status = 0;
 }

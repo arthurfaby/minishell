@@ -18,7 +18,7 @@ void	print_error_cd(char *path)
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(path, 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
-	data->status = 1;
+	g_data->status = 1;
 }
 
 void	go_to_home(char *path)
@@ -30,7 +30,7 @@ void	go_to_home(char *path)
 	if (!path)
 	{
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		data->status = 1;
+		g_data->status = 1;
 		return ;
 	}
 	dir = opendir(path);
@@ -49,7 +49,7 @@ void	go_to_home(char *path)
 		add_env(tmp);
 		free(tmp);
 		tmp = NULL;
-		data->status = 0;
+		g_data->status = 0;
 	}
 }
 
@@ -95,7 +95,7 @@ void	ft_cd(char *path)
 			add_env(tmp);
 			free(tmp);
 			tmp = NULL;
-			data->status = 0;
+			g_data->status = 0;
 		}
 	}
 }
