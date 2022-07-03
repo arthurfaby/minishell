@@ -68,23 +68,3 @@ void	create_handler(void)
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
-
-/*
-* -------------------------
-* Function: message_signal 
-* ------------------------- 
-*
-*	print special message in case of status
-*
-* Params:
-*	int	status	: status of execve
-*
-* -------------------------
-*/
-void	message_signal(int status)
-{
-	if (status == 2)
-		ft_printf("\n");
-	else if (status == 131)
-		ft_printf("Quit (core dumped)\n");
-}

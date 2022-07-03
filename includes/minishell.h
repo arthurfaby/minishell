@@ -72,14 +72,17 @@ typedef struct s_data
 
 t_data					*g_data;
 
+// ----------------- MAIN ----------------
 // minishell.c
 char		*path_finder(char **envp);
 
+// ----------------- PROMPT ----------------
 // prompt.c
 void		free_node(t_node *node);
 void		free_ast(t_ast *ast);
 void		display_prompt(void);
 
+// ----------------- PARSER ----------------
 // parser.c
 char		*parser(char *line);
 
@@ -88,16 +91,53 @@ int			skip_whitespace(char *cmd, int index_start);
 char		*spaces_redirections(char *cmd);
 int			get_size_cmd(char *line);
 
+// ----------------- SIGNAL ----------------
 // signal.c
-void		sig_handler(int sigcode);
+void		convert_signal(void);
 void		message_signal(int status);
+
+// handler.c
+void		sig_handler(int sigcode);
 void		create_handler(void);
 void		delete_handler(void);
 void		ignore_handler(void);
 
+// ----------------- ALLOCS ----------------
 // init.c
 int			init_data(char **envp);
 
+// free_data.c
+void		free_all(char *line, char *cmd, t_ast *ast);
+void		free_env(void);
+void		free_data(void);
+
+// ----------------- TOKENIZER ----------------
+// tokenizer.c
+int			fill_ast(t_ast *ast, int size);
+void		fill_nodes(t_node *it);
+t_ast		*tokenizer(char *cmd, t_ast *ast);
+
+// set.c
+t_ast		*set_unique_cmd(t_ast *ast, char **pipe);
+void		set_multi_cmd(t_ast *ast, char **pipe);
+void		split_args_redirect(t_ast *ast);
+
+// get.c
+char		**get_split_args(char **split, char **args);
+char		**get_split_redirect(char **split, char **redirect);
+char		**get_content(char *str);
+
+// free.c
+void		free_trio(char **split, char **args, char **redirect);
+char		**free_before(void **args, int size);
+
+// tree.c
+t_node		*new_node(int type, char **content);
+void		add_left(t_node *node, t_node *new);
+void		add_right(t_node *node, t_node *new);
+
+// ----------------- BUILTINS ----------------
+// -------- ENV -------
 // env.c
 int			parse_env(char **envp);
 void		ft_env(char *cmd);
@@ -111,71 +151,66 @@ int			comp_var_name(char *s1, char *s2);
 int			add_env(char *str);
 void		remove_env(char *name);
 
-// free_data.c
-void		free_all(char *line, char *cmd, t_ast *ast);
-void		free_env(void);
-void		free_data(void);
-
-// tree.c
-t_node		*new_node(int type, char **content);
-void		add_left(t_node *node, t_node *new);
-void		add_right(t_node *node, t_node *new);
-
-// tokenizer.c
-int			fill_ast(t_ast *ast, int size);
-t_ast		*set_unique_cmd(t_ast *ast, char **pipe);
-void		set_multi_cmd(t_ast *ast, char **pipe);
-void		split_args_redirect(t_ast *ast);
-t_ast		*tokenizer(char *cmd, t_ast *ast);
-
-// tokenizer_utils.c
-char		**free_before(void **args, int size);
-void		free_trio(char **split, char **args, char **redirect);
-char		**get_split_args(char **split, char **args);
-char		**get_split_redirect(char **split, char **redirect);
-char		**get_content(char *str);
-
+// -------- UNSET -------
 // ft_unset.c
 void		ft_unset(char *line);
 
+// -------- EXPORT -------
 // ft_export.c
 void		ft_export(char *line);
 
+// -------- ECHO -------
 // ft_echo.c
 void		ft_echo(char *cmd);
 
-// ft_exec.c
-char		*get_cmd(t_cmd *cmd);
-int			get_number_pipe(t_ast *ast);
-t_cmd		*init_cmd(void);
-int			fill_docfile(char *eof);
-int			get_input_redirect(t_cmd *cmd, int index);
-int			get_output_redirect(t_cmd *cmd, int index);
-int			get_redirect(t_cmd *cmd);
-void		simple_child(t_cmd *cmd);
-void		open_pipe(t_cmd *cmd);
-void		close_pipe(t_cmd *cmd, int id);
-void		exec_multiple_cmd(t_ast *ast, t_cmd *cmd);
-void		ft_exec(t_ast *ast);
-t_builtins	get_builtins(t_cmd *cmd);
-char		*join_cmd(char **value, char *cmd);
-void		command_not_found(t_cmd *cmd);
-void		redirect_check(t_cmd *cmd);
-void		convert_signal(void);
-void		exec_builtin(t_cmd *cmd, t_builtins builtin);
-
-// ft_exec_utils.c
-void		first_child(t_cmd *cmd);
-void		mid_child(t_cmd *cmd);
-void		last_child(t_cmd *cmd);
-
+// -------- CD -------
 // ft_cd.c
 void		ft_cd(char *path);
 
+// -------- PWD -------
 // ft_pwd.c
 void		ft_pwd(char *cmd);
 
+// -------- EXIT -------
 // ft_exit.c
 void		ft_exit(char *line, char *cmd, t_ast *ast);
+
+// ----------------- EXEC ----------------
+// child.c
+void		first_child(t_cmd *cmd);
+void		mid_child(t_cmd *cmd);
+void		last_child(t_cmd *cmd);
+void		start_child(t_cmd *cmd, t_node *it);
+void		simple_child(t_cmd *cmd);
+
+// pipe.c
+void		open_pipe(t_cmd *cmd);
+void		close_pipe(t_cmd *cmd, int id);
+void		close_pipe(t_cmd *cmd, int id);
+void		free_pipe(t_cmd *cmd);
+int			get_number_pipe(t_ast *ast);
+
+// redirection.c
+int			get_input_redirect(t_cmd *cmd, int index);
+int			get_output_redirect(t_cmd *cmd, int index);
+int			get_redirect(t_cmd *cmd);
+void		redirect_check(t_cmd *cmd);
+int			fill_docfile(char *eof);
+
+// command.c
+char		*get_cmd(t_cmd *cmd);
+t_cmd		*init_cmd(void);
+char		*join_cmd(char **value, char *cmd);
+void		get_nb_cmd(t_ast *ast, t_cmd *cmd);
+void		command_not_found(t_cmd *cmd);
+
+// builtins.c
+t_builtins	get_builtins(t_cmd *cmd);
+void		exec_builtin(t_cmd *cmd, t_builtins builtin);
+
+// ft_exec.c
+void		exec_simple_command(t_cmd *cmd, t_node *it);
+void		exec_multiple_cmd(t_ast *ast, t_cmd *cmd);
+void		ft_exec(t_ast *ast);
 
 #endif

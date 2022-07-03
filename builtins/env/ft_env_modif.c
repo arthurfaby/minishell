@@ -37,7 +37,6 @@ int	add_env(char *str)
 		i++;
 	}
 	new_env[i++] = ft_strdup(str);
-	ft_printf("new_env[i] : %s\n", new_env[i - 1]);
 	new_env[i] = NULL;
 	ft_sstrdel(g_data->env);
 	g_data->env = new_env;

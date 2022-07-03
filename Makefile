@@ -1,48 +1,70 @@
+_END = "\033[0m"
+_CYAN = "\033[0;36m"
+_GREEN = "\033[0;32m"
+
 NAME			= minishell
 
-INCS			= \
-				minishell.h \
-				\
-
 SRCS			= \
-				init.c \
 				minishell.c \
-				prompt.c \
+				\
+				allocs/free.c \
+				allocs/init.c \
+				\
+				builtins/cd/ft_cd.c \
+				builtins/echo/ft_echo.c \
+				builtins/env/ft_env.c \
+				builtins/env/ft_env_modif.c \
+				builtins/env/ft_env_utils.c \
+				builtins/exit/ft_exit.c \
+				builtins/export/ft_export.c \
+				builtins/pwd/ft_pwd.c \
+				builtins/unset/ft_unset.c \
+				\
+				exec/builtins.c \
+				exec/child.c \
+				exec/command.c \
+				exec/exec.c \
+				exec/pipe.c \
+				exec/redirection.c \
+				\
 				parser.c \
-				signal.c \
-				ft_echo.c \
-				ft_cd.c \
-				ft_pwd.c \
-				env.c \
-				env_utils.c \
-				env_modif.c \
-				ft_export.c \
-				ft_unset.c \
-				free_data.c \
 				parser_utils.c \
-				tokenizer.c \
-				tokenizer_utils.c \
-				tree.c \
-				ft_exec.c \
-				ft_exec_utils.c \
-				ft_exit.c \
+				\
+				prompt/prompt.c \
+				\
+				signal/handler.c \
+				signal/signal.c \
+				\
+				tokenizer/free.c \
+				tokenizer/get.c \
+				tokenizer/set.c \
+				tokenizer/tokenizer.c \
+				tokenizer/tree.c \
 				\
 
 OBJS			= $(SRCS:.c=.o)
 
-INCSDIR			= ./
+INCSDIR			= includes
 SRCSDIR			= ./
 
 CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra -g -Llibft -lft -Ilibft/includes -I. -L/usr/local/lib -I/usr/local/include -lreadline
+CFLAGS			= -Wall -Werror -Wextra -g -Llibft -lft -Ilibft/includes -I$(INCSDIR) -L/usr/local/lib -I/usr/local/include -lreadline
 RM				= rm -rf
 
 .c.o:
+				@echo $(_GREEN)
+				@echo -n "Compiling minishell: $<..."
 				@$(CC) $(CFLAGS) -c $< -o $@ 
 
-all:			$(NAME)
+all:			start $(NAME)
+
+start:
+				@echo $(_CYAN)
+				@echo -n "MINISHELL"
+				@echo $(_END)
 
 $(NAME):		$(OBJS)
+				@echo ""
 				@make -sC libft
 				@$(CC) $(OBJS) -o $@ $(CFLAGS)
 
