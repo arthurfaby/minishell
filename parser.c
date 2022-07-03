@@ -8,7 +8,7 @@ void	treat_error_code(char *res, int *index, int *index_res)
 	index_tmp = -1;
 	tmp = ft_itoa(g_data->status);
 	while (tmp[++index_tmp])
-		res[*index_res++] = tmp[index_tmp];
+		res[(*index_res)++] = tmp[index_tmp];
 	(*index)++;
 	free(tmp);
 	tmp = NULL;
