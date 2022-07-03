@@ -108,9 +108,9 @@ char	*parser(t_data *data, char *line)
 				index += index_tmp;
 				free(tmp);
 				tmp = NULL;
+				while (env_value && *env_value)
+					res[index_res++] = *env_value++;
 			}
-			while (env_value && *env_value)
-				res[index_res++] = *env_value++;
 		}
 		else
 		{

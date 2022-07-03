@@ -173,10 +173,7 @@ int	get_input_redirect(t_cmd *cmd, int index)
 			return (1);
 		cmd->infile = open("heredoc", O_RDONLY);
 		if (cmd->infile < 0)
-		{
-			perror(strerror(errno));
-			return (1);
-		}
+			return (perror(strerror(errno)), 1);
 	}
 	else if (cmd->node->left->value[index][0] == '<')
 	{
@@ -184,10 +181,7 @@ int	get_input_redirect(t_cmd *cmd, int index)
 			close(cmd->infile);
 		cmd->infile = open(&cmd->node->left->value[index][1], O_RDONLY);
 		if (cmd->infile < 0)
-		{
-			perror(strerror(errno));
-			return (1);
-		}
+			return (perror(strerror(errno)), 1);
 	}
 	return (0);
 }
@@ -217,10 +211,7 @@ int	get_output_redirect(t_cmd *cmd, int index)
 		cmd->outfile = open(&cmd->node->left->value[index][2],
 				O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR);
 		if (cmd->outfile < 0)
-		{
-			perror(strerror(errno));
-			return (1);
-		}
+			return (perror(strerror(errno)), 1);
 	}
 	else if (cmd->node->left->value[index][0] == '>')
 	{
@@ -229,10 +220,7 @@ int	get_output_redirect(t_cmd *cmd, int index)
 		cmd->outfile = open(&cmd->node->left->value[index][1],
 				O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
 		if (cmd->outfile < 0)
-		{
-			perror(strerror(errno));
-			return (1);
-		}
+			return (perror(strerror(errno)), 1);
 	}
 	return (0);
 }
@@ -340,6 +328,80 @@ char	*join_cmd(char **value, char *cmd)
 
 /*
 * -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	exec_builtin(t_cmd *cmd, t_builtins builtin)
+{
+	char	*cmd_path;
+
+	cmd_path = NULL;
+	cmd_path = join_cmd(cmd->node->right->value, cmd_path);
+	if (!cmd_path)
+		exit(-2);//error builtin
+	builtin.builtin(cmd->data, cmd_path);
+	free(cmd_path);
+	exit(cmd->data->status);
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	command_not_found(t_cmd *cmd)
+{
+	ft_putstr_fd(cmd->node->right->value[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
+	exit(-1);//Error code command not found
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	redirect_check(t_cmd *cmd)
+{
+	int	ret;
+
+	ret = get_redirect(cmd);
+	if (ret == 1)
+		exit(1);
+}
+
+/*
+* -------------------------
 * Function: simple_child
 * ------------------------- 
 *
@@ -352,39 +414,22 @@ char	*join_cmd(char **value, char *cmd)
 */
 void	simple_child(t_cmd *cmd)
 {
-	int			ret;
 	char		*cmd_path;
 	t_builtins	builtin;
 
 	delete_handler();
 	if (cmd->node->left->value)
-	{
-		ret = get_redirect(cmd);
-		if (ret == 1)
-			exit(-5);// Error code redirection error ?
-	}
+		redirect_check(cmd);
 	if (cmd->infile >= 0)
 		dup2(cmd->infile, 0);
 	if (cmd->outfile >= 0)
 		dup2(cmd->outfile, 1);
 	builtin = get_builtins(cmd);
 	if (builtin.name)
-	{
-		cmd_path = NULL;
-		cmd_path = join_cmd(cmd->node->right->value, cmd_path);
-		if (!cmd_path)
-			exit(-2);//error builtin
-		builtin.builtin(cmd->data, cmd_path);
-		free(cmd_path);
-		exit(cmd->data->status);
-	}
+		exec_builtin(cmd, builtin);
 	cmd_path = get_cmd(cmd);
 	if (!cmd_path)
-	{
-		ft_putstr_fd(cmd->node->right->value[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		exit(-1);
-	}
+		command_not_found(cmd);
 	if (cmd->infile >= 0)
 		close(cmd->infile);
 	if (cmd->outfile >= 0)
@@ -416,9 +461,9 @@ void	open_pipe(t_cmd *cmd)
 	{
 		cmd->pipe[index] = malloc(sizeof(int) * 2);
 		if (!cmd->pipe[index])
-			return ;// malloc error free clean
+			return ;
 		if (pipe(cmd->pipe[index]) < 0)
-			return ;// Error opening pipe + free clean
+			return ;
 	}
 }
 
@@ -480,44 +525,20 @@ void	close_pipe(t_cmd *cmd, int id)
 *
 * -------------------------
 */
-void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
+void	start_child(t_cmd *cmd, t_node *it)
 {
-	// get number of commands
-	// create number oof commands - 1 pipe
-	// launch childs process
-	// close every pipe
-	t_node	*it;
-	int		index;
-	int		ret;
+	int	index;
 
-	it = ast->root;
-	while (it)
-	{
-		cmd->nb_cmd++;
-		it = it->right;
-	}
-	cmd->pids = malloc(sizeof(pid_t) * cmd->nb_cmd);
-	if (!cmd->pids)
-		return ; // free clean
-	cmd->pipe = malloc(sizeof(int *) * cmd->nb_cmd - 1);
-	if (!cmd->pipe)
-		return ; // free clean
-	open_pipe(cmd);
-	it = ast->root;
 	index = -1;
 	while (++index < cmd->nb_cmd)
 	{
 		cmd->node = it->left;
 		cmd->id = index;
 		if (cmd->node->left->value)
-		{
-			ret = get_redirect(cmd);
-			if (ret == 1)
-				return ;//(-5) Error redirect code ?
-		}
+			redirect_check(cmd);
 		cmd->pids[index] = fork();
 		if (cmd->pids[index] < 0)
-			return ; // Error fork + free clean
+			return ;
 		else if (index == 0 && cmd->pids[index] == 0)
 			first_child(cmd);
 		else if (index == cmd->nb_cmd - 1 && cmd->pids[index] == 0)
@@ -526,6 +547,65 @@ void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
 			mid_child(cmd);
 		it = it->right;
 	}
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	get_nb_cmd(t_ast *ast, t_cmd *cmd)
+{
+	t_node	*it;
+
+	it = ast->root;
+	while (it)
+	{
+		cmd->nb_cmd++;
+		it = it->right;
+	}
+}
+
+/*
+* -------------------------
+* Function: 
+* ------------------------- 
+*
+*
+*
+* Params:
+*
+*
+* Returns:
+*
+*
+* -------------------------
+*/
+void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
+{
+	t_node	*it;
+	int		index;
+
+	get_nb_cmd(ast, cmd);
+	cmd->pids = malloc(sizeof(pid_t) * cmd->nb_cmd);
+	if (!cmd->pids)
+		return ;
+	cmd->pipe = malloc(sizeof(int *) * cmd->nb_cmd - 1);
+	if (!cmd->pipe)
+		return ;
+	open_pipe(cmd);
+	it = ast->root;
+	start_child(cmd, it);
 	close_pipe(cmd, -42);
 	index = -1;
 	while (++index < cmd->nb_cmd)
@@ -533,7 +613,6 @@ void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
 		waitpid(cmd->pids[index], &cmd->data->status, 0);
 		message_signal(cmd->data->status);
 	}
-	// if << in redirect then unlink
 	unlink("heredoc");
 }
 
@@ -586,15 +665,14 @@ void	ft_exec(t_data *data, t_ast *ast)
 	it = ast->root;
 	if (it->type != PIPE)
 	{
-		// Basic command
 		cmd->node = it;
 		cmd->pids = malloc(sizeof(pid_t));
-		if(!cmd->pids)
-			return ;//free cmd etc
+		if (!cmd->pids)
+			return ;
 		ignore_handler();
 		cmd->pids[0] = fork();
 		if (cmd->pids[0] < 0)
-			return ; //free cmd etc
+			return ;
 		if (cmd->pids[0] == 0)
 			simple_child(cmd);
 		waitpid(cmd->pids[0], &data->status, 0);
@@ -604,7 +682,6 @@ void	ft_exec(t_data *data, t_ast *ast)
 		create_handler();
 		return ;
 	}
-	// Multiple command with pipe
 	ignore_handler();
 	exec_multiple_cmd(ast, cmd);
 	free_pipe(cmd);
