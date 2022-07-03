@@ -2,6 +2,33 @@
 
 /*
 * -------------------------
+* Function: free_all
+* ------------------------- 
+*
+*	free all malloc datas
+*
+* Params:
+*	t_data	*data	: minishell datas
+*	char	*line	: input line
+*	char	*cmd	: parsed line
+*	t_ast	*ast	: ast
+*
+* -------------------------
+*/
+void	free_all(t_data *data, char *line, char *cmd, t_ast *ast)
+{
+	free(line);
+	line = NULL;
+	free(cmd);
+	cmd = NULL;
+	free_ast(ast);
+	ast = NULL;
+	free_data(data);
+	rl_clear_history();
+}
+
+/*
+* -------------------------
 * Function: free_node
 * ------------------------- 
 *

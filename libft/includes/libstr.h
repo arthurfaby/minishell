@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 21:37:43 by vnaud             #+#    #+#             */
-/*   Updated: 2022/06/22 14:23:17 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/07/01 12:21:07 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 int			ft_atoi(const char *nptr);
 int			ft_atoi_base(char *str, int base);
 long		ft_atol(const char *nptr);
+long long	ft_atoll(const char *nptr);
+double		ft_atod(const char *nptr);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strdup(const char *s);
 size_t		ft_strlcat(char *dst, const char *src, size_t size);

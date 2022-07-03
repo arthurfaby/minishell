@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	**free_before(char **args, int size)
+char	**free_before(void **args, int size)
 {
 	int	i;
 
@@ -61,7 +61,7 @@ char	**get_split_args(char **split, char **args)
 		{
 			args[size] = ft_strdup(split[index]);
 			if (!args[size])
-				return (free_before(args, size));
+				return (free_before((void **)args, size));
 			size++;
 		}
 	}
@@ -107,7 +107,7 @@ char	**get_split_redirect(char **split, char **redirect)
 		{
 			redirect[size] = ft_strdup(split[index]);
 			if (!redirect[size])
-				return (free_before(redirect, size));
+				return (free_before((void **)redirect, size));
 			size++;
 		}
 	}

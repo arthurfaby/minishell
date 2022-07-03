@@ -111,6 +111,7 @@ int		add_env(t_data *data, char *str);
 void	remove_env(t_data *data, char *name);
 
 // free_data.c
+void	free_all(t_data *data, char *line, char *cmd, t_ast *ast);
 void	free_env(t_data *data);
 void	free_data(t_data *data);
 
@@ -127,7 +128,7 @@ void	split_args_redirect(t_ast *ast);
 t_ast	*tokenizer(char *cmd, t_ast *ast);
 
 // tokenizer_utils.c
-char	**free_before(char **args, int size);
+char	**free_before(void **args, int size);
 void	free_trio(char **split, char **args, char **redirect);
 char	**get_split_args(char **split, char **args);
 char	**get_split_redirect(char **split, char **redirect);

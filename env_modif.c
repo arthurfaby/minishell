@@ -27,7 +27,7 @@ int	add_env(t_data *data, char *str)
 		return (0);
 	while (data->env[i])
 		i++;
-	new_env = (char **)ft_calloc(sizeof(char *), (i + 2));
+	new_env = (char **)malloc(sizeof(char *) * (i + 2));
 	if (!new_env)
 		return (-1);
 	i = 0;
@@ -37,6 +37,7 @@ int	add_env(t_data *data, char *str)
 		i++;
 	}
 	new_env[i++] = ft_strdup(str);
+	ft_printf("new_env[i] : %s\n", new_env[i - 1]);
 	new_env[i] = NULL;
 	ft_sstrdel(data->env);
 	data->env = new_env;

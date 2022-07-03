@@ -17,8 +17,40 @@ void	print_error_cd(t_data *data, char *path)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(path, 2);
-	ft_putstr_fd(": No such file or directory.\n", 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
 	data->status = 1;
+}
+
+void	go_to_home(t_data *data, char *path)
+{
+	DIR		*dir;	
+	char	*tmp;
+	char	pwd[2048];
+	
+	if (!path)
+	{
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		data->status = 1;
+		return ;
+	}
+	dir = opendir(path);
+	if (errno == ENOENT)
+		print_error_cd(data, path);
+	else
+	{
+		ft_printf("change to : %s\n", path);
+		closedir(dir);
+		chdir(path);
+		getcwd(pwd, 2048);
+		tmp = ft_strjoin("OLDPWD=", get_env_value(data, "PWD"));
+		add_env(data, tmp);
+		free(tmp);
+		tmp = ft_strjoin("PWD=", pwd);
+		add_env(data, tmp);
+		free(tmp);
+		tmp = NULL;
+		data->status = 0;
+	}
 }
 
 /*
@@ -40,22 +72,30 @@ void	ft_cd(t_data *data, char *path)
 	DIR		*dir;
 	char	pwd[2048];
 
-	path += 3;
-	dir = opendir(path);
-	if (errno == ENOENT)
-		print_error_cd(data, path);
+	path += 2;
+	while (*path && ft_iswhitespace(*path))
+		path++;
+	ft_printf("path : |%d|\n", *path);
+	if (!*path)
+		go_to_home(data, get_env_value(data, "HOME"));
 	else
 	{
-		closedir(dir);
-		chdir(path);
-		getcwd(pwd, 2048);
-		tmp = ft_strjoin("OLDPWD=", get_env_value(data, "PWD"));
-		add_env(data, tmp);
-		free(tmp);
-		tmp = ft_strjoin("PWD=", pwd);
-		add_env(data, tmp);
-		free(tmp);
-		tmp = NULL;
-		data->status = 0;
+		dir = opendir(path);
+		if (errno == ENOENT)
+			print_error_cd(data, path);
+		else
+		{
+			closedir(dir);
+			chdir(path);
+			getcwd(pwd, 2048);
+			tmp = ft_strjoin("OLDPWD=", get_env_value(data, "PWD"));
+			add_env(data, tmp);
+			free(tmp);
+			tmp = ft_strjoin("PWD=", pwd);
+			add_env(data, tmp);
+			free(tmp);
+			tmp = NULL;
+			data->status = 0;
+		}
 	}
 }
