@@ -27,9 +27,6 @@ SRCS			= \
 				exec/pipe.c \
 				exec/redirection.c \
 				\
-				parser.c \
-				parser_utils.c \
-				\
 				prompt/prompt.c \
 				\
 				signal/handler.c \
