@@ -59,12 +59,7 @@ RM				= rm -rf
 				@echo -n "Compiling minishell: $<..."
 				@$(CC) $(CFLAGS) -c $< -o $@ 
 
-all:			start $(NAME)
-
-start:
-				@echo $(_CYAN)
-				@echo -n "MINISHELL"
-				@echo $(_END)
+all:			$(NAME)
 
 $(NAME):		$(OBJS)
 				@echo ""

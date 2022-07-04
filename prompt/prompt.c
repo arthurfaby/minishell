@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:55:52 by vnaud             #+#    #+#             */
-/*   Updated: 2022/07/04 10:55:53 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/07/04 11:48:08 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,5 @@ void	display_prompt(void)
 		line = NULL;
 		line = readline(PROMPT);
 	}
-	free_all(line, cmd, ast);
+	free_all(line, NULL, ast);
 }

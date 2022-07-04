@@ -6,7 +6,7 @@
 #    By: vnaud <vnaud@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/13 20:27:25 by vnaud             #+#    #+#              #
-#    Updated: 2022/06/30 10:39:11 by afaby            ###   ########.fr        #
+#    Updated: 2022/07/04 11:35:49 by afaby            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -144,12 +144,7 @@ CC				= gcc
 CFLAGS			= -Wall -Werror -Wextra -g
 RM				= rm -rf
 
-all:			start $(NAME)
-				@echo $(_END)
-
-start:
-				@echo $(_CYAN)
-				@echo -n "LIBFT"
+all:			$(NAME)
 				@echo $(_END)
 
 $(NAME):		$(OBJDIR) $(OBJPATH)

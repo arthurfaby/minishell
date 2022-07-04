@@ -6,7 +6,7 @@
 /*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:02:12 by afaby             #+#    #+#             */
-/*   Updated: 2022/07/04 11:02:13 by afaby            ###   ########.fr       */
+/*   Updated: 2022/07/04 12:13:14 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_echo(char *cmd)
 	while (*cmd && ft_iswhitespace(*cmd))
 		cmd++;
 	cmd += 4;
-	while (*cmd && ft_iswhitespace(*cmd))
+	if (ft_iswhitespace(*cmd))
 		cmd++;
 	while (ft_strncmp(cmd, "-n", 2) == 0 && (cmd[2] == ' ' || !cmd[2]))
 	{
