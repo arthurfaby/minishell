@@ -1,5 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 10:55:20 by vnaud             #+#    #+#             */
+/*   Updated: 2022/07/04 10:55:23 by vnaud            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: set_unique_cmd
+* ------------------------- 
+*
+*	set unique command in ast
+*
+* Params:
+*	t_ast	*ast	: Abstract Syntax Tree
+*	char	**pipe	: split on pipe value of user input command
+*
+* Returns:
+*	t_ast *ast		: Ast with the new element
+*
+* -------------------------
+*/
 t_ast	*set_unique_cmd(t_ast *ast, char **pipe)
 {
 	ast->root = new_node(COMMAND, get_content(pipe[0]));
@@ -16,11 +44,8 @@ t_ast	*set_unique_cmd(t_ast *ast, char **pipe)
 *	set multi cmds in ast
 *
 * Params:
-*	t_ast	*ast : ast
-*
-*
-* Returns:
-*
+*	t_ast	*ast	: Abstract Syntax Tree
+*	char	**pipe	: user input split on pipe to split each commands
 *
 * -------------------------
 */

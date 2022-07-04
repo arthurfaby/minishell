@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 10:56:11 by vnaud             #+#    #+#             */
+/*   Updated: 2022/07/04 10:56:11 by vnaud            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -23,6 +35,19 @@ int	skip_whitespace(char *cmd, int index_start)
 	return (index_start);
 }
 
+/*
+* -------------------------
+* Function: get_size_spaces_redirections
+* ------------------------- 
+*
+*	get size of redirections without spaces between chevron and filename
+*
+* Params:
+*	char	*cmd	: parser user input
+*	int		*size	: size
+*
+* -------------------------
+*/
 void	get_size_spaces_redirections(char *cmd, int *size)
 {
 	int	index;
@@ -44,6 +69,21 @@ void	get_size_spaces_redirections(char *cmd, int *size)
 	}
 }
 
+/*
+* -------------------------
+* Function: remove_spaces_redirections
+* ------------------------- 
+*
+*	remove spaces between chevron and filename
+*
+* Params:
+*	char	*res		: result string
+*	char	*cmd		: parsed user input
+*	int		*index		: index
+*	int		*index_res	: index_res
+*
+* -------------------------
+*/
 void	remove_spaces_redirections(char *res, char *cmd,
 		int *index, int *index_res)
 {
@@ -109,6 +149,21 @@ char	*spaces_redirections(char *cmd)
 	return (res);
 }
 
+/*
+* -------------------------
+* Function: ft_intlen
+* ------------------------- 
+*
+*	return length of int value
+*
+* Params:
+*	int	n		: input int value
+*
+* Returns:
+*	int	size	: length of int value
+*
+* -------------------------
+*/
 int	ft_intlen(int n)
 {
 	int	size;
