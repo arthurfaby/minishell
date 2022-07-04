@@ -99,15 +99,18 @@ void		get_size_white_spaces(char *line, int *index, int *size);
 // parser_treat.c
 void		treat_error_code(char *res, int *index, int *index_res);
 void		treat_dollar(char *res, char *line, int *index, int *index_res);
-void		treat_simple_quotes(char *res, char *line, int *index, int *index_res);
-void		treat_double_quotes(char *res, char *line, int *index, int *index_res);
-void		treat_white_spaces(char *res, char *line, int *index, int *index_res);
+void		treat_simple_quotes(char *res, char *line,
+				int *index, int *index_res);
+void		treat_double_quotes(char *res, char *line,
+				int *index, int *index_res);
+void		treat_white_spaces(char *res, char *line,
+				int *index, int *index_res);
 
 // parser_utils.c
 int			skip_whitespace(char *cmd, int index_start);
 void		get_size_spaces_redirections(char *cmd, int *size);
 void		remove_spaces_redirections(char *res, char *cmd,
-			int *index, int *index_res);
+				int *index, int *index_res);
 char		*spaces_redirections(char *cmd);
 int			ft_intlen(int n);
 

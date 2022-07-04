@@ -1,5 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 10:55:26 by vnaud             #+#    #+#             */
+/*   Updated: 2022/07/04 10:55:27 by vnaud            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: fill_ast
+* ------------------------- 
+*
+*	fill the AST with new commands
+*
+* Params:
+*	t_ast	*ast	: AST
+* 	int		size	: number of commands
+*
+* Returns:
+*	int		size(0)	: result
+*
+* -------------------------
+*/
 int	fill_ast(t_ast *ast, int size)
 {
 	t_node	*it;
@@ -55,6 +83,18 @@ t_ast	*tokenizer(char *cmd, t_ast *ast)
 	return (ast);
 }
 
+/*
+* -------------------------
+* Function: fill_nodes
+* ------------------------- 
+*
+*	fill nodes with new commands split on args and redirections
+*
+* Params:
+*	t_node	*it	: iterator on node
+*
+* -------------------------
+*/
 void	fill_nodes(t_node *it)
 {
 	char	**split;

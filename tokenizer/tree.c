@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tree.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 10:55:29 by vnaud             #+#    #+#             */
+/*   Updated: 2022/07/04 10:55:31 by vnaud            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -8,11 +20,11 @@
 *	Create a new node for the AST
 *
 * Params:
-*	int	type		: type of node
-*	char **content	: content of node
+*	int		type		: type of node
+*	char	**content	: content of node
 *
 * Returns:
-*	t_node *new		: new node
+*	t_node	*new		: new node
 *
 * -------------------------
 */
