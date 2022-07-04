@@ -1,5 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 10:55:52 by vnaud             #+#    #+#             */
+/*   Updated: 2022/07/04 10:55:53 by vnaud            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: check_builtin
+* ------------------------- 
+*
+*	compare user input with builtin name
+*
+* Params:
+*	char	*line			: user input
+*	char	*cmd			: user input parsed
+*	t_ast	*ast			: AST
+*
+* Returns:
+*	int		(0)				: user input is not a builtin
+*	int		(error_code)	: error code from builtin function
+*
+* -------------------------
+*/
 int	check_builtin(char *line, char *cmd, t_ast *ast)
 {
 	if (!ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, " exit")
@@ -26,6 +56,20 @@ int	check_builtin(char *line, char *cmd, t_ast *ast)
 	return (0);
 }
 
+/*
+* -------------------------
+* Function: choose_execution
+* ------------------------- 
+*
+*	Choose execution of builtin or execve
+*
+* Params:
+*	char	*line	: user input
+*	char	*cmd	: user input parsed
+*	t_ast	**ast	: AST
+*
+* -------------------------
+*/
 void	choose_execution(char *line, char *cmd, t_ast **ast)
 {
 	*ast = tokenizer(cmd, *ast);
@@ -43,9 +87,6 @@ void	choose_execution(char *line, char *cmd, t_ast **ast)
 * ------------------------- 
 *
 *	display minishell prompt
-*
-* Params:
-*	t_data *data	: data from the minishell
 *
 * -------------------------
 */

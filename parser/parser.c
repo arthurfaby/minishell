@@ -1,5 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 10:55:58 by vnaud             #+#    #+#             */
+/*   Updated: 2022/07/04 10:55:59 by vnaud            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: parser
+* ------------------------- 
+*
+*	parse the user input into tokenizable line
+*
+* Params:
+*	char	*line	: user input
+*
+* Returns:
+*	char	*res	: parsed user input
+*
+* -------------------------
+*/
 char	*parser(char *line)
 {
 	int		index;

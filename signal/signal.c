@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 10:55:37 by vnaud             #+#    #+#             */
+/*   Updated: 2022/07/04 10:55:38 by vnaud            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -20,6 +32,15 @@ void	message_signal(int status)
 		ft_printf("Quit (core dumped)\n");
 }
 
+/*
+* -------------------------
+* Function: convert_signal
+* ------------------------- 
+*
+*	convert waitpid status into error code
+*
+* -------------------------
+*/
 void	convert_signal(void)
 {
 	if (g_data->status == 256)
