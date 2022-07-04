@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:03:00 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:03:00 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -97,7 +109,6 @@ int	check_errors(char **split, int i)
 *	execute exit builtin
 *
 * Params:
-*	t_data	*data	: minishell datas
 *	char	*line	: input line
 *	char	*cmd	: parsed line
 *	t_ast	*ast	: ast

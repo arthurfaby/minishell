@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:02:12 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:02:13 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -5,11 +17,10 @@
 * Function: ft_echo 
 * ------------------------- 
 *
-*	Print args like bash "echo" function
+*	echo builtin
 *
 * Params:
-*	char *option	: option -n or empty
-*	char **args		: args to print with ft_echo
+*	char	*cmd	: parsed user input line
 *
 * -------------------------
 */

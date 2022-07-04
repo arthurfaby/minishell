@@ -1,5 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:03:56 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:03:57 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: check_line_export
+* ------------------------- 
+*
+*	check line to export
+*
+* Params:
+*	char	*line	: line to export
+*
+* Returns:
+*	int	(0)			: not ok
+8	int	(1)			: ok 
+*
+* -------------------------
+*/
 int	check_line_export(char *line)
 {
 	int	i;
@@ -22,7 +50,6 @@ int	check_line_export(char *line)
 * Create/Modify env variable
 *
 * Params:
-*	t_data *data	: data struct
 *	char *line		: user input line
 *
 * -------------------------

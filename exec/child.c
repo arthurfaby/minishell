@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   child.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:04:27 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:04:28 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -42,13 +54,11 @@ void	simple_child(t_cmd *cmd)
 * Function: 
 * ------------------------- 
 *
-*
+*	begin child process
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_cmd	*cmd	: cmd struct
+*	t_node	*it		: iterative node
 *
 * -------------------------
 */
@@ -79,16 +89,13 @@ void	start_child(t_cmd *cmd, t_node *it)
 
 /*
 * -------------------------
-* Function: 
+* Function:  first_child
 * ------------------------- 
 *
-*
+*	exec first child
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_cmd	*cmd	: cmd struct
 *
 * -------------------------
 */
@@ -119,16 +126,13 @@ void	first_child(t_cmd *cmd)
 
 /*
 * -------------------------
-* Function: 
+* Function: mid_child
 * ------------------------- 
 *
-*
+*	exec middle child
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_cmd	*cmd	: cmd struct
 *
 * -------------------------
 */
@@ -161,16 +165,13 @@ void	mid_child(t_cmd *cmd)
 
 /*
 * -------------------------
-* Function: 
+* Function: last_child
 * ------------------------- 
 *
-*
+*	exec last child
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_cmd	*cmd	: cmd struct
 *
 * -------------------------
 */

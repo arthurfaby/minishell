@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:04:31 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:04:31 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -52,9 +64,6 @@ char	*get_cmd(t_cmd *cmd)
 *
 *	Initialize t_cmd struct
 *
-* Params:
-*	t_data *data	: data struct
-*
 * Returns:
 *	t_cmd *cmd		: cmd struct
 *
@@ -80,16 +89,17 @@ t_cmd	*init_cmd(void)
 
 /*
 * -------------------------
-* Function: 
+* Function: join_cmd
 * ------------------------- 
 *
-*
+*	join cmd and arguments
 *
 * Params:
-*
+*	char	**value : cmd and args
+*	char	*cmd	: new cmd
 *
 * Returns:
-*
+*	char	*cmd	: new cmd 
 *
 * -------------------------
 */
@@ -122,19 +132,16 @@ char	*join_cmd(char **value, char *cmd)
 }
 
 /*
-* -------------------------
-* Function: 
-* ------------------------- 
+* ----------------------------
+* Function: command_not_found
+* ----------------------------
 *
-*
+*	print error CNF and exit
 *
 * Params:
+*	t_cmd	*cmd	: cmd struct
 *
-*
-* Returns:
-*
-*
-* -------------------------
+* ----------------------------
 */
 void	command_not_found(t_cmd *cmd)
 {
@@ -145,16 +152,14 @@ void	command_not_found(t_cmd *cmd)
 
 /*
 * -------------------------
-* Function: 
+* Function: get_nb_cmd
 * ------------------------- 
 *
-*
+*	get nb of cmd
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_ast	*ast	: ast
+*	t_cmd	*cmd	: cmd
 *
 * -------------------------
 */

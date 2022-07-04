@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:02:07 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:02:08 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -8,7 +20,6 @@
 *	print NSFOD error on stderr and set status to 1
 *
 * Params:
-*	t_data	*data : minishell datas
 *	char	*path : path
 *
 * -------------------------
@@ -21,6 +32,19 @@ void	print_error_cd(char *path)
 	g_data->status = 1;
 }
 
+/*
+* -------------------------
+* Function: change_directory
+* ------------------------- 
+*
+*	change to directory and update env
+*
+* Params:
+*	DIR		*dir	: directory to go to
+*	char	*path	: path
+*
+* -------------------------
+*/
 void	change_directory(DIR *dir, char *path)
 {
 	char	*tmp;
@@ -39,6 +63,18 @@ void	change_directory(DIR *dir, char *path)
 	g_data->status = 0;
 }
 
+/*
+* -------------------------
+* Function: go_to_home
+* ------------------------- 
+*
+*	move cwd to home
+*
+* Params:
+*	char	*path	: path
+*
+* -------------------------
+*/
 void	go_to_home(char *path)
 {
 	DIR		*dir;	
@@ -64,7 +100,6 @@ void	go_to_home(char *path)
 *	builtin function for cd command
 *
 * Params:
-*	t_data	*data	: minishell datas
 *	char	*path	: path to go to
 *
 * -------------------------

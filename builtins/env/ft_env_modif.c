@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_env_modif.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:02:38 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:02:39 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -8,7 +20,6 @@
 *	add variable to the env
 *
 * Params:
-*	t_data	*data	: minishell datas
 *	char	*str	: variable to export
 *
 * Returns:
@@ -52,7 +63,6 @@ int	add_env(char *str)
 *
 * Params:
 *	char *name		: envp name to remove
-*	t_data *data	: data struct
 *
 * -------------------------
 */
@@ -91,7 +101,6 @@ void	remove_env(char *name)
 *	modify a the value of a var in env
 *
 * Params:
-*	t_data	*data	: minishell datas
 *	char	*name	: name of var
 *	char	*nvalue	: new value
 *

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:04:48 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:04:48 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -41,16 +53,18 @@ int	fill_docfile(char *eof)
 
 /*
 * -------------------------
-* Function: 
+* Function: get_input_redirect 
 * ------------------------- 
 *
-*
+*	get the redirect input and put it in cmd
 *
 * Params:
-*
+*	t_cmd	*cmd	: cmd struct
+*	int		index	: index
 *
 * Returns:
-*
+*	int	(0)			: everything is ok
+*	int	(1)			: not ok
 *
 * -------------------------
 */
@@ -80,16 +94,18 @@ int	get_input_redirect(t_cmd *cmd, int index)
 
 /*
 * -------------------------
-* Function: 
+* Function: get_output_redirect 
 * ------------------------- 
 *
-*
+*	get the redirect output and put it in cmd
 *
 * Params:
-*
+*	t_cmd	*cmd	: cmd struct
+*	int		index	: index
 *
 * Returns:
-*
+*	int	(0)			: everything is ok
+*	int	(1)			: not ok
 *
 * -------------------------
 */

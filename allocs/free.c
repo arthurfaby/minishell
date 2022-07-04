@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:01:55 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:01:57 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -8,7 +20,6 @@
 *	free all malloc datas
 *
 * Params:
-*	t_data	*data	: minishell datas
 *	char	*line	: input line
 *	char	*cmd	: parsed line
 *	t_ast	*ast	: ast
@@ -112,9 +123,6 @@ void	free_ast(t_ast *ast)
 * ------------------------- 
 *
 *	free data struct
-*
-* Params:
-*	t_data *data	: data struct
 *
 * -------------------------
 */

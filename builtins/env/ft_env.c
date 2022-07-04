@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:02:18 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:02:34 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -8,11 +20,10 @@
 *	create and malloc the env
 *
 * Params:
-*	t_data	*data 	: minishell datas
 *	char	**envp	: the env of the user
 *
 * Returns:
-*	int (-1)		: malloc error
+*	int (0)			: malloc error
 *	int	(1)			: everyting is ok
 *
 * -------------------------
@@ -27,7 +38,7 @@ int	parse_env(char **envp)
 		i++;
 	new_env = malloc(sizeof(char *) * (i + 1));
 	if (!new_env)
-		return (-1);
+		return (0);
 	i = 0;
 	while (envp[i])
 	{

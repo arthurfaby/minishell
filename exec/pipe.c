@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:04:43 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:04:44 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -33,16 +45,13 @@ int	get_number_pipe(t_ast *ast)
 
 /*
 * -------------------------
-* Function: 
+* Function: open_pipe
 * ------------------------- 
 *
-*
+*	malloc and open pipe
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_cmd	*cmd	: cmd struct
 *
 * -------------------------
 */
@@ -63,16 +72,14 @@ void	open_pipe(t_cmd *cmd)
 
 /*
 * -------------------------
-* Function: 
+* Function: close_pipe
 * ------------------------- 
 *
-*
+*	close all different pipes
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_cmd	*cmd	: cmd struct
+*	int		id		: id of the process
 *
 * -------------------------
 */
@@ -106,16 +113,13 @@ void	close_pipe(t_cmd *cmd, int id)
 
 /*
 * -------------------------
-* Function: 
+* Function: free_pipe
 * ------------------------- 
 *
-*
+*	free all pipes
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_cmd	*cmd	: cmd
 *
 * -------------------------
 */

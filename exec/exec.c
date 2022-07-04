@@ -1,5 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:04:39 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:04:39 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: exec_simple_command
+* ------------------------- 
+*
+*	execute a simple command
+*
+* Params:
+*	t_cmd	*cmd	: cmd struct
+*	t_node	*it		: iterative node
+*
+* -------------------------
+*/
 void	exec_simple_command(t_cmd *cmd, t_node *it)
 {
 	cmd->node = it;
@@ -29,7 +54,6 @@ void	exec_simple_command(t_cmd *cmd, t_node *it)
 *	Start child process
 *
 * Params:
-*	t_data *data	: data struct
 *	t_ast *ast		: ast struct
 *
 * -------------------------
@@ -59,16 +83,14 @@ void	ft_exec(t_ast *ast)
 
 /*
 * -------------------------
-* Function: 
+* Function: exec_multiple_cmd
 * ------------------------- 
 *
-*
+*	execute multiple commands
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_ast	*ast	: ast
+*	t_cmd	*cmd	: cmd struct
 *
 * -------------------------
 */

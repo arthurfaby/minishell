@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_env_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:02:44 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:02:45 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
@@ -8,12 +20,12 @@
 *	compare names of two variables
 *
 * Params:
-*	char	*s1		: first variable
-*	char	*s2		: second variable
+*	char	*s1			: first variable
+*	char	*s2			: second variable
 *
 * Returns:
-*	int (1)			: names are equal
-*	int (*s1 - *s2)	: names are not equal
+*	int (1)	or ('=')	: names are equal
+*	int (*s1 - *s2)		: names are not equal
 *
 * -------------------------
 */
@@ -32,7 +44,7 @@ int	comp_var_name(char *s1, char *s2)
 			return (1);
 		j++;
 	}
-	return (s1[j] - s2[j] - 61);
+	return (s1[j] - s2[j] - '=');
 }
 
 /*
@@ -43,7 +55,6 @@ int	comp_var_name(char *s1, char *s2)
 *	check if variable to export already exists
 *
 * Params:
-*	t_data	*data	: minishell datas
 *	char	*str	: varible to export
 *
 * Returns:
@@ -79,12 +90,11 @@ int	check_env_dup(char *str)
 *	return value of a variable based on its name
 *
 * Params:
-*	t_data	*data	: minishell datas
 *	char	*name	: name of the variable
 *
 * Returns:
 *	char *			: value of the variable
-*	NULL			: if name is NULL or is variable does not exists
+*	NULL			: if name is NULL or if variable does not exists
 *
 * -------------------------
 */

@@ -1,5 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_treat.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:04:55 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:04:55 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
+/*
+* -------------------------
+* Function: treat_error_code
+* ------------------------- 
+*
+*	put error code in res
+*
+* Params:
+*	char	*res		: user input parsed
+*	int		*index		: index
+*	int		*index_res	: index res
+*
+* -------------------------
+*/
 void	treat_error_code(char *res, int *index, int *index_res)
 {
 	int		index_tmp;
@@ -14,6 +40,21 @@ void	treat_error_code(char *res, int *index, int *index_res)
 	tmp = NULL;
 }
 
+/*
+* -------------------------
+* Function: treat_dollar
+* ------------------------- 
+*
+*	treat dollar sign and parse it
+*
+* Params:
+*	char	*res		: user input parsed
+*	char	*line		: user input not parsed
+*	int		*index		: index
+*	int		*index_res	: index res
+*
+* -------------------------
+*/
 void	treat_dollar(char *res, char *line, int *index, int *index_res)
 {
 	char	*env_value;
@@ -40,6 +81,21 @@ void	treat_dollar(char *res, char *line, int *index, int *index_res)
 	}	
 }
 
+/*
+* -------------------------
+* Function: treat_simple_quotes
+* ------------------------- 
+*
+*	treat simple quotes and parse it
+*
+* Params:
+*	char	*res		: user input parsed
+*	char	*line		: user input not parsed
+*	int		*index		: index
+*	int		*index_res	: index res
+*
+* -------------------------
+*/
 void	treat_simple_quotes(char *res, char *line, int *index, int *index_res)
 {
 	(*index)++;
@@ -48,12 +104,42 @@ void	treat_simple_quotes(char *res, char *line, int *index, int *index_res)
 	(*index)++;
 }
 
+/*
+* -------------------------
+* Function: treat_white_spaces
+* ------------------------- 
+*
+*	treat white spaces and parse it
+*
+* Params:
+*	char	*res		: user input parsed
+*	char	*line		: user input not parsed
+*	int		*index		: index
+*	int		*index_res	: index res
+*
+* -------------------------
+*/
 void	treat_white_spaces(char *res, char *line, int *index, int *index_res)
 {
 	res[(*index_res)++] = ' ';
 	*index = skip_whitespace(line, *index);
 }
 
+/*
+* -------------------------
+* Function: treat_double_quotes
+* ------------------------- 
+*
+*	treat double quotes and parse it
+*
+* Params:
+*	char	*res		: user input parsed
+*	char	*line		: user input not parsed
+*	int		*index		: index
+*	int		*index_res	: index res
+*
+* -------------------------
+*/
 void	treat_double_quotes(char *res, char *line, int *index, int *index_res)
 {
 	(*index)++;

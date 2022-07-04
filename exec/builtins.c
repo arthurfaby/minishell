@@ -1,17 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:04:20 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:04:21 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
 * -------------------------
-* Function: 
+* Function: get_builtins
 * ------------------------- 
 *
-*
+*	return the good builtin
 *
 * Params:
-*
+*	t_cmd	*cmd	: cmd struct
 *
 * Returns:
-*
+*	t_builtins		: builtin to exec
 *
 * -------------------------
 */
@@ -32,16 +44,14 @@ t_builtins	get_builtins(t_cmd *cmd)
 
 /*
 * -------------------------
-* Function: 
+* Function: exec_builtin
 * ------------------------- 
 *
-*
+*	execute the correct builtin
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_cmd		*cmd	: cmd struct
+*	t_builtins	builtin	: all builtins
 *
 * -------------------------
 */

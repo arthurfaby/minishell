@@ -1,17 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/04 11:02:00 by afaby             #+#    #+#             */
+/*   Updated: 2022/07/04 11:02:01 by afaby            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /*
 * -------------------------
-* Function: 
+* Function: init_builtins 
 * ------------------------- 
 *
-*
-*
-* Params:
-*
-*
-* Returns:
-*
+*	init builtins structure
 *
 * -------------------------
 */
@@ -40,12 +46,11 @@ void	init_builtins(void)
 *	initialize data struct
 *
 * Params:
-*	t_data *data	: data struct of minishell program
 *	char **envp		: env variable from start
 *
 * Returns:
-*	int (0)	: Problem
-*	int (1)	: No problem
+*	int (0)	: malloc error
+*	int (1)	: everything is ok
 *
 * -------------------------
 */
