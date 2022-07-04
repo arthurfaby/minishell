@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:55:05 by vnaud             #+#    #+#             */
-/*   Updated: 2022/07/04 10:55:06 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/07/04 11:19:26 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,6 @@ char	**free_before(void **args, int size)
 *	char **split	: result of ft_split function
 *	char **args		: args split
 *	char **redirect	: redirections split
-*
-* Returns:
-*
 *
 * -------------------------
 */

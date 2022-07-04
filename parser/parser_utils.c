@@ -6,7 +6,7 @@
 /*   By: vnaud <vnaud@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:56:11 by vnaud             #+#    #+#             */
-/*   Updated: 2022/07/04 10:56:11 by vnaud            ###   ########.fr       */
+/*   Updated: 2022/07/04 11:27:11 by vnaud            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ char	*spaces_redirections(char *cmd)
 	size = ft_strlen(cmd);
 	get_size_spaces_redirections(cmd, &size);
 	res = malloc(sizeof(char) * (size + 1));
+	if (!res)
+		return (NULL);
 	index = -1;
 	index_res = 0;
 	while (cmd[++index])
