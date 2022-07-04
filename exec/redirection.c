@@ -6,7 +6,7 @@
 /*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:04:48 by afaby             #+#    #+#             */
-/*   Updated: 2022/07/04 11:04:48 by afaby            ###   ########.fr       */
+/*   Updated: 2022/07/04 11:28:54 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,16 +166,13 @@ int	get_redirect(t_cmd *cmd)
 
 /*
 * -------------------------
-* Function: 
+* Function: redirect_check 
 * ------------------------- 
 *
-*
+*	check redirect and exit if have to
 *
 * Params:
-*
-*
-* Returns:
-*
+*	t_cmd	*cmd	: cmd struct
 *
 * -------------------------
 */

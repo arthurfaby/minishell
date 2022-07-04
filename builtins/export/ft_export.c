@@ -6,7 +6,7 @@
 /*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:03:56 by afaby             #+#    #+#             */
-/*   Updated: 2022/07/04 11:03:57 by afaby            ###   ########.fr       */
+/*   Updated: 2022/07/04 11:18:44 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int	check_line_export(char *line)
 	int	i;
 
 	i = 0;
-	if (!isalpha(line[i]))
+	if (!ft_isalpha(line[i]))
 		return (0);
-	while (line[i] && isalnum(line[i]))
+	while (line[i] && ft_isalnum(line[i]))
 		i++;
 	if (line[i] != '=')
 		return (0);

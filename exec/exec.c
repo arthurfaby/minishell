@@ -6,7 +6,7 @@
 /*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:04:39 by afaby             #+#    #+#             */
-/*   Updated: 2022/07/04 11:04:39 by afaby            ###   ########.fr       */
+/*   Updated: 2022/07/04 11:27:24 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,7 @@ void	exec_multiple_cmd(t_ast *ast, t_cmd *cmd)
 	close_pipe(cmd, -42);
 	index = -1;
 	while (++index < cmd->nb_cmd)
-	{
 		waitpid(cmd->pids[index], &cmd->data->status, 0);
-		message_signal(cmd->data->status);
-	}
+	message_signal(cmd->data->status);
 	unlink("heredoc");
 }

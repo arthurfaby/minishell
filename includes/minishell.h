@@ -6,15 +6,13 @@
 /*   By: afaby <afaby@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 11:07:13 by afaby             #+#    #+#             */
-/*   Updated: 2022/07/04 11:07:16 by afaby            ###   ########.fr       */
+/*   Updated: 2022/07/04 11:14:39 by afaby            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdlib.h>
-# include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
 # include <errno.h>
@@ -23,7 +21,6 @@
 # include <readline/history.h>
 # include "libft.h"
 
-# define CMD_NOT_FOUND "minishell: command not found\n"
 # define PROMPT "\e[48;5;25m\e[38;5;226m minishell ➔ \e[0m "
 
 enum e_types {
