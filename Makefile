@@ -41,6 +41,12 @@ SRCS			= \
 				tokenizer/tokenizer.c \
 				tokenizer/tree.c \
 				\
+				parser/parser.c \
+				parser/parser_treat.c \
+				parser/parser_utils.c \
+				parser/parser_size.c \
+				parser/parser_size_utils.c \
+				\
 
 OBJS			= $(SRCS:.c=.o)
 
