@@ -57,7 +57,7 @@ RM				= rm -rf
 .c.o:
 				@echo $(_GREEN)
 				@echo -n "Compiling minishell: $<..."
-				@$(CC) $(CFLAGS) -c $< -o $@ 
+				@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o) 
 
 all:			$(NAME)
 
